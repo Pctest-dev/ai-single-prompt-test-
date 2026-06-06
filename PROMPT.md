@@ -1,6 +1,6 @@
 # Test #1 Prompt
 
-The following prompt was given to all models verbatim. Single shot — no follow-ups, no corrections.
+The following prompt was given to all models verbatim. Single shot no follow-ups, no corrections.
 
 ---
 
