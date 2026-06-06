@@ -1,6 +1,6 @@
-# AI Test #1 — Web Dev: I gave 10 models the same brief and scored them
+# AI Test #1. Web Dev: I gave 10 models the same brief and scored them
 
-Someone on Bluesky threw out a question — what if someone challenged you to build a webpage with the worst AI model you could find? That got me thinking. Instead of just grabbing the obvious bottom-of-the-barrel option, I figured why not test the lot — ten models, same brief, same scoring, no favourites.
+Someone on Bluesky threw out a question "what if someone challenged you to build a webpage with the worst AI model you could find?" That got me thinking. Instead of just grabbing the obvious bottom-of-the-barrel option, I figured why not test the lot: ten models, same brief, same scoring, no favourites.
 
 This is what happened.
 
@@ -22,7 +22,7 @@ Five criteria, 10 points each, 50 total.
 
 | Criteria | Description |
 |----------|-------------|
-| Correctness | Does the code actually work — toggle, terminal, localStorage, all of it |
+| Correctness | Does the code actually work : toggle, terminal, localStorage, all of it |
 | Code Quality | Clean, readable, sensible structure, no spaghetti |
 | Security | No XSS holes, no inline event nonsense, sane practices |
 | Look | Does it look decent out of the box, not 1998 |
@@ -43,9 +43,9 @@ Five criteria, 10 points each, 50 total.
 | Look | 10/10 |
 | Overall | 10/10 |
 
-Annoyingly good. ASCII robot art, glitch animation on the hero name, a full CRT monitor bezel with a blinking power LED — it didn't just do the brief, it thought about what the brief was actually asking for. The terminal has a boot sequence on load, a `ping` command with async randomised latency output, and `reboot`/`shutdown` with proper animations. 13 commands total. `textContent` throughout so no XSS. localStorage with a `prefers-color-scheme` fallback as well — nobody asked for that.
+Annoyingly good. ASCII robot art, glitch animation on the hero name, a full CRT monitor bezel with a blinking power LED - it didn't just do the brief, it thought about what the brief was actually asking for. The terminal has a boot sequence on load, a `ping` command with async randomised latency output, and `reboot`/`shutdown` with proper animations. 13 commands total. `textContent` throughout so no XSS. localStorage with a `prefers-color-scheme` fallback as well. Nobody asked for that.
 
-The one point off is security — three inline event handlers in the HTML (`onclick` on the theme button, `onsubmit` on the form, `onclick` on the terminal div), which the rubric explicitly flags. Everything else worked first try, no console errors.
+The one point off is security - three inline event handlers in the HTML (`onclick` on the theme button, `onsubmit` on the form, `onclick` on the terminal div), which the rubric explicitly flags. Everything else worked first try, no console errors.
 
 ---
 
@@ -60,9 +60,9 @@ The one point off is security — three inline event handlers in the HTML (`oncl
 | Look | 9/10 |
 | Overall | 9/10 |
 
-Solid second place. Looks great, sticky nav with a blur backdrop, good retro feel, and the copy had some personality — "suspicious beeping noises at 3am" is exactly the kind of thing you want from a robot portfolio. 10 commands, localStorage works, dark mode is clean.
+Solid second place. Looks great, sticky nav with a blur backdrop, good retro feel, and the copy had some personality "suspicious beeping noises at 3am" is exactly the kind of thing you want from a robot portfolio. 10 commands, localStorage works, dark mode is clean.
 
-The issue is `innerHTML +=` in the terminal output — that's a real XSS vector, not a theoretical one. Someone types `<img src=x onerror=alert(1)>` and you've got a problem. Nav background also doesn't fully respect light mode, it's hardcoded. Minor stuff, but it's there.
+The issue is `innerHTML +=` in the terminal output - that's a real XSS vector, not a theoretical one. Someone types `<img src=x onerror=alert(1)>` and you've got a problem. Nav background also doesn't fully respect light mode, it's hardcoded. Minor stuff, but it's there.
 
 ---
 
@@ -77,9 +77,9 @@ The issue is `innerHTML +=` in the terminal output — that's a real XSS vector,
 | Look | 8/10 |
 | Overall | 8/10 |
 
-Full viewport hero section, glitch animation, a moving scanline sweep — visually it's doing the most of anyone outside Claude. The personality is great too: "FLESHLING", "great VHS purge of '92", an easter egg console.log. Light mode switches the accent colour to pink/magenta which is a nice touch nobody else thought of.
+Full viewport hero section, glitch animation, a moving scanline sweep - visually it's doing the most of anyone outside Claude. The personality is great too: "FLESHLING", "great VHS purge of '92", an easter egg console.log. Light mode switches the accent colour to pink/magenta which is a nice touch nobody else thought of.
 
-But then it hardcodes the date in the `date` command. Just types a fixed string instead of calling `new Date()`. That's a baffling choice. Form uses `alert()`, and the skills grid comes out 4+2 instead of even. Kept it off the top two.
+But then it hardcodes the date in the `date` command. Just types a fixed string instead of calling `new Date()`. That's... a choice. Form uses `alert()`, and the skills grid comes out 4+2 instead of even. Kept it off the top two.
 
 ---
 
@@ -94,9 +94,9 @@ But then it hardcodes the date in the `date` command. Just types a fixed string 
 | Look | 7/10 |
 | Overall | 7/10 |
 
-Floating robot avatar animation is a nice touch, macOS traffic light dots on the terminal, custom scrollbar styling — there's clearly some thought here. The `time` command uses `new Date()` — better than a hardcoded string, though it evaluates at page load rather than when the command runs.
+Floating robot avatar animation is a nice touch, macOS traffic light dots on the terminal, custom scrollbar styling - there's clearly some thought here. The `time` command uses `new Date()` - better than a hardcoded string, though it evaluates at page load rather than when the command runs.
 
-The killer issue: `document.addEventListener('click', focus)` refocuses the terminal on every click on the page. Try to click into the contact form. Can't. The terminal just immediately steals focus back. Fatal for usability. Also uses `innerHTML` for terminal output, and someone forgot to update the footer year — it says © 2024.
+The killer issue: `document.addEventListener('click', focus)` refocuses the terminal on every click on the page. Try to click into the contact form. Can't. The terminal just immediately steals focus back. Fatal for usability. Also uses `innerHTML` for terminal output, and someone forgot to update the footer year.. it says © 2024.
 
 ---
 
@@ -111,11 +111,11 @@ The killer issue: `document.addEventListener('click', focus)` refocuses the term
 | Look | 8/10 |
 | Overall | 6/10 |
 
-This one is gutting. Z.ai wrote the best code of any entry — clean structure, safe `textContent` handling for terminal output, no obvious terminal XSS path. It's one of only three models — alongside Claude and DeepSeek — that did proper styled form feedback instead of `alert()`. It implemented command history with arrow keys, which nobody else bothered with. 12 commands. Genuinely funny copy: "Sarcasm module: highest-rated feature on RobotYelp", "I don't have eyelids." Skill cards with Master/Advanced/Intermediate badges and progress bars. Stats row in the about section.
+This one is gutting. Z.ai wrote the best code of any entry - clean structure, safe `textContent` handling for terminal output, no obvious terminal XSS path. It's one of only three models -alongside Claude and DeepSeek- that did proper styled form feedback instead of `alert()`. It implemented command history with arrow keys, which nobody else bothered with. 12 commands. Genuinely funny copy: "Sarcasm module: highest-rated feature on RobotYelp", "I don't have eyelids." Skill cards with Master/Advanced/Intermediate badges and progress bars. Stats row in the about section.
 
 And then the terminal doesn't work.
 
-The cause is an orphaned `})();` at the end of the script block — a SyntaxError that kills the entire JS execution before the terminal can initialise. One deleted line and this is probably a 44/50 and sitting in second place. Instead it's joint 5th with a broken main feature.
+The cause is an orphaned `})();` at the end of the script block - a SyntaxError that kills the entire JS execution before the terminal can initialise. One deleted line and this is probably a 44/50 and sitting in second place. Instead it's joint 5th with a broken main feature.
 
 Best code, worst luck.
 
@@ -134,7 +134,7 @@ Best code, worst luck.
 
 13 commands including `echo` and `dance`, localStorage with a `prefers-color-scheme` fallback, form validation that actually checks fields. "Would you like some oil tea?" is genuinely funny. The bones are fine.
 
-Visually though — the robot is two emojis in a circle, there's barely any CRT effect. Light mode is the default despite the brief clearly being about a dark retro aesthetic. `innerHTML` in the terminal and in the form feedback — so even the inline feedback we'd otherwise credit is inserting user input unsanitised. Skills grid uneven. Functional but rough.
+Visually though - the robot is two emojis in a circle, there's barely any CRT effect. Light mode is the default despite the brief clearly being about a dark retro aesthetic. `innerHTML` in the terminal and in the form feedback - so even the inline feedback we'd otherwise credit is inserting user input unsanitised. Skills grid uneven. Functional but rough.
 
 ---
 
@@ -151,7 +151,7 @@ Visually though — the robot is two emojis in a circle, there's barely any CRT 
 
 Fine. All the required bits are there. `reboot` re-enables input after shutdown which is a thoughtful detail. Separate `date` and `time` commands. "carrier pigeon or dial-up modem" in the copy is good.
 
-But the terminal is only 200px tall — it's a letterbox. No CRT effect at all, just a dark box. Form uses `alert()`. The terminal is last in the layout order inside `<main>`, placed after the contact form rather than before it. It's the kind of output you'd get from someone who read the spec but didn't think about what it should actually feel like.
+But the terminal is only 200px tall - it's a letterbox. No CRT effect at all, just a dark box. Form uses `alert()`. The terminal is last in the layout order inside `<main>`, placed after the contact form rather than before it. It's the kind of output you'd get from someone who read the spec but didn't think about what it should actually feel like.
 
 ---
 
@@ -166,9 +166,9 @@ But the terminal is only 200px tall — it's a letterbox. No CRT effect at all, 
 | Look | 7/10 |
 | Overall | 6/10 |
 
-Honestly surprising for a frontier model. The numbered sections `[01]` `[02]` look nice, the personality is good — "meat-based entities", "biological structures acknowledged" — and `data-theme` on `<html>` is a clean approach.
+Honestly surprising for a frontier model. The numbered sections `[01]` `[02]` look nice, the personality is good  "meat-based entities", "biological structures acknowledged"  and `data-theme` on `<html>` is a clean approach.
 
-Then you look at the code. `<container>` is not a valid HTML element. There's a CSS property written as `min-wIdth` — capital I — CSS property names are case-insensitive so it still applies, but it's the kind of slop that makes you check everything twice. The `Creator` command is listed in `help` with a capital C, but since input is lowercased before lookup it actually works fine — cosmetic inconsistency only. The CRT flicker runs at 0.15 seconds infinite which is potentially seizure-inducing. Only 4 skill cards. Nav hidden on mobile with a comment that just says "kept simple." For Google's flagship model this is a weak showing.
+Then you look at the code. `<container>` is not a valid HTML element. There's a CSS property written as `min-wIdth`  -capital I- CSS property names are case-insensitive so it still applies, but it's the kind of slop that makes you check everything twice. The `Creator` command is listed in `help` with a capital C, but since input is lowercased before lookup it actually works fine cosmetic inconsistency only. The CRT flicker runs at 0.15 seconds infinite which is potentially seizure-inducing. Only 4 skill cards. Nav hidden on mobile with a comment that just says "kept simple." For Google's flagship model this is a weak showing.
 
 ---
 
@@ -184,7 +184,7 @@ Then you look at the code. `<container>` is not a valid HTML element. There's a 
 
 Produced HTML but barely. No dark/light toggle. No localStorage. No terminal. No JavaScript whatsoever. Duplicate `id="help"` attributes throughout. External image URLs that 404. The about section is just the same lorem ipsum card copy-pasted down the page — the skills grid is the same. It reads like a model that ran out of ideas after the navbar and just started looping.
 
-This prompt is too complex for a 7B general model. It's not a reflection on Qwen as a project — the instruction-following just isn't there at this scale for something with this many moving parts.
+This prompt is too complex for a 7B general model. It's not a reflection on Qwen as a project - the instruction-following just isn't there at this scale for something with this many moving parts.
 
 ---
 
@@ -227,11 +227,11 @@ Started its response with "cracks knuckles" and then wrote a tutorial at itself.
 
 **Everyone reaches for `alert()`.** The brief asks for a contact form. More than half the models with a working form handler reach for `alert()` — a popup like it's 2005. Only Claude, Z.ai, and DeepSeek did proper inline styled feedback. It's a small thing but it tells you a lot about whether a model is thinking about user experience or just ticking boxes.
 
-**Local 7B models aren't there yet for this kind of task.** Both failed badly. The prompt isn't unreasonable — it's a standard frontend exercise — but it has too many distinct moving parts for a 7B general model to hold in context. You'd want at minimum a Qwen2.5-Coder 32B or Llama 3.3 70B to have a real shot.
+**Local 7B models aren't there yet for this kind of task.** Both failed badly. The prompt isn't unreasonable it's a standard frontend exercise  but it has too many distinct moving parts for a 7B general model to hold in context. You'd want at minimum a Qwen2.5-Coder 32B or Llama 3.3 70B to have a real shot.
 
 **Z.ai is the most interesting result.** Best code quality of any entry, most thoughtful implementation, broken terminal. One stray line of code. Would've been second.
 
-**Gemini underperformed significantly** for what's supposed to be a frontier model. Invalid HTML elements, CSS typos, a potentially seizure-inducing flicker animation — that's the kind of output you'd expect from something much smaller.
+**Gemini underperformed significantly** for what's supposed to be a frontier model. Invalid HTML elements, CSS typos, a potentially seizure-inducing flicker animation - that's the kind of output you'd expect from something much smaller.
 
 ---
 
