@@ -1,6 +1,6 @@
 # AI Real-World Testing
 
-A series of real-world tests comparing AI models on identical prompts, scored against consistent criteria. No cherry-picking, no follow-up prompts, no hand-holding — single shot each time.
+A series of real-world tests comparing AI models on identical prompts, scored against consistent criteria. No cherry-picking, no follow-up prompts, no hand-holding single shot each time.
 
 ---
 
@@ -46,14 +46,14 @@ zai/          — Z.ai (glm-5.1)
 
 ### Viewing the outputs
 
-All outputs are self-contained HTML files. Just open them in a browser — no server needed.
+All outputs are self-contained HTML files. Just open them in a browser  no server needed.
 
 ---
 
 ## Methodology
 
 - All models received the **exact same prompt** with no modifications
-- **Single shot** — no retries, no follow-up prompts, no corrections
+- **Single shot**  no retries, no follow-up prompts, no corrections
 - Tested via web UI for hosted models; Ollama for local models
 - Scored across 5 criteria, 10 points each (50 total) — see [`SCORING.md`](./SCORING.md)
 - Test date: 2026-06-04
