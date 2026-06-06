@@ -47,9 +47,9 @@ Does it look good out of the box, without any modifications?
 ### Overall (10 pts)
 Gut feel. Does it feel like something a thoughtful developer produced, or something that technically ticks boxes?
 
-- Personality in the copy — does the robot feel like a character?
+- Personality in the copy does the robot feel like a character?
 - Going beyond the brief in a way that adds value (not just padding)
-- Cohesion — does the whole thing hang together?
+- Cohesion does the whole thing hang together?
 - Would you actually use or share this?
 
 ---
