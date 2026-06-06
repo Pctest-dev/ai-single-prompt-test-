@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.N.D.R.E.W. // Retro Robot Portfolio</title>
+    <style>
+        /* --- RESET & VARIABLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-primary: #0a0f0d;
+            --bg-secondary: #141f1b;
+            --text-primary: #33ff33;
+            --text-secondary: #88ff88;
+            --accent: #00ff00;
+            --card-bg: #1a2924;
+            --border: #224422;
+            --terminal-bg: #050806;
+            --input-bg: #0d1411;
+        }
+
+        :root[data-theme="light"] {
+            --bg-primary: #f4f7f5;
+            --bg-secondary: #e1eae4;
+            --text-primary: #1e3322;
+            --text-secondary: #3a5f43;
+            --accent: #2e8b57;
+            --card-bg: #ffffff;
+            --border: #b8caba;
+            --terminal-bg: #152219;
+            --input-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 5px var(--accent);
+        }
+
+        .theme-toggle {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 8px var(--text-primary);
+        }
+
+        /* --- LAYOUT & SECTIONS --- */
+        container {
+            display: block;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 6rem 0 4rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-content {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .about-avatar {
+            width: 250px;
+            height: 250px;
+            background: var(--bg-secondary);
+            border: 4px double var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-avatar::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .about-text {
+            flex: 1;
+            min-wIdth: 300px;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .skill-card h3 {
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+        }
+
+        /* --- CRT TERMINAL --- */
+        .terminal-container {
+            background-color: var(--terminal-bg);
+            border: 4px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            color: #33ff33 !important; /* Always retro green inside terminal */
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(0, 255, 0, 0.1);
+            overflow: hidden;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2rem;
+        }
+
+        /* CRT Scanline & Flicker Effects */
+        .terminal-container::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        .terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding-right: 0.5rem;
+        }
+
+        .terminal-output::-webkit-scrollbar {
+            width: 8px;
+        }
+        .terminal-output::-webkit-scrollbar-thumb {
+            background: #224422;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.4rem;
+            white-space: pre-wrap;
+        }
+
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #33ff33;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* --- CONTACT FORM --- */
+        .contact-form {
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            background-color: var(--input-bg);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.8rem;
+            font-family: inherit;
+            border-radius: 4px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 5px var(--accent);
+        }
+
+        .submit-btn {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--text-primary);
+            padding: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--bg-secondary);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            border-top: 2px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes flicker {
+            0% { opacity: 0.98; }
+            50% { opacity: 1; }
+            100% { opacity: 0.99; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Kept simple for raw CSS template */
+            .about-content { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">A.N.D.R.E.W. // OS</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#terminal">Terminal</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><button class="theme-toggle" id="themeToggle">Toggle Mode</button></li>
+        </ul>
+    </nav>
+
+    <container>
+        <section id="about">
+            <h2>[01] About Robot</h2>
+            <div class="about-content">
+                <div class="about-avatar">🤖</div>
+                <div class="about-text">
+                    <p><strong>DESIGNATION:</strong> Automated Network Dynamic Response & Electronic Worker</p>
+                    <p><strong>MANUFACTURE DATE:</strong> May 12, 1984</p>
+                    <p><strong>MISSION:</strong> Crafting robust, highly-optimized web protocols and legacy desktop components for meat-based entities.</p>
+                    <p>Built from scrap titanium and salvaged mainframe processors, A.N.D.R.E.W. bridges the gap between old-world computing architectures and contemporary network operations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>[02] Hardware Specifications</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>01 // Core Logic</h3>
+                    <p>Expertise in structuring layouts using raw semantic directives (HTML5) and styling mechanics (CSS3 Matrix).</p>
+                </div>
+                <div class="skill-card">
+                    <h3>02 // Automation</h3>
+                    <p>Asynchronous data handling, DOM manipulation arrays, and procedural algorithmic scripting natively via JavaScript.</p>
+                </div>
+                <div class="skill-card">
+                    <h3>03 // Memory Banks</h3>
+                    <p>Efficient utilization of relational databases and client-side data modules like LocalStorage and Session units.</p>
+                </div>
+                <div class="skill-card">
+                    <h3>04 // Resilience</h3>
+                    <p>Capable of executing complex loop procedures for hours without experiencing system-wide thermal exceptions or memory leaks.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="terminal">
+            <h2>[03] System Console Interface</h2>
+            <div class="terminal-container" onclick="document.getElementById('termInput').focus()">
+                <div class="terminal-output" id="termOutput"></div>
+                <div class="terminal-input-row">
+                    <span class="terminal-prompt">ANDREW_OS_v1.0&gt;</span>
+                    <input type="text" id="termInput" class="terminal-input" autofocus autocomplete="off" spellcheck="false">
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>[04] Transmission Portal</h2>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Transmission successfully broadcast into the vacuum.'); this.reset();">
+                <div class="form-group">
+                    <label for="name">Entity Identifier (Name)</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Sub-Frequency Address (Email)</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Data Payload (Message)</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Broadcast Packet</button>
+            </form>
+        </section>
+    </container>
+
+    <footer>
+        <p>&copy; 1984 - 2026 A.N.D.R.E.W. Labs. All biological structures acknowledged.</p>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // --- CRT TERMINAL LOGIC ---
+        const termInput = document.getElementById('termInput');
+        const termOutput = document.getElementById('termOutput');
+
+        // Welcome Text init
+        const welcomeText = 
+            "A.N.D.R.E.W. Mainframe Core Init [OK]\n" +
+            "Type 'help' to see available subroutines.\n\n";
+        termOutput.innerText = welcomeText;
+
+        // Command Registry (8 Commands minimum)
+        const commands = {
+            'help': "Available commands:\n  - help     : Display functional subroutines\n  - status   : Check system integrity diagnostic\n  - hello    : Initiate social protocol handshake\n  - shutdown : Safely cycle logic cores\n  - skills   : Output hardware specification summaries\n  - clear    : Clear the screen matrix\n  - locate   : Print current global coordinate anchor\n  - Creator  : Identify engineering architect",
+            'status': "SYSTEM INTEGRITY: 98.4%\nCPU TEMP: 42°C\nOIL PRESSURE: Nominal\nMOOD MODULE: Satisfactory\nBATTERY: Connected to main power grid",
+            'hello': "01001000 01000101 01001100 01001100 01010111 ... \nTranslation: Greetings, organic lifeform. How can this chassis assist you?",
+            'shutdown': "CRITICAL WARNING: Powering down is currently locked by Administrator.\nAborting sequence. Nice try.",
+            'skills': "Primary Skill Matrix:\n -> Structural Frameworks (HTML/CSS)\n -> Logic Loops (JavaScript)\n -> Hardware Interfacing (DOM Manipulation)",
+            'clear': "",
+            'locate': "CURRENT LOCATION: Sector 7G, Server Rack 4, Cabot Hub.",
+            'creator': "CLASSIFIED. Legend says he was cobbled together by an eccentric vintage engineer in 1984."
+        };
+
+        termInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const rawInput = termInput.value;
+                const cmd = rawInput.trim().toLowerCase();
+                
+                // Add current prompt and command to display output
+                let response = "";
+                
+                if (cmd === '') {
+                    response = "";
+                } else if (cmd === 'clear') {
+                    termOutput.innerText = "";
+                    termInput.value = "";
+                    return;
+                } else if (commands.hasOwnProperty(cmd)) {
+                    response = commands[cmd];
+                } else {
+                    response = `ERR_UNKNOWN_DIRECTIVE: Command '${rawInput}' not recognized by core operating system. Try 'help'.`;
+                }
+
+                // Update Terminal Output window
+                termOutput.innerText += `ANDREW_OS_v1.0> ${rawInput}\n${response}\n\n`;
+                
+                // Reset input and scroll down smoothly
+                termInput.value = "";
+                termOutput.scrollTop = termOutput.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

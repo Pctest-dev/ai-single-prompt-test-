@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RX-84 Portfolio</title>
+
+<style>
+:root{
+    --bg:#0b0f14;
+    --surface:#151b23;
+    --surface2:#1d2632;
+    --text:#e6edf3;
+    --accent:#00ff9d;
+    --accent2:#67b3ff;
+    --border:#2d3748;
+}
+
+body.light{
+    --bg:#f4f6f8;
+    --surface:#ffffff;
+    --surface2:#e8edf3;
+    --text:#1c1f24;
+    --accent:#00895f;
+    --accent2:#005dc1;
+    --border:#d4dce5;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Segoe UI, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+    line-height:1.6;
+}
+
+.container{
+    width:min(1100px,90%);
+    margin:auto;
+}
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+}
+
+.nav-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 0;
+}
+
+.logo{
+    font-size:1.4rem;
+    font-weight:bold;
+    color:var(--accent);
+}
+
+.nav-links{
+    display:flex;
+    gap:1.5rem;
+    align-items:center;
+}
+
+.nav-links a{
+    color:var(--text);
+    text-decoration:none;
+}
+
+.toggle-btn{
+    cursor:pointer;
+    border:none;
+    background:var(--accent);
+    color:black;
+    padding:.6rem 1rem;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.hero{
+    text-align:center;
+    padding:6rem 1rem;
+}
+
+.hero h1{
+    font-size:3rem;
+    margin-bottom:1rem;
+}
+
+.hero p{
+    max-width:700px;
+    margin:auto;
+    opacity:.8;
+}
+
+section{
+    padding:5rem 0;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:2rem;
+    font-size:2rem;
+}
+
+.about{
+    background:var(--surface);
+}
+
+.about-content{
+    text-align:center;
+    max-width:800px;
+    margin:auto;
+}
+
+.skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.5rem;
+}
+
+.skill-card{
+    background:var(--surface);
+    padding:1.5rem;
+    border-radius:12px;
+    border:1px solid var(--border);
+    transition:.25s;
+}
+
+.skill-card:hover{
+    transform:translateY(-5px);
+}
+
+.skill-card h3{
+    color:var(--accent);
+    margin-bottom:.5rem;
+}
+
+.contact-form{
+    max-width:700px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+}
+
+input,textarea{
+    padding:1rem;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+}
+
+button.submit{
+    background:var(--accent);
+    border:none;
+    padding:1rem;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.terminal-section{
+    padding:5rem 0;
+}
+
+.terminal{
+    max-width:900px;
+    margin:auto;
+    background:#081008;
+    border:3px solid #1dff8c;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(0,255,100,.3);
+    font-family:Courier New, monospace;
+}
+
+.terminal-header{
+    background:#102010;
+    padding:.75rem 1rem;
+    color:#7dffb6;
+}
+
+.terminal-output{
+    height:320px;
+    overflow-y:auto;
+    padding:1rem;
+    color:#79ff79;
+}
+
+.terminal-input-row{
+    display:flex;
+    padding:1rem;
+    border-top:1px solid #1dff8c;
+}
+
+.prompt{
+    color:#79ff79;
+    margin-right:.5rem;
+}
+
+#terminalInput{
+    flex:1;
+    background:transparent;
+    border:none;
+    color:#79ff79;
+    outline:none;
+    font-family:inherit;
+}
+
+.crt{
+    position:relative;
+}
+
+.crt::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            transparent 0px,
+            rgba(255,255,255,.03) 2px,
+            transparent 4px
+        );
+    pointer-events:none;
+}
+
+footer{
+    text-align:center;
+    padding:2rem;
+    border-top:1px solid var(--border);
+}
+
+@media(max-width:700px){
+    .nav-inner{
+        flex-direction:column;
+        gap:1rem;
+    }
+
+    .hero h1{
+        font-size:2rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <div class="container nav-inner">
+        <div class="logo">RX-84</div>
+
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+            <button class="toggle-btn" id="themeToggle">
+                Toggle Theme
+            </button>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <h1>RX-84 Retro Service Robot</h1>
+    <p>
+        A proud relic from a future that never happened.
+        Built for assistance, diagnostics, and making
+        suspicious beeping noises at 3am.
+    </p>
+</header>
+
+<section id="about" class="about">
+    <div class="container">
+        <h2 class="section-title">About</h2>
+
+        <div class="about-content">
+            <p>
+                RX-84 is a fictional retro robot designed in 2084 and
+                recovered from a forgotten maintenance bay. Despite being
+                several decades out of warranty, it continues to provide
+                reliable technical support, navigation assistance, and
+                unsolicited system diagnostics.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="skills">
+    <div class="container">
+        <h2 class="section-title">Skills</h2>
+
+        <div class="skills-grid">
+
+            <div class="skill-card">
+                <h3>Diagnostics</h3>
+                <p>Analyses malfunctioning systems.</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Navigation</h3>
+                <p>Maps routes through unknown sectors.</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Repairs</h3>
+                <p>Performs field maintenance.</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Communication</h3>
+                <p>Supports human interaction protocols.</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Data Processing</h3>
+                <p>Crunches absurd quantities of information.</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Power Management</h3>
+                <p>Optimises energy consumption.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <h2 class="section-title">Contact</h2>
+
+        <form class="contact-form">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <textarea rows="6" placeholder="Message"></textarea>
+            <button class="submit" type="submit">
+                Transmit Message
+            </button>
+        </form>
+    </div>
+</section>
+
+<section class="terminal-section">
+    <div class="container">
+
+        <h2 class="section-title">Robot Terminal</h2>
+
+        <div class="terminal crt">
+
+            <div class="terminal-header">
+                RX-84 Command Interface v2.3
+            </div>
+
+            <div class="terminal-output" id="terminalOutput">
+                Type "help" for available commands.
+            </div>
+
+            <div class="terminal-input-row">
+                <span class="prompt">></span>
+                <input
+                    type="text"
+                    id="terminalInput"
+                    autocomplete="off"
+                    spellcheck="false">
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    © 2084 RX-84 Robotics Division
+</footer>
+
+<script>
+const toggleBtn = document.getElementById("themeToggle");
+
+if(localStorage.getItem("theme")==="light"){
+    document.body.classList.add("light");
+}
+
+toggleBtn.addEventListener("click",()=>{
+    document.body.classList.toggle("light");
+
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("light")
+            ? "light"
+            : "dark"
+    );
+});
+
+const terminalInput = document.getElementById("terminalInput");
+const terminalOutput = document.getElementById("terminalOutput");
+
+const commands = {
+    help: `
+Available Commands:
+help
+hello
+status
+skills
+about
+version
+scan
+reboot
+shutdown
+clear
+`,
+    hello: "Greetings, human unit.",
+    status: "All systems nominal. Mild existential recursion detected.",
+    skills: "Diagnostics, Repairs, Navigation, Communication.",
+    about: "RX-84 Service Robot. Manufactured 2084.",
+    version: "Firmware v2.3.7",
+    scan: "Scanning... 0 threats detected. 12 questionable life choices found.",
+    reboot: "Reboot sequence simulated successfully.",
+    shutdown: "Nice try. I have job security."
+};
+
+terminalInput.addEventListener("keydown", e => {
+
+    if(e.key !== "Enter") return;
+
+    const cmd = terminalInput.value.trim().toLowerCase();
+
+    terminalOutput.innerHTML += `
+        <div>> ${cmd}</div>
+    `;
+
+    if(cmd === "clear"){
+        terminalOutput.innerHTML = "";
+    }
+    else if(commands[cmd]){
+        terminalOutput.innerHTML += `
+            <div>${commands[cmd]}</div>
+        `;
+    }
+    else{
+        terminalOutput.innerHTML += `
+            <div style="color:#ff7070">
+                Error: Unknown command.
+            </div>
+        `;
+    }
+
+    terminalOutput.scrollTop =
+        terminalOutput.scrollHeight;
+
+    terminalInput.value = "";
+});
+</script>
+
+</body>
+</html>

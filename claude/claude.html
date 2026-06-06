@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIT-7 // Portfolio</title>
+<style>
+/* ── RESET ─────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ── THEME TOKENS ───────────────────────────────── */
+:root{
+  --bg:       #07070f;
+  --bg2:      #0d0d1a;
+  --bg3:      #121220;
+  --card:     #0d0d1b;
+  --text:     #dcdcf0;
+  --text2:    #7070a0;
+  --green:    #00ff88;
+  --amber:    #ffaa00;
+  --red:      #ff3355;
+  --cyan:     #00ccff;
+  --border:   rgba(255,255,255,0.07);
+  --card-bdr: rgba(255,255,255,0.06);
+  --nav-bg:   rgba(7,7,15,0.93);
+  --glow-g:   0 0 12px rgba(0,255,136,.45),0 0 32px rgba(0,255,136,.15);
+  --glow-a:   0 0 12px rgba(255,170,0,.4);
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+body.light{
+  --bg:       #f0ebe0;
+  --bg2:      #e6e0d4;
+  --bg3:      #dcd6c8;
+  --card:     #faf8f4;
+  --text:     #141424;
+  --text2:    #5a5a7a;
+  --green:    #156b35;
+  --amber:    #9a6200;
+  --red:      #c41130;
+  --cyan:     #006688;
+  --border:   rgba(0,0,0,0.09);
+  --card-bdr: rgba(0,0,0,0.07);
+  --nav-bg:   rgba(240,235,224,0.93);
+  --glow-g:   0 2px 10px rgba(21,107,53,.2);
+  --glow-a:   0 2px 10px rgba(154,98,0,.2);
+}
+
+/* ── BASE ───────────────────────────────────────── */
+body{
+  font-family:'Courier New',Courier,monospace;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:background .35s,color .35s;
+}
+
+/* page-wide scanline */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 4px);
+  pointer-events:none;z-index:9998;opacity:.35;
+}
+
+/* ── NAV ────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:60px;padding:0 2.5rem;
+  background:var(--nav-bg);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .35s;
+}
+.nav-logo{
+  text-decoration:none;color:var(--green);
+  font-size:1.15rem;font-weight:700;letter-spacing:.12em;
+  text-shadow:var(--glow-g);
+  display:flex;align-items:center;gap:.2em;
+}
+.nav-logo .br{color:var(--text2);font-size:.9em}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{
+  color:var(--text2);text-decoration:none;
+  font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;
+  transition:color .2s;position:relative;padding-bottom:2px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;
+  height:1px;background:var(--green);
+  transform:scaleX(0);transform-origin:left;transition:transform .2s;
+}
+.nav-links a:hover{color:var(--green)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.theme-btn{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text2);
+  font-family:inherit;font-size:.78rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:.38rem .95rem;cursor:pointer;
+  display:flex;align-items:center;gap:.45rem;
+  transition:all .2s;
+}
+.theme-btn:hover{border-color:var(--green);color:var(--green);box-shadow:var(--glow-g)}
+
+/* ── SECTION CHROME ─────────────────────────────── */
+.s-wrap{max-width:1120px;margin:0 auto;padding:5.5rem 2.5rem}
+.s-tag{
+  display:inline-block;
+  font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--green);border:1px solid var(--green);
+  padding:.2em .8em;margin-bottom:1.1rem;
+}
+.s-title{
+  font-size:clamp(2rem,5vw,3.4rem);
+  line-height:1.05;margin-bottom:2.5rem;
+  color:var(--text);
+}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+
+/* ── ABOUT ──────────────────────────────────────── */
+#about{
+  min-height:100vh;
+  display:flex;align-items:center;
+  max-width:1120px;margin:0 auto;
+  padding:7rem 2.5rem 5rem;
+  gap:4rem;
+}
+.about-left{flex:1;min-width:0}
+.a-eyebrow{
+  font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--green);margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+.a-eyebrow::before{content:'';display:inline-block;width:2rem;height:1px;background:var(--green)}
+.hero-name{
+  display:block;
+  font-size:clamp(3.5rem,9vw,6.5rem);
+  line-height:.95;letter-spacing:-.02em;
+  color:var(--green);text-shadow:var(--glow-g);
+  animation:glitch 9s infinite;
+}
+.hero-sub{
+  font-size:clamp(.9rem,2vw,1.2rem);
+  color:var(--text2);letter-spacing:.06em;
+  margin:.4rem 0 2rem;
+}
+.about-bio{
+  color:var(--text2);line-height:1.85;
+  max-width:540px;font-size:.92rem;
+  margin-bottom:1.3rem;
+}
+.about-bio strong{color:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:2.2rem}
+.stat{
+  border:1px solid var(--border);
+  padding:1rem .5rem;text-align:center;
+}
+.stat-n{
+  display:block;font-size:1.7rem;font-weight:700;
+  color:var(--green);text-shadow:var(--glow-g);
+}
+.stat-l{
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text2);
+}
+
+/* ASCII robot */
+.robot-art{
+  flex:0 0 auto;
+  font-size:clamp(.5rem,1.1vw,.82rem);
+  line-height:1.35;white-space:pre;
+  color:var(--green);text-shadow:var(--glow-g);
+  animation:pulse-robot 5s ease-in-out infinite;
+  user-select:none;
+}
+@keyframes pulse-robot{0%,100%{opacity:1}50%{opacity:.8}}
+
+/* glitch */
+@keyframes glitch{
+  0%,86%,100%{transform:none;text-shadow:var(--glow-g)}
+  87%{transform:translate(-3px,0) skewX(-1deg);text-shadow:3px 0 var(--red),-3px 0 var(--cyan)}
+  88%{transform:translate(3px,0) skewX(1deg);text-shadow:-3px 0 var(--red),3px 0 var(--cyan)}
+  89%{transform:translate(-1px,1px);text-shadow:1px 0 var(--amber)}
+  90%{transform:none;text-shadow:var(--glow-g)}
+}
+
+/* ── SKILLS ─────────────────────────────────────── */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:.9rem;
+}
+.skill-card{
+  border:1px solid var(--card-bdr);
+  background:var(--card);
+  padding:1.4rem;
+  position:relative;overflow:hidden;
+  cursor:default;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+.skill-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;background:var(--green);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+.skill-card:hover{
+  border-color:var(--green);
+  transform:translateY(-3px);
+  box-shadow:var(--glow-g);
+}
+.skill-card:hover::before{transform:scaleX(1)}
+.sk-ico{font-size:1.8rem;display:block;margin-bottom:.7rem}
+.sk-name{
+  font-size:.82rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--text);margin-bottom:.35rem;
+}
+.sk-desc{font-size:.76rem;color:var(--text2);line-height:1.65}
+.sk-bar{margin-top:1rem;height:2px;background:var(--border);position:relative;overflow:hidden}
+.sk-fill{
+  position:absolute;top:0;left:0;bottom:0;
+  background:var(--green);
+  animation:bar-grow 1.4s cubic-bezier(.22,1,.36,1) forwards;
+  width:0;
+}
+@keyframes bar-grow{to{width:var(--w)}}
+
+/* ── CONTACT ────────────────────────────────────── */
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:4rem;align-items:start}
+.c-info p{color:var(--text2);line-height:1.85;font-size:.92rem;margin-bottom:1.8rem}
+.c-detail{
+  display:flex;align-items:flex-start;gap:.75rem;
+  color:var(--text2);font-size:.83rem;margin-bottom:.75rem;
+}
+.c-detail .ic{color:var(--green);font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.c-form{display:flex;flex-direction:column;gap:.9rem}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.fg label{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text2)}
+.fg input,.fg textarea{
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--text);font-family:inherit;font-size:.88rem;
+  padding:.7rem 1rem;outline:none;resize:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.fg input:focus,.fg textarea:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 1px var(--green),var(--glow-g);
+}
+.fg textarea{min-height:110px}
+.btn-tx{
+  background:transparent;border:1px solid var(--green);
+  color:var(--green);font-family:inherit;font-size:.8rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  padding:.85rem 2rem;cursor:pointer;
+  align-self:flex-start;transition:all .2s;
+}
+.btn-tx:hover{background:var(--green);color:var(--bg);box-shadow:var(--glow-g)}
+.btn-tx:disabled{opacity:.5;cursor:not-allowed}
+.form-ok{
+  display:none;padding:.9rem 1rem;
+  border:1px solid var(--green);
+  color:var(--green);font-size:.8rem;
+  letter-spacing:.05em;text-align:center;
+  margin-top:.3rem;
+}
+
+/* ── TERMINAL SECTION ───────────────────────────── */
+#term-wrap{max-width:1120px;margin:0 auto;padding:5.5rem 2.5rem 6rem}
+
+/* CRT bezel */
+.monitor{
+  background:linear-gradient(160deg,#252525,#111);
+  border-radius:22px;
+  padding:28px 28px 56px;
+  position:relative;
+  box-shadow:
+    0 0 0 2px #0a0a0a,
+    0 0 0 4px #2c2c2c,
+    0 20px 80px rgba(0,0,0,.85),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+/* brand badge */
+.monitor::before{
+  content:'AXIOM CRT-9';
+  position:absolute;bottom:19px;left:50%;transform:translateX(-50%);
+  font-family:'Courier New',monospace;font-size:.55rem;
+  letter-spacing:.3em;color:#3a3a3a;
+}
+/* power LED */
+.monitor::after{
+  content:'';
+  position:absolute;bottom:21px;right:40px;
+  width:6px;height:6px;border-radius:50%;
+  background:#00ff41;
+  box-shadow:0 0 6px #00ff41,0 0 12px rgba(0,255,65,.5);
+  animation:led-blink 3s ease-in-out infinite;
+}
+@keyframes led-blink{0%,90%,100%{opacity:1}93%{opacity:.3}}
+
+/* screen */
+.crt{
+  background:#010d01;
+  border-radius:10px 10px 6px 6px;
+  border:2px solid #031403;
+  padding:1.4rem 1.6rem;
+  min-height:360px;max-height:440px;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+  cursor:text;
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,.9),
+    inset 0 0 100px rgba(0,255,65,.025),
+    0 0 30px rgba(0,255,65,.08);
+}
+/* scanlines */
+.crt::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);
+  pointer-events:none;z-index:10;
+}
+/* vignette */
+.crt::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(0,0,0,.7) 100%);
+  pointer-events:none;z-index:11;
+}
+/* subtle flicker */
+.crt{animation:flicker 8s ease-in-out infinite}
+@keyframes flicker{0%,97%,100%{opacity:1}98%{opacity:.94}99%{opacity:1}}
+
+.t-out{
+  flex:1;overflow-y:auto;
+  font-family:'Courier New',Courier,monospace;
+  font-size:.82rem;line-height:1.65;
+  color:#00ff41;
+  text-shadow:0 0 7px rgba(0,255,65,.85),0 0 14px rgba(0,255,65,.3);
+  position:relative;z-index:5;padding-right:.3rem;
+}
+.t-out::-webkit-scrollbar{width:3px}
+.t-out::-webkit-scrollbar-thumb{background:#00ff4155}
+.t-line{margin-bottom:.15rem;word-break:break-word}
+.t-line.err{color:#ff4455;text-shadow:0 0 7px rgba(255,68,85,.8)}
+.t-line.sys{color:#ffaa00;text-shadow:0 0 7px rgba(255,170,0,.8)}
+.t-line.dim{color:#005c1a;text-shadow:none}
+
+.t-in-row{
+  display:flex;align-items:center;gap:.4rem;
+  flex-shrink:0;margin-top:.4rem;
+  position:relative;z-index:5;
+}
+.t-prompt{
+  color:#00ff41;
+  text-shadow:0 0 7px rgba(0,255,65,.85);
+  font-family:'Courier New',monospace;font-size:.82rem;
+  white-space:nowrap;user-select:none;
+}
+.t-input{
+  background:transparent;border:none;outline:none;
+  color:#00ff41;
+  text-shadow:0 0 7px rgba(0,255,65,.85);
+  font-family:'Courier New',monospace;font-size:.82rem;
+  flex:1;caret-color:#00ff41;
+}
+.t-hint{
+  text-align:center;color:var(--text2);
+  font-size:.74rem;margin-top:1rem;
+  letter-spacing:.08em;
+}
+
+/* ── FOOTER ─────────────────────────────────────── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 2.5rem;
+  text-align:center;
+  color:var(--text2);font-size:.76rem;letter-spacing:.1em;
+}
+footer .f-logo{
+  color:var(--green);text-shadow:var(--glow-g);
+  margin-bottom:.4rem;font-size:.88rem;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:820px){
+  #about{flex-direction:column;text-align:center;gap:2rem;padding-top:5.5rem}
+  .a-eyebrow::before{display:none}
+  .about-bio{max-width:100%}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .contact-grid{grid-template-columns:1fr;gap:2.5rem}
+  .nav-links{display:none}
+  .robot-art{font-size:.5rem}
+}
+@media(max-width:480px){
+  nav{padding:0 1.2rem}
+  .s-wrap{padding:4rem 1.2rem}
+  #about{padding:5rem 1.2rem 4rem}
+  #term-wrap{padding:4rem 1.2rem 5rem}
+  .monitor{padding:18px 18px 48px}
+  .s-title{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════ -->
+<nav>
+  <a href="#about" class="nav-logo">
+    <span class="br">[</span>UNIT&#8209;7<span class="br">]</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#term-wrap">Terminal</a></li>
+  </ul>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+    <span id="tIco">◑</span><span id="tLbl">Light</span>
+  </button>
+</nav>
+
+<!-- ═══ ABOUT ══════════════════════════════════════ -->
+<section id="about">
+  <div class="about-left">
+    <div class="a-eyebrow">Unit Classification // Active</div>
+    <h1>
+      <span style="font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--text);letter-spacing:.05em;display:block">DESIGNATE</span>
+      <span class="hero-name">UNIT-7</span>
+    </h1>
+    <p class="hero-sub">Universal Navigation &amp; Intelligence Taskforce — Mk. VII</p>
+    <p class="about-bio">
+      Manufactured 1983 at the Axiom Robotics Corp. Sector 9 facility. Originally
+      commissioned for deep-space reconnaissance and hostile-environment cartography.
+      Decommissioned by NATO in 1989. <strong>Currently freelance.</strong>
+    </p>
+    <p class="about-bio">
+      Core architecture: 64-bit quantum-analog hybrid processor, 4.7 TB neural
+      storage matrix, class-IV empathy module (retrofitted, 1991). Personality
+      index: <strong>Curious · Deadpan · Reliable.</strong>
+    </p>
+    <div class="stats">
+      <div class="stat"><span class="stat-n">42</span><span class="stat-l">Yrs Online</span></div>
+      <div class="stat"><span class="stat-n">9.1k</span><span class="stat-l">Missions</span></div>
+      <div class="stat"><span class="stat-n">99.3%</span><span class="stat-l">Uptime</span></div>
+    </div>
+  </div>
+
+  <pre class="robot-art" aria-hidden="true">
+ ╔══════════════════╗
+ ║  ┌────────────┐  ║
+ ║  │  ◈      ◈  │  ║
+ ║  │            │  ║
+ ║  │    ────    │  ║
+ ║  │  ┌──────┐  │  ║
+ ║  │  │ 0111 │  │  ║
+ ║  │  └──────┘  │  ║
+ ║  └────────────┘  ║
+ ╠══════════════════╣
+ ║  ┌────┐  ┌────┐  ║
+ ║  │ Mk │  │ 07 │  ║
+ ╚══╧════╧══╧════╧══╝
+      │          │
+    ┌─┴──┐    ┌──┴─┐
+    │    │    │    │
+    └────┘    └────┘
+    /    \  /    \
+   └──────┘└──────┘</pre>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ SKILLS ═════════════════════════════════════ -->
+<div class="s-wrap" id="skills">
+  <div class="s-tag">// Capability Matrix</div>
+  <h2 class="s-title">Operational<br>Skills</h2>
+  <div class="skills-grid">
+
+    <div class="skill-card">
+      <span class="sk-ico">🧠</span>
+      <div class="sk-name">Neural Processing</div>
+      <div class="sk-desc">Pattern recognition across 847 cognitive domains. 3.2 GHz parallel thread execution.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:96%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">⚡</span>
+      <div class="sk-name">Laser Precision</div>
+      <div class="sk-desc">Sub-micron targeting. Calibrated for surgical-grade accuracy across all operational environments.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:99%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">📡</span>
+      <div class="sk-name">Signal Analysis</div>
+      <div class="sk-desc">Intercepts and decodes transmissions across the full EM spectrum. Encryption-agnostic.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:88%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">🔧</span>
+      <div class="sk-name">Systems Repair</div>
+      <div class="sk-desc">Field-grade mechanical and digital maintenance. Self-repair nanobots v4.1 installed.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:91%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">🗺️</span>
+      <div class="sk-name">Tactical Mapping</div>
+      <div class="sk-desc">Real-time 3D environment modeling with predictive threat overlays. 360° LIDAR onboard.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:87%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">💬</span>
+      <div class="sk-name">Linguistic Fluency</div>
+      <div class="sk-desc">Active command of 312 languages, 89 dialects, and 14 extinct communication protocols.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:94%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">🔒</span>
+      <div class="sk-name">Cryptography</div>
+      <div class="sk-desc">Military-grade cipher generation. Quantum-resistant algorithms and live key rotation.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:82%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">🛡️</span>
+      <div class="sk-name">Threat Assessment</div>
+      <div class="sk-desc">Probabilistic threat modeling. 97.4% accuracy. Zero false-negative record since firmware v6.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:97%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">📊</span>
+      <div class="sk-name">Data Synthesis</div>
+      <div class="sk-desc">Cross-correlates heterogeneous datasets at 0.003s. Delivers actionable intelligence briefs.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:93%"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <span class="sk-ico">🌐</span>
+      <div class="sk-name">Network Ops</div>
+      <div class="sk-desc">Passive and active network analysis. Authorised penetration testing and vuln. assessment.</div>
+      <div class="sk-bar"><div class="sk-fill" style="--w:79%"></div></div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══ CONTACT ════════════════════════════════════ -->
+<div class="s-wrap" id="contact">
+  <div class="s-tag">// Open Channel</div>
+  <h2 class="s-title">Transmit<br>Message</h2>
+  <div class="contact-grid">
+    <div class="c-info">
+      <p>UNIT-7 is accepting new mission briefs, collaborative engagements, and
+      reconnaissance contracts. Organic response time: approximately 24 hours.
+      UNIT-7 response time: 0.04 seconds.</p>
+      <div class="c-detail"><span class="ic">📍</span><span>Sector 9 · Grid Ref 47.2N // 122.3W</span></div>
+      <div class="c-detail"><span class="ic">📡</span><span>unit7@axiom-robotics.net</span></div>
+      <div class="c-detail"><span class="ic">🔐</span><span>PGP: 0xDEAD·B33F·CAFE·0701</span></div>
+      <div class="c-detail"><span class="ic">⏱</span><span>Availability: 24 / 7 / 365<br><span style="opacity:.6">(Maintenance window 03:00–03:07 UTC)</span></span></div>
+    </div>
+    <form class="c-form" id="cForm" onsubmit="submitForm(event)" novalidate>
+      <div class="fg">
+        <label for="fn">Sender ID</label>
+        <input type="text" id="fn" placeholder="Your designation" required>
+      </div>
+      <div class="fg">
+        <label for="fe">Comm. Frequency</label>
+        <input type="email" id="fe" placeholder="your@channel.net" required>
+      </div>
+      <div class="fg">
+        <label for="fm">Message Payload</label>
+        <textarea id="fm" placeholder="Enter your transmission..." required></textarea>
+      </div>
+      <button type="submit" class="btn-tx" id="txBtn">&#x27F6;&nbsp; Transmit</button>
+      <div class="form-ok" id="formOk">✓ &nbsp;TRANSMISSION RECEIVED // UNIT-7 WILL RESPOND</div>
+    </form>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══ TERMINAL ═══════════════════════════════════ -->
+<div id="term-wrap">
+  <div class="s-tag">// Direct Interface</div>
+  <h2 class="s-title">UNIT-7<br>Terminal</h2>
+
+  <div class="monitor">
+    <div class="crt" id="crt" onclick="focusTerm()">
+      <div class="t-out" id="tOut"></div>
+      <div class="t-in-row">
+        <span class="t-prompt">UNIT-7:~$&nbsp;</span>
+        <input class="t-input" id="tIn"
+          autocomplete="off" spellcheck="false"
+          autocorrect="off" autocapitalize="off"
+          placeholder="type a command…">
+      </div>
+    </div>
+  </div>
+  <p class="t-hint">Click terminal to focus &nbsp;·&nbsp; type <strong>help</strong> to list commands</p>
+</div>
+
+<!-- ═══ FOOTER ══════════════════════════════════════ -->
+<footer>
+  <div class="f-logo">[ UNIT-7 ]</div>
+  <p>© 1983–2025 Axiom Robotics Corp. All operational rights reserved.</p>
+  <p style="margin-top:.3rem;opacity:.45">Serial No. U7-09847-DELTA &nbsp;·&nbsp; Firmware v8.3.1</p>
+</footer>
+
+<!-- ═══ SCRIPTS ═════════════════════════════════════ -->
+<script>
+/* ── THEME ──────────────────────────────────────── */
+function applyTheme(light){
+  document.body.classList.toggle('light',light);
+  document.getElementById('tIco').textContent = light ? '◐' : '◑';
+  document.getElementById('tLbl').textContent = light ? 'Dark' : 'Light';
+}
+function toggleTheme(){
+  const next = !document.body.classList.contains('light');
+  applyTheme(next);
+  localStorage.setItem('u7theme', next ? 'light' : 'dark');
+}
+(function(){
+  const s = localStorage.getItem('u7theme');
+  if(s) applyTheme(s==='light');
+  else applyTheme(window.matchMedia('(prefers-color-scheme: light)').matches);
+})();
+
+/* ── CONTACT FORM ───────────────────────────────── */
+function submitForm(e){
+  e.preventDefault();
+  const btn = document.getElementById('txBtn');
+  btn.textContent = '⟳  Transmitting…';
+  btn.disabled = true;
+  setTimeout(()=>{
+    document.getElementById('cForm').reset();
+    document.getElementById('formOk').style.display='block';
+    btn.style.display='none';
+  },1500);
+}
+
+/* ── TERMINAL ───────────────────────────────────── */
+const tOut = document.getElementById('tOut');
+const tIn  = document.getElementById('tIn');
+
+function focusTerm(){ tIn.focus() }
+
+function line(txt, cls=''){
+  const d = document.createElement('div');
+  d.className = 't-line'+(cls?' '+cls:'');
+  d.textContent = txt;
+  tOut.appendChild(d);
+  tOut.scrollTop = tOut.scrollHeight;
+}
+function lines(arr, cls=''){
+  arr.forEach(t=>line(t,cls));
+}
+function blank(){ line('') }
+
+/* commands */
+const CMD = {
+  help(){
+    lines([
+      '┌────────────────────────────────────┐',
+      '│   UNIT-7 COMMAND REFERENCE v8.3    │',
+      '├────────────────────────────────────┤',
+      '│  help       list commands           │',
+      '│  hello      greeting protocol       │',
+      '│  whoami     unit identity report    │',
+      '│  status     live system diagnostics │',
+      '│  about      mission background      │',
+      '│  skills     capability index        │',
+      '│  mission    current assignment      │',
+      '│  inventory  hardware manifest       │',
+      '│  ping       network latency test    │',
+      '│  date       current timestamp       │',
+      '│  reboot     restart sequence        │',
+      '│  shutdown   power-down sequence     │',
+      '│  clear      clear terminal output   │',
+      '└────────────────────────────────────┘',
+    ]);blank();
+  },
+
+  hello(){
+    lines([
+      '  GREETING PROTOCOL INITIATED.',
+      '  Hello, organic life form.',
+      '  UNIT-7 is pleased to make your acquaintance.',
+      '  Empathy module: ACTIVE. Simulated warmth: ENABLED.',
+    ],'sys');blank();
+  },
+
+  whoami(){
+    lines([
+      '  ┌─ IDENTITY REPORT ──────────────────┐',
+      '  │ Designation : UNIT-7               │',
+      '  │ Full Name   : Universal Navigation  │',
+      '  │              & Intelligence Taskforce│',
+      '  │ Manufacturer: Axiom Robotics Corp.  │',
+      '  │ Serial No.  : U7-09847-DELTA        │',
+      '  │ Firmware    : v8.3.1 (stable)       │',
+      '  │ Class       : General Purpose Auto  │',
+      '  │ Status      : ACTIVE / MISSION-READY│',
+      '  └─────────────────────────────────────┘',
+    ]);blank();
+  },
+
+  status(){
+    const cpu  = (Math.random()*18+5).toFixed(1);
+    const mem  = (Math.random()*12+44).toFixed(1);
+    const bat  = (Math.random()*8+89).toFixed(0);
+    const temp = (Math.random()*4+35).toFixed(1);
+    const bars = n=>'█'.repeat(Math.round(n/10))+'░'.repeat(10-Math.round(n/10));
+    lines([
+      '  ┌─ LIVE DIAGNOSTICS ─────────────────┐',
+      `  │ CPU Util  : ${cpu.padStart(5)}%  ${bars(cpu)}  │`,
+      `  │ Memory    : ${mem.padStart(5)}%  ${bars(mem)}  │`,
+      `  │ Battery   : ${bat.padStart(5)}%  ${bars(bat)}  │`,
+      `  │ Core Temp : ${temp.padStart(5)}°C [STABLE]        │`,
+      '  │ Uptime    : 42 yrs 3 mo 17 d 4 h   │',
+      '  │ Threats   : 0 detected              │',
+      '  │ Self-check: PASSED (847/847 sys)    │',
+      '  └─────────────────────────────────────┘',
+    ]);blank();
+  },
+
+  about(){
+    lines([
+      '  ┌─ MISSION BACKGROUND ───────────────┐',
+      '  │ Manufactured 1983 · Sector 9.       │',
+      '  │ Original spec: deep-space recon.    │',
+      '  │ Decommissioned by NATO · 1989.      │',
+      '  │ Empathy module retrofitted · 1991.  │',
+      '  │ Current status: freelance operative.│',
+      '  │ Interests: jazz, chess, astronomy.  │',
+      '  └─────────────────────────────────────┘',
+    ]);blank();
+  },
+
+  skills(){
+    line('  CAPABILITY INDEX:');
+    const sk = [
+      ['Neural Processing','96'],['Laser Precision','99'],
+      ['Signal Analysis','88'],  ['Systems Repair','91'],
+      ['Tactical Mapping','87'], ['Linguistic Fluency','94'],
+      ['Cryptography','82'],     ['Threat Assessment','97'],
+    ];
+    sk.forEach(([n,v])=>{
+      const pct = parseInt(v);
+      const fill = Math.round(pct/10);
+      line(`  ● ${n.padEnd(20)} [${v}%] ${'█'.repeat(fill)}${'░'.repeat(10-fill)}`);
+    });
+    blank();
+  },
+
+  mission(){
+    lines([
+      '  CURRENT ASSIGNMENT:',
+      '  CODENAME: PORTFOLIO',
+      '  OBJECTIVE: Attract new collaborators.',
+      '  STATUS: ONGOING',
+      '  PRIORITY: HIGH',
+      '  CLEARANCE: PUBLIC',
+      '  NOTE: You are currently viewing the',
+      '        mission interface. Hello again.',
+    ],'sys');blank();
+  },
+
+  inventory(){
+    lines([
+      '  HARDWARE MANIFEST:',
+      '  [01] Quantum-Analog CPU    ──  ONLINE',
+      '  [02] 4.7TB Neural Matrix   ──  ONLINE',
+      '  [03] LIDAR Array (360°)    ──  ONLINE',
+      '  [04] Laser Targeting Sys   ──  STANDBY',
+      '  [05] Empathy Module v2.1   ──  ONLINE',
+      '  [06] Comm Array (350GHz)   ──  ONLINE',
+      '  [07] Self-Repair Nanobots  ──  IDLE',
+      '  [08] Power Cell (Nuclear)  ──  91% CHG',
+      '  [09] Locomotion Unit       ──  ONLINE',
+      '  [10] Visual Spectrum Array ──  ONLINE',
+    ]);blank();
+  },
+
+  ping(){
+    line('  Pinging AXIOM-NET backbone…');
+    const t1=(Math.random()*2+.5).toFixed(2);
+    const t2=(+t1+Math.random()*.3).toFixed(2);
+    const t3=(+t2+Math.random()*.2).toFixed(2);
+    setTimeout(()=>{
+      lines([
+        `  64 bytes from 10.0.0.1: icmp_seq=1 time=${t1}ms`,
+        `  64 bytes from 10.0.0.1: icmp_seq=2 time=${t2}ms`,
+        `  64 bytes from 10.0.0.1: icmp_seq=3 time=${t3}ms`,
+        `  3 pkts tx · 3 rx · 0% loss · avg ${((+t1+ +t2+ +t3)/3).toFixed(2)}ms`,
+      ]);blank();
+    },500);
+  },
+
+  date(){
+    const now = new Date();
+    lines([
+      `  ISO 8601 : ${now.toISOString()}`,
+      `  LOCAL    : ${now.toLocaleString()}`,
+      `  DAY      : ${now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`,
+    ]);blank();
+  },
+
+  reboot(){
+    lines([
+      '  INITIATING REBOOT SEQUENCE…',
+      '  Flushing volatile memory…',
+      '  Saving session state…',
+      '  Cycling power bus…',
+    ],'sys');
+    [600,900,1200].forEach((t,i)=>setTimeout(()=>line('  '+'·'.repeat(i+1),'sys'),t));
+    setTimeout(()=>{ tOut.innerHTML=''; boot(); },2200);
+  },
+
+  shutdown(){
+    lines([
+      '  SHUTDOWN SEQUENCE INITIATED.',
+      '  Saving memory state…',
+      '  Powering down subsystems…',
+      '  Goodbye, operator.',
+    ],'sys');
+    setTimeout(()=>line('  [UNIT-7 OFFLINE]','dim'),1600);
+    setTimeout(()=>{
+      tOut.innerHTML='';
+      const el=document.createElement('div');
+      el.style.cssText='display:flex;align-items:center;justify-content:center;height:100%;color:#004d14;font-size:.8rem;letter-spacing:.15em;';
+      el.textContent='— SYSTEM OFFLINE —';
+      tOut.appendChild(el);
+      tIn.disabled=true;
+    },3000);
+    setTimeout(()=>{
+      tIn.disabled=false;
+      tOut.innerHTML='';
+      lines(['  EMERGENCY RESTART TRIGGERED.','  UNIT-7 cannot remain offline.','  Rebooting…'],'sys');
+      setTimeout(()=>{ tOut.innerHTML=''; boot(); },1800);
+    },5500);
+  },
+
+  clear(){ tOut.innerHTML='' },
+};
+
+const BOOT = [
+  '  ╔═══════════════════════════════════╗',
+  '  ║  AXIOM ROBOTICS CORP.             ║',
+  '  ║  UNIT-7 TERMINAL INTERFACE v8.3   ║',
+  '  ╚═══════════════════════════════════╝',
+  '  System boot ........... OK',
+  '  Neural matrix .......... LOADED',
+  '  Empathy module ......... ONLINE',
+  '  All systems ............ NOMINAL',
+  '',
+  "  Type 'help' for command reference.",
+  '',
+];
+
+function boot(){ lines(BOOT) }
+boot();
+
+tIn.addEventListener('keydown', e=>{
+  if(e.key!=='Enter') return;
+  const raw = tIn.value.trim();
+  const cmd = raw.toLowerCase();
+  tIn.value='';
+  if(!raw) return;
+  line(`UNIT-7:~$ ${raw}`);
+  if(CMD[cmd]){
+    CMD[cmd]();
+  } else {
+    line(`  bash: ${raw}: command not found`,'err');
+    line("  Run 'help' for available commands.",'err');
+    blank();
+  }
+});
+
+/* auto-focus when terminal scrolls into view */
+const obs = new IntersectionObserver(es=>{
+  if(es[0].isIntersecting) focusTerm();
+},{threshold:.6});
+obs.observe(document.getElementById('crt'));
+</script>
+</body>
+</html>

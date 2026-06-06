@@ -1,0 +1,368 @@
+Well, let's get started on this exciting retro robot portfolio project then, shall we? cracks knuckles
+
+Firstly, we'll start with the HTML structure. Remember, all content must be within one single HTML file.
+
+
+Copy
+html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robo Retro's Portfolio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Add your JS file link here -->
+    <script src="scripts.js" defer></script>
+  </head>
+  <body load="load">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="toggle-btn" id="darkMode"></div>
+      <h1 class="heading">Robo Retro's Portfolio</h1>
+    </nav>
+    
+    <!-- About section -->
+    <section class="about" id="about">
+      <h2 class="subheading">About Robo Retro</h2>
+      <!-- Add your content here -->
+    </section>
+    
+    <!-- Skills section -->
+    <section class="skills" id="skills">
+      <h2 class="subheading">Skills</h2>
+      <!-- Grid of cards -->
+      <!-- Add your content here -->
+    </section>
+    
+    <!-- Contact form -->
+    <section class="contact" id="contact">
+      <h2 class="subheading">Contact</h2>
+      <!-- Form here -->
+      <!-- Add your content here -->
+    </section>
+    
+    <!-- Fake terminal section -->
+    <section class="terminal" id="terminal">
+      <!-- Retro CRT styled terminal -->
+      <!-- Add your content here -->
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+      <!-- Your details -->
+    </footer>
+  </body>
+</html>
+That gives us the basic structure for our portfolio. Next up is styling this thing to look as retro as possible! We'll add some colourful CSS magic in styles.css.
+
+
+Copy
+css
+/* General Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: smooth;
+  background-color: #f1f1f1;
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+    "navbar main"
+    "footer footer";
+  min-height: 100vh;
+  padding: 2rem;
+  gap: 1rem;
+  background-color: #f8f8f8;
+}
+
+nav,
+footer {
+  grid-area: navbar;
+}
+
+main {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas:
+    "about skills"
+    "contact terminal";
+}
+
+.heading {
+  color: #365f90;
+}
+
+.subheading {
+  color: #ff8c27;
+}
+
+.toggle-btn {
+  position: relative;
+  display: inline-block;
+  width: 75px;
+  height: 40px;
+  background: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.toggle-btn#darkMode[data-mode="light"] {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...Q");
+}
+
+.toggle-btn#darkMode[data-mode="dark"] {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...");
+}
+
+/* Navbar Active State */
+
+.navbar:hover .toggle-btn {
+  transform: scale(1.2);
+}
+
+.navbar:hover .heading {
+  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* About & Skills Section Styles */
+
+.about,
+.skills {
+  grid-area: about;
+}
+
+.contact,
+.terminal {
+  grid-area: contact;
+}
+
+.about,
+.contact {
+  margin-bottom: 3rem;
+}
+
+/* About Section Content */
+
+.about {
+  text-align: center;
+}
+
+.about p {
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  color: #6b6f76;
+  letter-spacing: 0.5px;
+}
+
+/* Skills Section Content */
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.skills card {
+  background-color: #6c757d;
+  color: #f8f8f8;
+  border-radius: 10px;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.skills card::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  background-color: #f8f8f8;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.skills card h2 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  line-height: 2.2rem;
+}
+
+.skills card p {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+}
+
+/* Contact Form Styles */
+
+.contact form {
+  display: grid;
+  grid-template-areas:
+    "name email"
+    "message submit";
+  gap: 2rem;
+}
+
+.contact input,
+.contact textarea {
+  background-color: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  color: #6b6f76;
+}
+
+.contact input[type="submit"] {
+  background-color: #365f90;
+  color: #f8f8f8;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.contact input[type="submit"]:hover {
+  background-color: #ff8c27;
+}
+
+/* Terminal Section Styles */
+
+.terminal {
+  text-align: center;
+  position: relative;
+}
+
+.terminal screen {
+  width: 50rem;
+  height: 25rem;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.terminal cursor {
+  width: 2rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #365f90;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Dark Mode */
+
+[data-mode="dark"] body {
+  background-color: #373a40;
+}
+
+[data-mode="dark"] .heading {
+  color: #ff8c27;
+}
+
+[data-mode="dark"] .subheading {
+  color: #6b6f76;
+}
+
+[data-mode="dark"] .toggle-btn {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...");
+}
+
+[data-mode="dark"] .toggle-btn#darkMode[data-mode="light"] {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...");
+}
+
+[data-mode="dark"] .skills card {
+  background-color: #373a40;
+  color: #f8f8f8;
+}
+
+[data-mode="dark"] .contact input,
+[data-mode="dark"] .contact textarea {
+  background-color: #373a40;
+  color: #6b6f76;
+}
+
+[data-mode="dark"] .contact input[type="submit"] {
+  background-color: #ff8c27;
+}
+
+[data-mode="dark"] .terminal screen {
+  background-color: #373a40;
+  box-shadow: none;
+}
+
+[data-mode="dark"] .terminal cursor {
+  color: #ff8c27;
+}
+Now for the interactive part, our JavaScript magic in scripts.js. We're creating a fake terminal here and handling user inputs and canned responses.
+
+
+Copy
+javascript
+// Fake Terminal Functionality
+
+const terminalScreen = document.querySelector(".screen");
+const cursorElement = document.querySelector(".cursor");
+const commandsMap = {
+  help: `To make Robo Retro feel more useful, add command functionalities here!`,
+  status: "Robo's systems are humming smoothly!",
+  hello: "Hello, Human! It's great to see you here.",
+  shutdown: "Shutting down... All good? Great! Shutdown Complete!",
+};
+let command<dummy00003>InProgress = false;
+
+// Handling Command Input & Output
+
+document.addEventListener("keydown", (event) => {
+  if (!commandificialInProgress && event.key === "Enter") {
+    commandificialInProgress = true;
+    const command = event.target.value.toLowerCase();
+    terminalScreen.textContent = `${cursorElement.textContent} ${
+      commandsMap[command] ? commandsMap[command] : "I'm sorry, I didn't understand that."
+    }`;
+    cursorElement.textContent = "";
+    event.target.value = "";
+    commandificialInProgress = false;
+  } else if (commandificialInProgress) {
+    terminalScreen.textContent += `${cursorElement.textContent} _`;
+    cursorElement.textContent = "";
+  }
+});
+
+// Handling Dark Mode Toggle
+
+const darkModeToggle = document.querySelector("#darkMode");
+
+function changeDarkMode() {
+  let currentMode = localStorage.getItem("mode");
+  if (currentMode === "light") {
+    localStorage.setItem("mode", "dark");
+  } else {
+    localStorage.setItem("mode", "light");
+  }
+  document.documentElement.setAttribute("data-mode", currentMode);
+  darkModeToggle.setAttribute("data-mode", currentMode);
+}
+
+darkModeToggle.addEventListener("click", changeDarkMode);
+
+if (localStorage.getItem("mode") === "dark") {
+  document.documentElement.setAttribute("data-mode", "dark");
+  darkModeToggle.setAttribute("data-mode", "dark");
+} else {
+  document.documentElement.setAttribute("data-mode", "light");
+  darkModeToggle.setAttribute("data-mode", "light");
+}

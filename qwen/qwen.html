@@ -1,0 +1,272 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <title>My Retro Robot</title> <style> body { background-color: #f5f7fa; font-family: 'Segoe UI', Menlo, Consolas, monospace; }
+
+Copy
+    .navbar {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .navbar > nav {
+        text-align: start;
+        height: 64px;
+    }
+
+    .logo {
+        color: #5319D3;
+        font-size: 5em;
+    }
+
+    .navbar-logo {
+        margin-left: auto;
+        width: fit-content;
+        padding-right: 20px;
+    }
+
+    .about {
+        text-align: center;
+        max-width: 864px;
+        margin: 10px 0;
+    }
+
+    .skills {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 20px;
+    }
+
+    .card-row {
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .card {
+        border-bottom: 1px solid #5319D3;
+        margin-right: 20px;
+    }
+</style>
+</head> <body> <div class="navbar"> <a href="#home" class="btn btn-primary">Home</a> <div class="navbar-logo">My Retro Robot</div> <a href="#about" class="btn btn-secondary">About</a> <a href="#skills" class="btn btn-secondary">Skills</a> </div>
+
+Copy
+<div class="container">
+    <div class="grid-container skills">
+        <h2>Skills</h2>
+        <ul id="skills-list">
+            <li><i class='fa-solid fa-tachometer'></i> Programming Languages: Java, C++, JavaScript, Python, PHP, R</li>
+            <li><i class='fa-solid fa-flag'></i> Technologies: Raspberry Pi, Arduino, Unity, Blender, 3D Printing</li>
+        </ul>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Robots are the life of robots.</p>
+            <button id="help">Help</button>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robot2.png" alt="Robot">
+            <p>Robots are the future of robots.</p>
+            <button id="status">Status</button>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Robots are the life of robots.</p>
+            <button id="shutdown">Shutdown</button>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robot2.png" alt="Robot">
+            <p>Robots are the future of robots.</p>
+            <button id="help">Help</button>
+        </div>
+    </div>
+
+    <div class="grid-container about">
+        <h2>About</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui. Pellentesque eu metella velit.</p>
+        <p>Duis sed magna non enim ultrices matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.robots.tech/img/robo.png" alt="Robot">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio vitae velit elementum bibendum. Aenean vulputate nunc vel augue faucibus hendrerit a in turpis. Fusce ac justo felis. Duis sed magna non enim ultrices egestas. Donec id risus quis est feugiat matti sit amet at erat. Vestibulum vitae ex eros. Quisque volutatis tincidunt massa quis placerat. Nam non mi vel lacus euismod consectetur quis in mi. Mauris gravida magna eu urna ornare consequat. Nunc id felis non odio sodales rhoncus non id dui.</p>
+        </div>

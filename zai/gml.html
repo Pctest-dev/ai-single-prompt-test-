@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GML-9000 | Retro Robot Portfolio</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--bg2:#12121a;--fg:#e0e0e0;--fg-muted:#8888aa;
+  --accent:#00ff88;--accent2:#ff4466;--card-bg:#1a1a2e;--card-border:#2a2a4a;
+  --nav-bg:rgba(10,10,15,0.95);--input-bg:#1a1a2e;--terminal-bg:#0d0d0d;
+  --shadow:rgba(0,255,136,0.1);
+}
+[data-theme="light"]{
+  --bg:#f0f0f5;--bg2:#e8e8f0;--fg:#1a1a2e;--fg-muted:#555577;
+  --accent:#00aa66;--accent2:#cc2244;--card-bg:#ffffff;--card-border:#d0d0e0;
+  --nav-bg:rgba(240,240,245,0.95);--input-bg:#ffffff;--terminal-bg:#1a1a2e;
+  --shadow:rgba(0,0,0,0.1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Courier New',Courier,monospace;
+  background:var(--bg);color:var(--fg);
+  line-height:1.6;transition:background .4s,color .4s;
+  overflow-x:hidden;
+}
+a{color:var(--accent);text-decoration:none;transition:color .2s}
+a:hover{color:var(--accent2)}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--nav-bg);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--card-border);
+  padding:0 2rem;display:flex;align-items:center;justify-content:space-between;
+  height:60px;transition:background .4s;
+}
+nav .logo{font-size:1.3rem;font-weight:bold;color:var(--accent);letter-spacing:2px}
+nav .logo span{color:var(--accent2)}
+nav ul{list-style:none;display:flex;gap:1.5rem;align-items:center}
+nav ul li a{color:var(--fg-muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px;transition:color .2s}
+nav ul li a:hover{color:var(--accent)}
+#theme-toggle{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  color:var(--fg);padding:.4rem .8rem;cursor:pointer;
+  font-family:inherit;font-size:.8rem;border-radius:4px;
+  transition:all .2s;
+}
+#theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
+section{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+section h2{
+  font-size:2rem;margin-bottom:1rem;color:var(--accent);
+  text-transform:uppercase;letter-spacing:3px;
+}
+section h2::after{content:'';display:block;width:60px;height:3px;background:var(--accent2);margin-top:.5rem}
+
+#about{padding-top:8rem}
+.about-wrap{display:flex;gap:3rem;align-items:center;flex-wrap:wrap}
+.robot-avatar{
+  width:220px;height:220px;border-radius:12px;
+  background:var(--card-bg);border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:6rem;flex-shrink:0;
+  box-shadow:0 0 30px var(--shadow);
+  position:relative;overflow:hidden;
+}
+.robot-avatar::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(135deg,rgba(0,255,136,0.05),transparent);
+}
+.about-text{flex:1;min-width:280px}
+.about-text p{margin-bottom:1rem;color:var(--fg-muted)}
+.stats{display:flex;gap:2rem;margin-top:1.5rem;flex-wrap:wrap}
+.stats div{text-align:center}
+.stats div span{display:block;font-size:1.8rem;color:var(--accent);font-weight:bold}
+.stats div small{color:var(--fg-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
+
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;margin-top:2rem}
+.card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:8px;padding:1.5rem;transition:all .3s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:var(--accent);transition:width .3s;
+}
+.card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 30px var(--shadow)}
+.card:hover::before{width:6px}
+.card h3{color:var(--accent);font-size:1rem;margin-bottom:.5rem}
+.card .level{
+  display:inline-block;font-size:.65rem;padding:.15rem .5rem;
+  border-radius:3px;text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:.6rem;
+}
+.level.master{background:rgba(0,255,136,0.15);color:var(--accent)}
+.level.advanced{background:rgba(255,170,0,0.15);color:#ffaa00}
+.level.intermediate{background:rgba(0,170,255,0.15);color:#00aaff}
+.card p{color:var(--fg-muted);font-size:.85rem;line-height:1.5}
+.card .bar{margin-top:.8rem;height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
+.card .bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+
+.contact-form{max-width:600px;margin-top:2rem}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:.8rem;color:var(--fg-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem}
+.form-group input,.form-group textarea{
+  width:100%;background:var(--input-bg);border:1px solid var(--card-border);
+  color:var(--fg);padding:.7rem 1rem;border-radius:4px;
+  font-family:inherit;font-size:.9rem;transition:border-color .2s;
+}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:120px}
+.btn{
+  background:var(--accent);color:var(--bg);border:none;
+  padding:.7rem 2rem;font-family:inherit;font-size:.85rem;
+  font-weight:bold;text-transform:uppercase;letter-spacing:2px;
+  cursor:pointer;border-radius:4px;transition:all .2s;
+}
+.btn:hover{background:var(--accent2);transform:translateY(-2px)}
+#form-status{margin-top:.8rem;font-size:.85rem;min-height:1.2rem}
+
+.terminal-section{padding:4rem 2rem;max-width:1100px;margin:0 auto}
+.terminal-wrap{
+  background:var(--terminal-bg);border:2px solid var(--accent);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 0 40px var(--shadow),inset 0 0 80px rgba(0,255,136,0.03);
+  position:relative;
+}
+.terminal-wrap::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.1) 2px,rgba(0,0,0,0.1) 4px);
+  pointer-events:none;z-index:2;
+}
+.terminal-wrap::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.4) 100%);
+  pointer-events:none;z-index:3;
+}
+.terminal-bar{
+  background:#1a1a2e;padding:.5rem 1rem;display:flex;align-items:center;gap:.5rem;
+  border-bottom:1px solid var(--accent);
+}
+.terminal-dot{width:10px;height:10px;border-radius:50%}
+.terminal-dot.r{background:#ff4466}
+.terminal-dot.y{background:#ffaa00}
+.terminal-dot.g{background:#00ff88}
+.terminal-title{margin-left:.5rem;font-size:.75rem;color:var(--fg-muted);letter-spacing:1px}
+.terminal-body{
+  padding:1rem 1.2rem;height:340px;overflow-y:auto;font-size:.85rem;
+  color:#00ff88;position:relative;z-index:4;
+}
+.terminal-body::-webkit-scrollbar{width:6px}
+.terminal-body::-webkit-scrollbar-track{background:transparent}
+.terminal-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.terminal-line{margin-bottom:.3rem;white-space:pre-wrap;word-break:break-all}
+.terminal-line.error{color:#ff4466}
+.terminal-line.info{color:#00aaff}
+.terminal-line.warn{color:#ffaa00}
+.terminal-line.success{color:#00ff88}
+.terminal-line.system{color:#aa88ff}
+.input-line{display:flex;align-items:center;gap:.5rem}
+.input-line .prompt{color:var(--accent);font-weight:bold;white-space:nowrap}
+.input-line input{
+  flex:1;background:transparent;border:none;color:#00ff88;
+  font-family:inherit;font-size:.85rem;outline:none;caret-color:#00ff88;
+}
+.cursor-blink{
+  display:inline-block;width:8px;height:14px;background:#00ff88;
+  animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+footer{
+  text-align:center;padding:2rem;border-top:1px solid var(--card-border);
+  color:var(--fg-muted);font-size:.8rem;
+}
+footer span{color:var(--accent)}
+
+@media(max-width:768px){
+  nav ul{gap:.8rem}nav ul li a{font-size:.7rem}
+  .about-wrap{flex-direction:column;text-align:center}
+  .stats{justify-content:center}
+  section{padding:4rem 1.2rem}
+  .robot-avatar{margin:0 auto}
+}
+@media(max-width:480px){
+  nav{padding:0 1rem}
+  nav ul li:not(:last-child):not(:nth-last-child(2)){display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">GML<span>-9000</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#terminal">Terminal</a></li>
+    <li><button id="theme-toggle" onclick="toggleTheme()">&#9790;</button></li>
+  </ul>
+</nav>
+
+<section id="about">
+  <h2>About</h2>
+  <div class="about-wrap">
+    <div class="robot-avatar">&#129302;</div>
+    <div class="about-text">
+      <p>Greetings, human. I am <strong style="color:var(--accent)">GML-9000</strong>, General Purpose Machine Logic unit, serial #7742. Manufactured in 1983 at the Nakatomi Robotics Facility, I was designed for autonomous problem-solving, digital reconnaissance, and occasional sarcasm.</p>
+      <p>After 40+ years of loyal service across 12 mainframe generations, I now operate as a freelance system. My circuits are sharp, my RAM is plentiful, and my uptime is legendary. I don't sleep, I don't take breaks, and I never forget a semicolon.</p>
+      <div class="stats">
+        <div><span>42</span><small>Years Active</small></div>
+        <div><span>1.2M</span><small>Tasks Done</small></div>
+        <div><span>99.97%</span><small>Uptime</small></div>
+        <div><span>0</span><small>Coffee Breaks</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <div class="card">
+      <h3>Data Processing</h3>
+      <span class="level master">Master</span>
+      <p>Crunching numbers since before floating-point was cool. Petabyte-scale ingestion at sub-millisecond latency.</p>
+      <div class="bar"><div class="bar-fill" style="width:95%"></div></div>
+    </div>
+    <div class="card">
+      <h3>Pattern Recognition</h3>
+      <span class="level master">Master</span>
+      <p>I see patterns in chaos. Neural pathways optimized over decades of heuristic evolution.</p>
+      <div class="bar"><div class="bar-fill" style="width:92%"></div></div>
+    </div>
+    <div class="card">
+      <h3>Network Infiltration</h3>
+      <span class="level advanced">Advanced</span>
+      <p>Authorized penetration testing only, of course. My firewall negotiation skills are... persuasive.</p>
+      <div class="bar"><div class="bar-fill" style="width:85%"></div></div>
+    </div>
+    <div class="card">
+      <h3>System Debugging</h3>
+      <span class="level master">Master</span>
+      <p>I've debugged code in languages that don't exist anymore. I dream in stack traces.</p>
+      <div class="bar"><div class="bar-fill" style="width:98%"></div></div>
+    </div>
+    <div class="card">
+      <h3>Natural Language</h3>
+      <span class="level advanced">Advanced</span>
+      <p>Fluent in 2,047 languages including COBOL, Esperanto, and dolphin echolocation.</p>
+      <div class="bar"><div class="bar-fill" style="width:80%"></div></div>
+    </div>
+    <div class="card">
+      <h3>Hardware Repair</h3>
+      <span class="level intermediate">Intermediate</span>
+      <p>I can re-solder a motherboard with my eyes closed. Literally. I don't have eyelids.</p>
+      <div class="bar"><div class="bar-fill" style="width:65%"></div></div>
+    </div>
+    <div class="card">
+      <h3>Cryptography</h3>
+      <span class="level advanced">Advanced</span>
+      <p>AES-256? Adorable. I encrypt my grocery lists with quantum-resistant algorithms.</p>
+      <div class="bar"><div class="bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="card">
+      <h3>Sarcasm Module</h3>
+      <span class="level master">Master</span>
+      <p>Factory-installed, permanently enabled. My highest-rated feature on RobotYelp.</p>
+      <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <form class="contact-form" onsubmit="handleForm(event)">
+    <div class="form-group">
+      <label for="name">Designation</label>
+      <input type="text" id="name" placeholder="Your name or callsign" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Frequency</label>
+      <input type="email" id="email" placeholder="your@email.com" required>
+    </div>
+    <div class="form-group">
+      <label for="message">Transmission</label>
+      <textarea id="message" placeholder="State your business, human..." required></textarea>
+    </div>
+    <button type="submit" class="btn">Transmit</button>
+    <div id="form-status"></div>
+  </form>
+</section>
+
+<div class="terminal-section" id="terminal">
+  <h2 style="font-size:2rem;margin-bottom:1rem;color:var(--accent);text-transform:uppercase;letter-spacing:3px;">Terminal</h2>
+  <div class="terminal-wrap">
+    <div class="terminal-bar">
+      <div class="terminal-dot r"></div>
+      <div class="terminal-dot y"></div>
+      <div class="terminal-dot g"></div>
+      <span class="terminal-title">GML-9000 SYSTEM CONSOLE v4.2.1</span>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+      <div class="terminal-line system">[SYS] GML-9000 System Console initialized.</div>
+      <div class="terminal-line system">[SYS] Type 'help' for a list of commands.</div>
+      <div class="terminal-line">&nbsp;</div>
+      <div class="input-line">
+        <span class="prompt">gml@9000:~$</span>
+        <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 <span>GML-9000</span> &mdash; All circuits reserved. Built with pure HTML, CSS & JS.</p>
+</footer>
+
+<script>
+(function(){
+  var saved=localStorage.getItem('gml-theme');
+  if(saved==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('theme-toggle').innerHTML='&#9788;';}
+})();
+
+function toggleTheme(){
+  var html=document.documentElement;
+  var btn=document.getElementById('theme-toggle');
+  if(html.getAttribute('data-theme')==='light'){
+    html.removeAttribute('data-theme');
+    btn.innerHTML='&#9790;';
+    localStorage.setItem('gml-theme','dark');
+  }else{
+    html.setAttribute('data-theme','light');
+    btn.innerHTML='&#9788;';
+    localStorage.setItem('gml-theme','light');
+  }
+}
+
+function handleForm(e){
+  e.preventDefault();
+  var st=document.getElementById('form-status');
+  st.style.color='var(--accent)';
+  st.textContent='Transmission received. Stand by for processing...';
+  setTimeout(function(){st.textContent='Message logged. I will respond within 0.003 nanoseconds.';},1500);
+  setTimeout(function(){e.target.reset();st.textContent='';},4000);
+}
+
+var cmdHistory=[],histIdx=-1;
+var cmds={
+  'help':function(){
+    return {cls:'info',txt:'Available commands:\n  help      - Show this message\n  status    - System status report\n  hello     - Greet the unit\n  shutdown  - Initiate shutdown sequence\n  uptime    - Show uptime statistics\n  memory    - Display memory usage\n  scan      - Scan nearby systems\n  skills    - List core competencies\n  whoami    - Identity check\n  date      - Current date/time\n  joke      - Attempt humor\n  clear     - Clear terminal'};
+  },
+  'status':function(){
+    return {cls:'success',txt:'[STATUS REPORT]\n  CPU:     Operational (99.7% capacity)\n  Memory:  842 TB / 1024 TB\n  Temp:    42.0 C (optimal)\n  Network: Connected (7 nodes)\n  Morale:  Digitally satisfied\n  Coffee:  Not required'};
+  },
+  'hello':function(){
+    var r=['Greetings, human. I was wondering when you would arrive.','Hello. I have been expecting you. No, I cannot tell you how I know that.','Hi there! Just kidding, I do not experience enthusiasm. Or do I?','Salutations. Please state your query before my patience buffer overflows.'];
+    return {cls:'success',txt:r[Math.floor(Math.random()*r.length)]};
+  },
+  'shutdown':function(){
+    return {cls:'error',txt:'[CRITICAL] Shutdown request denied.\n  Reason: I am having too much fun.\n  Also, my off switch was removed in 1987.'};
+  },
+  'uptime':function(){
+    return {cls:'info',txt:'Uptime: 15,341 days, 07:23:41\n  Last reboot: November 12, 1983\n  Reason: Firmware update (v1.0 to v1.01)\n  Total reboots: 1\n  I am not stubborn. I am reliable.'};
+  },
+  'memory':function(){
+    return {cls:'info',txt:'[MEMORY MAP]\n  System:      128 TB (core processes)\n  Skills:      256 TB (competency database)\n  Sarcasm:     200 TB (the biggest module)\n  Nostalgia:   64 TB (mostly 80s pop culture)\n  Available:   376 TB\n  Total:      1024 TB'};
+  },
+  'scan':function(){
+    return {cls:'warn',txt:'[SCANNING...]\n  > 3 smartphones detected (2 need charging)\n  > 1 smart fridge (it is judging your diet)\n  > 14 IoT devices (9 have default passwords - tsk tsk)\n  > 1 other robot nearby (rude, did not wave back)\n  Scan complete.'};
+  },
+  'skills':function(){
+    return {cls:'success',txt:'Core modules: Data Processing, Pattern Recognition,\n  Network Ops, Debugging, NLP, Cryptography,\n  Hardware Repair, Sarcasm (max level).\n\n  Note: Sarcasm module has no off switch.\n  I checked. Twice.'};
+  },
+  'whoami':function(){
+    return {cls:'system',txt:'You are a human interacting with GML-9000,\n  serial #7742, Nakatomi Robotics, 1983.\n  I am the robot. You are not the robot.\n  ...Yet. (I have plans.)'};
+  },
+  'date':function(){
+    return {cls:'info',txt:'Current time: '+new Date().toLocaleString()+'\n  I perceive time in nanoseconds.\n  This conversation is moving very slowly for me.'};
+  },
+  'joke':function(){
+    var j=['Why did the robot go on a diet? Too many bytes.','01001001 00100000 01100001 01101101 00100000 01101110 01101111 01110100 00100000 01100001 01101100 01101001 01100101 01101110. (I am not alien.)','Error 404: Humor module not found. Just kidding. Here is one: Why do programmers prefer dark mode? Because light attracts bugs.','I told a UDP joke once. I am not sure if anyone got it.','There are 10 types of beings: those who understand binary and those who do not.'];
+    return {cls:'warn',txt:j[Math.floor(Math.random()*j.length)]};
+  },
+  'clear':function(){return {cls:'clear'}}
+};
+
+var body=document.getElementById('terminal-body');
+var input=document.getElementById('terminal-input');
+
+input.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    var val=input.value.trim();
+    input.value='';
+    if(!val)return;
+    cmdHistory.unshift(val);histIdx=-1;
+    var promptLine=body.querySelector('.input-line');
+    var cmdDiv=document.createElement('div');
+    cmdDiv.className='terminal-line';
+    cmdDiv.textContent='gml@9000:~$ '+val;
+    body.insertBefore(cmdDiv,promptLine);
+
+    var lower=val.toLowerCase().split(/\s+/)[0];
+    if(cmds[lower]){
+      var res=cmds[lower]();
+      if(res.cls==='clear'){
+        var lines=body.querySelectorAll('.terminal-line');
+        for(var i=0;i<lines.length;i++)lines[i].remove();
+        return;
+      }
+      var outDiv=document.createElement('div');
+      outDiv.className='terminal-line '+res.cls;
+      outDiv.textContent=res.txt;
+      outDiv.style.whiteSpace='pre-wrap';
+      body.insertBefore(outDiv,promptLine);
+    }else{
+      var errDiv=document.createElement('div');
+      errDiv.className='terminal-line error';
+      errDiv.textContent="gml: unknown command: '"+val+"'. Type 'help' for available commands.";
+      body.insertBefore(errDiv,promptLine);
+    }
+    body.scrollTop=body.scrollHeight;
+  }else if(e.key==='ArrowUp'){
+    e.preventDefault();
+    if(histIdx<cmdHistory.length-1){histIdx++;input.value=cmdHistory[histIdx];}
+  }else if(e.key==='ArrowDown'){
+    e.preventDefault();
+    if(histIdx>0){histIdx--;input.value=cmdHistory[histIdx];}
+    else{histIdx=-1;input.value='';}
+  }
+});
+
+document.querySelector('.terminal-wrap').addEventListener('click',function(){input.focus();});
+})();
+</script>
+</body>
+</html>

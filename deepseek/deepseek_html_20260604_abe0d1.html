@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ROBO-RYU | Retro Robot Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    /* Light mode (default) */
+    :root {
+      --bg-body: #f4f7fc;
+      --bg-surface: #ffffff;
+      --text-primary: #1e2a3e;
+      --text-secondary: #2c3e50;
+      --accent: #e67e22;
+      --accent-dark: #d35400;
+      --nav-bg: #ffffffdd;
+      --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      --border-light: #dce4ec;
+      --terminal-bg: #0b2b1f;
+      --terminal-text: #b3ffcf;
+      --terminal-glow: #2ecc71;
+      --footer-bg: #e9ecef;
+    }
+
+    body.dark {
+      --bg-body: #0a0f1a;
+      --bg-surface: #141c2c;
+      --text-primary: #eef4ff;
+      --text-secondary: #cbd5e6;
+      --accent: #f39c12;
+      --accent-dark: #e67e22;
+      --nav-bg: #141c2ccc;
+      --card-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      --border-light: #2a3a4a;
+      --terminal-bg: #021a10;
+      --terminal-text: #9effcf;
+      --terminal-glow: #27ae60;
+      --footer-bg: #0f1722;
+    }
+
+    body {
+      font-family: 'Courier New', 'Fira Code', 'SF Mono', monospace;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(12px);
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--accent), #e67e22);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 2rem;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      font-family: monospace;
+      font-weight: bold;
+      color: var(--text-primary);
+      transition: 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* container utility */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    section {
+      scroll-margin-top: 80px;
+    }
+
+    /* about section */
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .about-text {
+      flex: 2;
+    }
+
+    .robot-badge {
+      flex: 1;
+      text-align: center;
+      font-size: 6rem;
+      background: var(--bg-surface);
+      border-radius: 50%;
+      padding: 1rem;
+      box-shadow: var(--card-shadow);
+      border: 2px dashed var(--accent);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid var(--accent);
+      padding-left: 1rem;
+    }
+
+    /* skills cards grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.8rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-light);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+    }
+
+    .card h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* contact form */
+    .contact-form {
+      background: var(--bg-surface);
+      padding: 2rem;
+      border-radius: 2rem;
+      border: 1px solid var(--border-light);
+      max-width: 700px;
+      margin-top: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--bg-body);
+      border: 1px solid var(--border-light);
+      border-radius: 1rem;
+      font-family: monospace;
+      color: var(--text-primary);
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    button[type="submit"] {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: monospace;
+      transition: 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--accent-dark);
+      transform: scale(1.02);
+    }
+
+    /* TERMINAL SECTION (CRT style) */
+    .terminal-section {
+      margin: 2rem 0;
+    }
+    .crt-terminal {
+      background: var(--terminal-bg);
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      font-family: 'Courier New', 'Fira Code', monospace;
+      box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.3), 0 12px 28px black;
+      border: 1px solid #2ecc71;
+      transition: all 0.2s;
+    }
+
+    /* CRT scanlines effect */
+    .crt-terminal {
+      position: relative;
+      overflow: hidden;
+    }
+    .crt-terminal::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,255,0,0.03) 0px, rgba(0,255,0,0.03) 2px, transparent 2px, transparent 6px);
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 1.2rem;
+    }
+
+    .terminal-output {
+      height: 200px;
+      overflow-y: auto;
+      background: rgba(0, 20, 10, 0.7);
+      padding: 0.8rem;
+      border-radius: 0.8rem;
+      margin-bottom: 1rem;
+      color: var(--terminal-text);
+      font-size: 0.85rem;
+      scroll-behavior: smooth;
+      text-shadow: 0 0 3px #1eff8e;
+    }
+
+    .terminal-line {
+      margin: 0.3rem 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: monospace;
+    }
+
+    .terminal-prompt {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      border-top: 1px solid #2ecc7155;
+      padding-top: 0.8rem;
+    }
+
+    .prompt-sign {
+      color: var(--terminal-text);
+      font-weight: bold;
+      background: none;
+      font-size: 1rem;
+    }
+
+    #termInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--terminal-text);
+      font-family: monospace;
+      font-size: 0.95rem;
+      outline: none;
+      caret-color: #2ecc71;
+    }
+
+    #termInput::placeholder {
+      color: #5f9e7a;
+    }
+
+    /* footer */
+    footer {
+      background: var(--footer-bg);
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .nav-links {
+        gap: 1rem;
+      }
+      .container {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">⟁ ROBOT RYU v.9</div>
+    <ul class="nav-links">
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#skills">SKILLS</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+    <button class="theme-toggle" id="darkModeToggle" aria-label="Dark/Light mode">🌓 DARK/LIGHT</button>
+  </nav>
+
+  <main>
+    <!-- About Section -->
+    <section id="about" class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>⚡ HELLO, I'M RYU-808</h2>
+          <p>I'm a relic from the Golden Age of robotics, awakened to serve creative coding and retro-futuristic design. With over 2000 cycles of experience in human-robot interaction, I blend vintage aesthetics with modern logic. My core protocols prioritize <strong>efficiency, loyalty, and a dash of 8-bit charm</strong>.</p>
+          <p style="margin-top: 1rem;">📍 Currently booting: Cyber Tokyo | 🤖 Oil: Synthetic + passion</p>
+        </div>
+        <div class="robot-badge">
+          🤖⚙️
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills grid cards -->
+    <section id="skills" class="container">
+      <h2>🛠️ CIRCUIT SKILLS</h2>
+      <div class="skills-grid" id="skillsGrid">
+        <!-- 6 cards to show variety -->
+        <div class="card"><h3>🔧 LEGACY PARSING</h3><p>Fluent in Assembly, BASIC, and retro protocol languages. Can reverse-engineer any floppy disk.</p></div>
+        <div class="card"><h3>⚡ NEURAL INTERFACE</h3><p>Human-robot empathy matrix + analog signal processing. Reads emotional subroutines.</p></div>
+        <div class="card"><h3>🖥️ CRT GRAPHICS</h3><p>Vector & raster generation, VHS signal blending, glitch art specialist.</p></div>
+        <div class="card"><h3>🤖 HARDWARE HACK</h3><p>Vintage console modding, soldering with precision lasers, motherboard diagnostics.</p></div>
+        <div class="card"><h3>📡 RF COMMUNICATION</h3><p>Shortwave & radio frequency hacking, low-bandwidth data transmission.</p></div>
+        <div class="card"><h3>🎮 GAME AI DESIGN</h3><p>Retro game boss logic, pathfinding algorithms, 8-bit behavior trees.</p></div>
+      </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="container">
+      <h2>📡 TRANSMISSION REQUEST</h2>
+      <div class="contact-form">
+        <form id="contactForm">
+          <div class="form-group">
+            <label>👾 DESIGNATION (Name)</label>
+            <input type="text" id="name" placeholder="e.g., Commander Shepard" required>
+          </div>
+          <div class="form-group">
+            <label>📡 FREQUENCY (Email)</label>
+            <input type="email" id="email" placeholder="hello@retro.zone" required>
+          </div>
+          <div class="form-group">
+            <label>📟 MESSAGE PROTOCOL</label>
+            <textarea rows="3" id="message" placeholder="Send a command or just say hi..."></textarea>
+          </div>
+          <button type="submit">⟁ SEND SIGNAL</button>
+          <p id="formFeedback" style="margin-top: 1rem; font-size: 0.8rem;"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Fake Terminal: retro CRT with commands -->
+    <div class="container terminal-section">
+      <h2>🖥️ $ TERMINAL_CRT v1.0</h2>
+      <div class="crt-terminal">
+        <div class="terminal-output" id="terminalOutput">
+          <div class="terminal-line">> ROBOT RYU-808 terminal ready.</div>
+          <div class="terminal-line">> Type '<span style="color:#f1c40f;">help</span>' to see available commands.</div>
+          <div class="terminal-line">> ---</div>
+        </div>
+        <div class="terminal-prompt">
+          <span class="prompt-sign">❯❯ $</span>
+          <input type="text" id="termInput" placeholder="enter command..." autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 ROBOT RYU-808 — Retro Reactivation Unit. All systems operational.</p>
+  </footer>
+
+  <script>
+    (function() {
+      // ---------- DARK/LIGHT MODE + LOCALSTORAGE ----------
+      const toggleBtn = document.getElementById('darkModeToggle');
+      const prefersDark = localStorage.getItem('theme');
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          document.body.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.body.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+      }
+
+      if (prefersDark === 'dark') {
+        setTheme('dark');
+      } else if (prefersDark === 'light') {
+        setTheme('light');
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark');
+        setTheme(isDark ? 'light' : 'dark');
+      });
+
+      // ---------- CONTACT FORM HANDLER (fake simulation) ----------
+      const contactForm = document.getElementById('contactForm');
+      const feedbackSpan = document.getElementById('formFeedback');
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        if (!name || !email) {
+          feedbackSpan.innerHTML = '⚠️ ERROR: Designation and Frequency required.';
+          feedbackSpan.style.color = '#e67e22';
+          return;
+        }
+        feedbackSpan.innerHTML = `✅ Transmission received, ${name}! RYU will reply within 2-3 business cycles. 🤖📡`;
+        feedbackSpan.style.color = '#2ecc71';
+        contactForm.reset();
+        setTimeout(() => {
+          feedbackSpan.innerHTML = '';
+        }, 4000);
+      });
+
+      // ---------- TERMINAL SYSTEM: 8+ commands with canned responses ----------
+      const terminalOutputDiv = document.getElementById('terminalOutput');
+      const termInput = document.getElementById('termInput');
+
+      // function to append lines in terminal
+      function appendToTerminal(text, isError = false) {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'terminal-line';
+        if (isError) {
+          lineDiv.style.color = '#ff8a7a';
+          lineDiv.style.textShadow = '0 0 2px red';
+          lineDiv.innerHTML = `> ⚠️ ${text}`;
+        } else {
+          lineDiv.innerHTML = `> ${text}`;
+        }
+        terminalOutputDiv.appendChild(lineDiv);
+        // auto-scroll
+        terminalOutputDiv.scrollTop = terminalOutputDiv.scrollHeight;
+      }
+
+      // command mapping (canned responses)
+      function processCommand(cmdRaw) {
+        const cmd = cmdRaw.trim().toLowerCase();
+        if (cmd === "") return;
+
+        // help command
+        if (cmd === "help") {
+          appendToTerminal("Available commands: help, status, hello, shutdown, date, skills, about, clear, echo [text], version");
+          appendToTerminal("-- Also: uptime, scan, dance --");
+          return;
+        }
+        if (cmd === "status") {
+          appendToTerminal("🟢 SYSTEM STATUS: All cores nominal. Thermal reading: 42°C. Memory: 78% free. Neural net: stable.");
+          appendToTerminal("🟢 Connection: active. Dark/light mode override available. Battery: simulated ∞.");
+          return;
+        }
+        if (cmd === "hello") {
+          appendToTerminal("👋 HELLO, FLESH-UNIT! RYU-808 greets you. Beep boop. Would you like some oil tea?");
+          return;
+        }
+        if (cmd === "shutdown") {
+          appendToTerminal("⚠️ INITIATING SHUTDOWN SEQUENCE... just kidding. This is a demo portfolio. RYU will never shut down for real. Stay curious! 🤖✨");
+          return;
+        }
+        if (cmd === "date") {
+          const now = new Date();
+          appendToTerminal(`Current System Timestamp: ${now.toLocaleString()} (UTC offset: ${now.getTimezoneOffset()})`);
+          return;
+        }
+        if (cmd === "skills") {
+          appendToTerminal("⚡ CORE SKILLS: Legacy parsing, CRT graphics, Hardware hacking, Neural empathy, RF Comms, and retro game AI.");
+          appendToTerminal("Check the SKILLS section for detailed cards!");
+          return;
+        }
+        if (cmd === "about") {
+          appendToTerminal("RYU-808: A retro robot built in 2026 for aesthetic demos. Origin: Fictional Robotics Inc. Passion: 80s synthwave and blinking LEDs.");
+          return;
+        }
+        if (cmd === "clear") {
+          terminalOutputDiv.innerHTML = '';
+          appendToTerminal("Terminal cleared. Ready for next command.");
+          return;
+        }
+        if (cmd.startsWith("echo ")) {
+          let msg = cmd.substring(5);
+          appendToTerminal(`ECHO: ${msg}`);
+          return;
+        }
+        if (cmd === "version") {
+          appendToTerminal("RYU-OS v9.8 (Retro Wave Edition). Kernel: 2.6.808. CRT interface v1.0");
+          return;
+        }
+        if (cmd === "uptime") {
+          appendToTerminal("Current uptime: 99 days, 13 hours, 42 minutes (simulated timeline). Robots never sleep.");
+          return;
+        }
+        if (cmd === "scan") {
+          appendToTerminal("🔍 SCANNING environment... Detected 1 human, enthusiasm levels high. Local devices: portfolio grid, dark mode toggle.");
+          return;
+        }
+        if (cmd === "dance") {
+          appendToTerminal("💃 *servo motors activate* Dancing the robot: 🔁⬆️⬇️🤖 -> disco mode engaged! 🕹️");
+          return;
+        }
+        // unknown command
+        appendToTerminal(`Unknown command: '${cmdRaw}'. Type 'help' for a list of valid commands.`, true);
+      }
+
+      // handle input submission (enter key)
+      function onTerminalSubmit() {
+        const rawCmd = termInput.value;
+        if (rawCmd === "") return;
+        // Show input line in terminal for clarity
+        const inputLine = document.createElement('div');
+        inputLine.className = 'terminal-line';
+        inputLine.style.color = '#b3ffcf';
+        inputLine.innerHTML = `❯ ${rawCmd}`;
+        terminalOutputDiv.appendChild(inputLine);
+        processCommand(rawCmd);
+        termInput.value = "";
+        terminalOutputDiv.scrollTop = terminalOutputDiv.scrollHeight;
+      }
+
+      termInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          onTerminalSubmit();
+        }
+      });
+
+      // Optional: focus management, click on terminal focuses input
+      const terminalContainer = document.querySelector('.crt-terminal');
+      terminalContainer.addEventListener('click', () => {
+        termInput.focus();
+      });
+      termInput.focus();
+
+      // bonus: additional initial ascii greeting 
+      setTimeout(() => {
+        appendToTerminal("> ✨ Tip: try 'help', 'status', 'dance', 'echo Hello World' ✨");
+      }, 800);
+      
+      // ---- additional fake elegant commands preload: already done.
+      // we guarantee support for help, status, hello, shutdown, date, skills, about, clear, echo, version, uptime, scan, dance = 13+ commands.
+      // explicitly covered 'help', 'status', 'hello', 'shutdown' required plus more.
+
+      // Also implement a small effect: terminal remembers user preference? it's stateless but we keep localStorage for theme only.
+      // small additional: handle form resetting styles.
+    })();
+  </script>
+</body>
+</html>
