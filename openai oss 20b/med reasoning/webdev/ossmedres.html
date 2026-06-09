@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RetroBot – Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* -------------------- Theme Variables -------------------- */
+:root {
+  --transition: .3s ease;
+}
+
+/* Light mode (default) */
+[data-theme='light'] {
+  --bg:#ffffff;
+  --text:#222222;
+  --accent:#0066ff;
+  --card-bg:#f9fafb;
+  --border:#dddddd;
+  --input-bg:#ffffff;
+  --input-border:#cccccc;
+  --terminal-bg:#000;
+  --terminal-text:#0f0;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --bg:#1e1e2e;
+  --text:#e0e0e0;
+  --accent:#00bcd4;
+  --card-bg:#2c3e50;
+  --border:#444;
+  --input-bg:#333;
+  --input-border:#555;
+  --terminal-bg:#000;
+  --terminal-text:#0f0;
+}
+
+/* -------------------- Global Styles -------------------- */
+body {
+  margin:0; font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg); color:var(--text);
+  transition:background var(--transition),color var(--transition);
+}
+
+a { text-decoration:none; color:inherit; }
+nav a:hover { color:var(--accent); }
+
+/* -------------------- Navigation -------------------- */
+header {
+  display:flex; justify-content:space-between;
+  align-items:center; padding:1rem 2rem;
+  background:rgba(0,0,0,.05);
+  position:sticky; top:0; z-index:1000;
+}
+
+nav a { margin-right:1.5rem; font-weight:bold; }
+#theme-toggle {
+  cursor:pointer; font-size:1.2rem; border:none;
+  background:none; color:var(--text); transition:color .3s;
+}
+#theme-toggle:hover { color:var(--accent); }
+
+/* -------------------- Sections -------------------- */
+section {
+  padding:4rem 2rem;
+  max-width:1200px; margin:auto;
+}
+
+h1, h2 { text-align:center; margin-bottom:1.5rem; }
+p.centered { text-align:center; line-height:1.6; }
+
+/* About */
+#about p { max-width:700px; margin:auto; }
+
+/* Skills Grid */
+.skills-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1.5rem;
+}
+.card {
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  padding:1.5rem; text-align:center;
+  transition:transform .2s,border-color .3s;
+  cursor:pointer;
+}
+.card:hover { transform:translateY(-4px); border-color:var(--accent); }
+.card span { font-size:2.5rem; display:block;margin-bottom:.8rem; }
+
+/* Contact Form */
+form {
+  max-width:600px; margin:auto;
+  display:flex; flex-direction:column;
+}
+input, textarea {
+  padding:.75rem; margin-bottom:1rem;
+  border:1px solid var(--input-border);
+  background:var(--input-bg); color:var(--text);
+  font-size:1rem; resize:none;
+}
+button[type=submit] {
+  width:auto; align-self:flex-start;
+  padding:.75rem 1.5rem; background:var(--accent);
+  border:none; color:#fff; cursor:pointer;
+  transition:background .3s;
+}
+button[type=submit]:hover { background:#005bb5; }
+
+/* Terminal */
+#terminal {
+  background:var(--terminal-bg); color:var(--terminal-text);
+  font-family:'Consolas','Courier New',monospace;
+  padding:1rem; border-radius:.4rem;
+  height:250px; overflow-y:auto;
+  position:relative;
+}
+#output pre { margin:0; white-space:pre-wrap; }
+#command-input {
+  background:none; color:inherit; border:none;
+  outline:none; width:100%; font-family:inherit;
+  caret-color:var(--terminal-text);
+}
+
+/* Footer */
+footer {
+  text-align:center; padding:2rem;
+  background:#f0f0f0; color:#777;
+}
+[data-theme='dark'] footer { background:#333; color:#bbb; }
+
+/* Responsive */
+@media(max-width:600px){
+  nav a{margin-right:.8rem;}
+  .card span{font-size:2rem;}
+}
+</style>
+</head>
+
+<body data-theme="light">
+<header>
+  <div><strong>RetroBot</strong></div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button id="theme-toggle" title="Toggle Dark/Light Mode">🌙</button>
+</header>
+
+<main>
+  <!-- About -->
+  <section id="about">
+    <h1>About RetroBot</h1>
+    <p class="centered">
+      I’m RetroBot – a nostalgic little robot built with classic hardware and modern code. 
+      My purpose? To blend the charm of yesteryear circuitry with today’s web tech, while helping you showcase your own retro‑style projects.
+    </p>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <div class="card"><span>🤖</span><strong>C++</strong></div>
+      <div class="card"><span>🧪</span><strong>Python</strong></div>
+      <div class="card"><span>⚡️</span><strong>Arduino</strong></div>
+      <div class="card"><span>🌐</span><strong>JavaScript</strong></div>
+      <div class="card"><span>🖥️</span><strong>HTML5/CSS3</strong></div>
+      <div class="card"><span>📦</span><strong>Node.js</strong></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <form id="contact-form" novalidate>
+      <input type="text" name="name" placeholder="Your Name*" required>
+      <input type="email" name="email" placeholder="Your Email*" required>
+      <textarea name="message" rows="5" placeholder="Message..." required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- Fake Terminal -->
+  <section id="terminal-section">
+    <h2>Terminal Interface</h2>
+    <div id="terminal">
+      <div id="output"></div>
+      <input type="text" id="command-input" autocomplete="off" autofocus placeholder="Type a command...">
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 RetroBot – All rights reserved
+</footer>
+
+<script>
+// ---------- Theme Toggle ----------
+const themeToggle = document.getElementById('theme-toggle');
+function setTheme(theme){
+  document.body.setAttribute('data-theme',theme);
+  localStorage.setItem('theme',theme);
+  themeToggle.textContent = theme==='dark'?'🌞':'🌙';
+}
+const storedTheme = localStorage.getItem('theme')||'light';
+setTheme(storedTheme);
+themeToggle.addEventListener('click',()=>{
+  const newTheme = document.body.getAttribute('data-theme')==='light'?'dark':'light';
+  setTheme(newTheme);
+});
+
+// ---------- Contact Form ----------
+document.getElementById('contact-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  alert('Message sent! (Pretend this works.)');
+  e.target.reset();
+});
+
+// ---------- Fake Terminal ----------
+const outputDiv = document.getElementById('output');
+const cmdInput   = document.getElementById('command-input');
+
+const commands = {
+  help: `Available commands:
+- help      : Show this message
+- status    : Get system status
+- hello     : Greet the robot
+- shutdown  : Power down
+- reboot    : Restart
+- info      : About the robot
+- ping      : Network test
+- echo <text> : Repeat your text`,
+  status: 'All systems operational. Battery at 88%.',
+  hello: 'Hello, human! 👋',
+  shutdown: 'Shutting down… (Not really, I\'m a web page!)',
+  reboot: 'Rebooting… (Just refreshing the page)',
+  info: 'RetroBot v1.0 – Built with HTML, CSS & vanilla JS.',
+  ping: 'Pong! Network latency is low.',
+};
+
+function addLine(text){
+  const p = document.createElement('pre');
+  p.textContent = text;
+  outputDiv.appendChild(p);
+  outputDiv.scrollTop = outputDiv.scrollHeight;
+}
+
+cmdInput.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const inputText = cmdInput.value.trim();
+    if(!inputText){ return; }
+    addLine(`> ${inputText}`);
+    const [cmd, ...rest] = inputText.split(/\s+/);
+    let response;
+    if(cmd==='echo' && rest.length){
+      response = rest.join(' ');
+    }else{
+      response = commands[cmd];
+    }
+    if(response===undefined){
+      response = `Error: Command '${cmd}' not found. Type 'help' for options.`;
+    }
+    addLine(response);
+    cmdInput.value='';
+  }
+});
+</script>
+</body>
+</html>

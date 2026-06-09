@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RX-77 Unit | Portfolio</title>
+    
+    <!-- Import Retro Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --text-color: #1a1a1a;
+            --nav-bg: #ffffff;
+            --nav-border: #ccc;
+            --card-bg: #e6e9ef;
+            --accent: #2d3436;
+            --terminal-text: #0f0;
+            --terminal-bg: #111;
+            --crt-scanline: rgba(18, 16, 16, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #aebfbf; /* Off-white for retro feel */
+            --nav-bg: #1e1e1e;
+            --nav-border: #333;
+            --card-bg: #181818;
+            --accent: #6c757d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: var(--nav-bg);
+            border-bottom: 2px solid var(--nav-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
+        
+        .nav-links button, .theme-toggle {
+            background: none;
+            border: 2px solid currentColor;
+            color: inherit;
+            font-family: inherit;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            margin-left: 10px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .nav-links button:hover, .theme-toggle:hover {
+            background-color: var(--accent);
+            color: #fff;
+        }
+
+        /* --- Layout --- */
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        section { margin-bottom: 4rem; scroll-margin-top: 100px; }
+
+        h1, h2 { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+
+        /* --- About Section --- */
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            background-color: #333;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 3rem;
+            background-image: linear-gradient(45deg, #333 25%, #222 25%, #222 50%, #333 50%, #333 75%, #222 75%, #222 100%);
+            background-size: 20px 20px;
+        }
+
+        /* --- Skills Grid --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent);
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* --- Terminal Section --- */
+        #terminal-window {
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            border-radius: 10px;
+            padding: 1rem;
+            height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            border: 12px solid #2d2d2d;
+            margin-bottom: 2rem;
+        }
+
+        /* CRT Effects */
+        .terminal::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        #terminal-output { font-family: 'Share Tech Mono', monospace; white-space: pre-wrap; }
+        
+        .cmd-prefix { color: #fff; opacity: 0.7; }
+        .bot-response { margin-top: 0.5rem; }
+        .error-msg { color: #ff4d4d; }
+
+        /* --- Contact Form --- */
+        form { display: flex; flex-direction: column; gap: 1rem; max-width: 600px; margin: 0 auto; }
+        input, textarea {
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent);
+            padding: 1rem;
+            font-family: inherit;
+            color: inherit;
+            flex-grow: 1;
+        }
+        button.submit-btn {
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+        }
+
+        footer { text-align: center; margin-top: 4rem; opacity: 0.6; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">RX-77.EXE</div>
+        <div class="nav-links">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Home</button>
+            <button>About</button>
+            <button>SkillSet</button>
+            <button onclick="window.scrollTo({scrollTo: {top: document.querySelector('#terminal-window').offsetTop}, behavior: 'smooth'})">Terminal</button>
+            <button>SysLink</button>
+            <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <!-- About Section -->
+        <section id="about">
+            <h1><span style="color:var(--accent)">01.</span> Identification</h1>
+            <div class="profile-pic" aria-label="Robot Profile Picture">🤖</div>
+            <p>Unit RX-77, formerly designated 'The Architect', is a high-fidelity humanoid unit dedicated to digital craftsmanship. My primary function is to simplify complex data structures and create aesthetic interfaces.</p>
+            <br>
+            <p>I run on Firmware v4.2.1 and am currently looking for stable employment in frontend architecture or creative writing protocols.</p>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h1><span style="color:var(--accent)">02.</span> Core Modules</h1>
+            <div class="skills-grid">
+                <div class="skill-card">[CSS Grid]</div>
+                <div class="skill-card">[DOM Manipulation]</div>
+                <div class="skill-card">[HTML5 Semantic]</div>
+                <div class="skill-card">[JavaScript Core]</div>
+                <div class="skill-card">[Flexbox Architecture]</div>
+                <div class="skill-card">[Responsive Design]</div>
+            </div>
+        </section>
+
+        <!-- Terminal Section -->
+        <section id="terminal-section">
+            <h1><span style="color:var(--accent)">03.</span> Local Interface</h1>
+            <p style="margin-bottom: 1rem; opacity: 0.8;">Input commands to interact with system protocols below.</p>
+            
+            <div id="terminal-window">
+                <div id="terminal-output">RX-77_OS_V4.2.1 [System Ready]</div>
+                <div id="input-container" style="display: flex; gap: 5px;">
+                    <span class="cmd-prefix">$</span>
+                    <input type="text" id="command-input" autocomplete="off" autofocus>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h1><span style="color:var(--accent)">04.</span> Transmission Request</h1>
+            <form id="contactForm">
+                <label for="name">Caller Identity:</label>
+                <input type="text" id="name" name="name" required placeholder="Name or Alias">
+                
+                <label for="topic">Transmission Topic:</label>
+                <input type="text" id="topic" name="topic" required placeholder="Project, Job, or Chat">
+                
+                <label for="message">Data Packet:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+                
+                <button type="submit" class="submit-btn">Encrypt & Send</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2077 RX Industries. All systems nominal.</p>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        
+        // Check LocalStorage on load
+        if (localStorage.getItem('theme') === 'light') {
+            htmlElement.setAttribute('data-theme', 'light');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+
+        // --- TERMINAL LOGIC ---
+        const terminalOutput = document.getElementById('terminal-output');
+        const commandInput = document.getElementById('command-input');
+
+        const COMMANDS = {
+            help: {
+                text: `RX-77 Terminal v1.0\nAvailable commands:\n- hello: Greet the system.\n- status: Check CPU and Battery.\n- whoami: Identify self.\n- clear: Clear screen buffer.\n- shutdown: Initiate hibernation.\n- error: Trigger a system fault (test only).`,
+                type: 'text'
+            },
+            hello: {
+                text: "Greetings, carbon-based lifeform. Systems are fully operational.",
+                type: 'text'
+            },
+            status: {
+                text: `CPU CORES: 100% Efficiency\nMEMORY USAGE: 12TB / 20TB\nBATTERY LEVEL: 94%\nTEMPERATURE: 35°C (Optimal)\nNETWORK: CONNECTED`,
+                type: 'text'
+            },
+            whoami: {
+                text: "Unit ID: RX-77. Role: Frontend Architect. Location: The Internet.",
+                type: 'text'
+            },
+            clear: {
+                action: () => terminalOutput.innerHTML = '',
+                type: 'action'
+            },
+            shutdown: {
+                text: "Warning: Initiating shutdown sequence...\nSystem going to sleep.\n",
+                type: 'warning',
+                longTermAction: () => setTimeout(() => { alert("SYSTEM SLEEPED"); location.reload(); }, 3000)
+            }
+        };
+
+        commandInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const inputVal = this.value.trim();
+                
+                // Add user input to history
+                const userLine = document.createElement('div');
+                userLine.className = 'user-input';
+                userLine.innerHTML = `<span class="cmd-prefix">$</span> ${inputVal}`;
+                terminalOutput.appendChild(userLine);
+
+                if (inputVal.toLowerCase() === 'shutdown') {
+                    COMMANDS.shutdown.longTermAction();
+                    return;
+                }
+
+                // Process Command
+                const parts = inputVal.toLowerCase().split(' ');
+                const cmd = parts[0];
+                
+                let responseHTML = '';
+                let responseText = '';
+
+                if (COMMANDS[cmd]) {
+                    if (typeof COMMANDS[cmd].action === 'function') {
+                        COMMANDS[cmd].action();
+                        responseHTML = `<span class="bot-response">Action executed.</span>`;
+                    } else {
+                        responseText = COMMANDS[cmd].text;
+                    }
+                } else {
+                    responseText = `ERROR: Command '${cmd}' not recognized in kernel.`;
+                    responseHTML = `<span class="error-msg">${responseText}</span>`;
+                }
+
+                if (responseText) {
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'bot-response';
+                    botDiv.innerHTML = responseHTML;
+                    terminalOutput.appendChild(botDiv);
+                }
+
+                // Reset input
+                this.value = '';
+                
+                // Scroll to bottom
+                const termContainer = document.getElementById('terminal-window');
+                termContainer.scrollTop = termContainer.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

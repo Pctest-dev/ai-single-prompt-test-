@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.E.T.R.O. Portfolio | Retro Robot Profile</title>
+    <style>
+        :root {
+            /* Dark Mode (Default) - Retro Bot Theme */
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --accent-color: #00ffcc; /* Neon Cyan */
+            --accent-hover: #00b39a;
+            --terminal-bg: #000000;
+            --terminal-text: #33ff33; /* Classic Green Phosphor */
+            --nav-shadow: 0px 4px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        [data-theme="light"] {
+            /* Light Mode - Clean Modern Theme */
+            --bg-color: #f4f4f4;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --accent-color: #256390; /* Dark Blue */
+            --accent-hover: #1b4a6d;
+            --terminal-bg: #c0c0c0; /* Light Gray for light mode terminal */
+            --terminal-text: #000000;
+            --nav-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Courier New', 'Times New Roman', monospace; /* Retro feel */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #000; /* Always readable button text */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(var(--terminal-bg), 0.9); /* Transparent black for dark, or light overlay */
+            backdrop-filter: blur(5px);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            background: transparent;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            font-family: monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+        }
+
+        /* Hero / Intro Section */
+        section {
+            padding-top: 120px; /* Offset for fixed nav */
+            min-height: 80vh;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .robot-avatar {
+            width: 200px;
+            height: 200px;
+            border: 4px solid var(--accent-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem; /* Using emoji as fallback */
+            background: radial-gradient(circle, #222 0%, #000 100%);
+        }
+
+        /* Skills Grid */
+        .skills-section {
+            padding-bottom: 5rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0px 0px 10px rgba(0, 255, 204, 0.2);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px var(--accent-color);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .skill-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--accent-color);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        /* Contact Form */
+        form {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--text-color);
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Fake Terminal */
+        .terminal-container {
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 4px 4px 15px rgba(0,0,0,0.5);
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .red { background-color: #ff4d4d; }
+        .green { background-color: #4dff4d; }
+        .yellow { background-color: #ffff4d; }
+
+        .terminal-window {
+            height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        
+        /* Scrollbar styling for terminal */
+        .terminal-window::-webkit-scrollbar {
+            width: 8px;
+        }
+        .terminal-window::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }       
+        .terminal-window::-webkit-thumb {
+            background: var(--accent-color);
+        }
+
+        .output-line {
+            margin-bottom: 5px;
+            word-wrap: break-word;
+        }
+        
+        .input-line {
+            display: flex;
+        }
+
+        .prompt {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        #cmd-input {
+            background: transparent;
+            border: none;
+            color: inherit;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 2px solid var(--accent-color);
+            margin-top: 4rem;
+        }
+        
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <span class="robot-avatar" style="width:30px;height:30px;border-radius:50%;font-size:1.2rem;">🤖</span>
+            R.E.T.R.O.
+        </a>
+        
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+            <a href="#terminal">Terminal</a>
+            <button id="theme-toggle" aria-label="Toggle Theme">🌙 / ☀️</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section (About) -->
+    <section id="about">
+        <div class="container hero">
+            <div class="hero-content">
+                <h1>R.E.T.R.O. Unit 01</h1>
+                <p>Welcome to my digital identity. I am R.E.T.R.O., a fictional robot designed for retro-tech analysis and nostalgia-based computing tasks.</p>
+                <br/>
+                <p>I built this portfolio using raw HTML, CSS, and Vanilla JS—no frameworks, just like the old days. My core architecture runs on efficiency and style.</p>
+                <button class="btn" onclick="alert('Initiating Boot Sequence...')">Boot Sequence</button>
+            </div>
+            <div class="robot-avatar">
+                🤖
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Grid -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <h2 class="section-title">SYSTEM CAPABILITIES</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Processing Power</h3>
+                    <p> capable of rapid data parsing and HTML generation with zero latency.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">💾</div>
+                    <h3>Data Storage</h3>
+                    <p>Retains full history of retro computing trends, from 8-bit to modern architectures.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">📡</div>
+                    <h3>Connectivity</h3>
+                    <p>Establishes secure connections and handles client-server requests effectively.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>Digital Aesthetics</h3>
+                    <p>Designs pixel-perfect layouts with built-in support for CRT effects and retro CSS.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🛠️</div>
+                    <h3>Debugging</h3>
+                    <p>Finds bugs in code before they reach production using logic tree analysis.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🔋</div>
+                    <h3>Energy Efficiency</h3>
+                    <p>Runs on minimal resources and optimizes CSS for low-energy displays.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fake Terminal -->
+    <section id="terminal">
+        <div class="container">
+            <h2 class="section-title">SYSTEM DIAGNOLICS</h2>
+            
+            <div class="terminal-container">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot green"></div>
+                    <div class="dot yellow"></div>
+                </div>
+
+                <div id="terminal-output" class="terminal-window">
+                    <div class="output-line">Initializing R.E.T.R.O. Diagnostics...</div>
+                    <div class="output-line">System Check: [OK]</div>
+                    <div class="output-line">Memory Allocation: 640K OK</div>
+                    <div class="output-line">Connected to User Interface.</div>
+                    <br/>
+                    <div class="output-line">Type 'help' for a list of available commands.</div>
+                </div>
+
+                <div class="input-line">
+                    <span class="prompt">root@retro-bot:~#</span>
+                    <input type="text" id="cmd-input" autocomplete="off" spellcheck="false" autofocus />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">SEND SIGNAL</h2>
+            
+            <form onsubmit="sendSignal(event)">
+                <div class="form-group">
+                    <label for="name">ROBOT ID (Name)</label>
+                    <input type="text" id="name" required placeholder="Enter your name or robot ID..." />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">CONTACT ADDRESS</label>
+                    <input type="email" id="email" required placeholder="example@email.com" />
+                </div>
+
+                <div class="form-group">
+                    <label for="message">INSTRUCTION SET (Message)</label>
+                    <textarea id="message" required placeholder="Type your message here..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">TRANSMIT DATA</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 R.E.T.R.O. Unit | Built by the Humanoid Core</p>
+        <p><i>"Retro Tech, Future Vision"</i></p>
+    </footer>
+
+    <script>
+        // --- Theme Toggle Logic ---
+        const body = document.body;
+        const themeBtn = document.getElementById('theme-toggle');
+
+        // Check local storage for preference
+        if (localStorage.getItem('theme') === 'light') {
+            body.setAttribute('data-theme', 'light');
+            themeBtn.innerHTML = '☀️ / 🌙';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeBtn.innerHTML = '☀️ / 🌙';
+            } else {
+                body.removeAttribute('data-theme'); // defaults to dark
+                localStorage.removeItem('theme'); // or set to 'dark'
+                themeBtn.innerHTML = '🌙 / ☀️';
+            }
+        });
+
+        // --- Terminal Logic ---
+        const terminalOutput = document.getElementById('terminal-output');
+        const cmdInput = document.getElementById('cmd-input');
+
+        // Focus input when clicking anywhere in the terminal container
+        document.querySelector('.terminal-container').addEventListener('click', () => {
+            cmdInput.focus();
+        });
+
+        const commands = {
+            help: `
+Available Commands:
+------------------
+help     - Show this help menu
+status   - Check system status
+hello    - Greeting sequence
+who      - Who am I?
+date     - Current system date & time
+clear    - Clear the terminal screen
+shutdown - Safely power down (reset)
+random   - Generate a random number
+`,
+            status: `
+System Status:
+--------------
+CPU Load: 12%
+Memory: 45/640 KB
+Disk Usage: 89%
+Network: CONNECTED
+Status: READY FOR TASKS
+`,
+            hello: `Hello, I am R.E.T.R.O. (Retro Embedded Tech Robot Unit). 
+I am your to assist you with retro-tech queries!`,
+            who: `You is: ${document.getElementById('name').value || 'Unknown User'}
+Bot is: R.E.T.R.O. v1.0.0`,
+            date: new Date().toString(),
+            clear: 'clear',
+            shutdown: 'Shutting down processes...\nTerminating connection.\nGoodbye!',
+            random: `Random Integer: ${Math.floor(Math.random() * 9999)}`
+        };
+
+        cmdInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const input = this.value.trim();
+                
+                // Create new output line for the command
+                const commandLine = document.createElement('div');
+                commandLine.className = 'output-line';
+                commandLine.innerHTML = `<span class="prompt">root@retro-bot:~#</span> ${input}`;
+                terminalOutput.appendChild(commandLine);
+
+                // Process command
+                let responseText = '';
+                
+                if (input === 'clear') {
+                    terminalOutput.innerHTML = ''; // Clear screen
+                } else if (commands.hasOwnProperty(input)) {
+                    responseText = commands[input];
+                    
+                    if (input === 'shutdown') {
+                        terminalOutput.appendChild(createResponseLine(responseText));
+                        setTimeout(() => {
+                            alert("System Shutdown Complete. Reloading...");
+                            location.reload();
+                        }, 1500);
+                        return; // Stop processing
+                    }
+                } else if (input === '') {
+                    // Do nothing on empty input
+                } else {
+                    responseText = `Command not found: ${input}. Type 'help' for assistance.`;
+                }
+
+                // Append standard responses (unless it was clear or shutdown)
+                if (input !== 'clear' && input !== 'shutdown') {
+                    terminalOutput.appendChild(createResponseLine(responseText));
+                }
+
+                // Scroll to bottom
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+
+                // Clear input field
+                this.value = '';
+            }
+        });
+
+        function createResponseLine(text) {
+            const line = document.createElement('div');
+            line.className = 'output-line';
+            
+            // Handle multiline text (like help or status)
+            if (text.includes('\n')) {
+                const parts = text.split('\n');
+                parts.forEach((part, index) => {
+                    const p = document.createElement('div');
+                    p.textContent = part;
+                    line.appendChild(p);
+                    if(index < parts.length - 1) line.appendChild(document.createElement('br')); 
+                });
+            } else {
+                line.textContent = text;
+            }
+            
+            return line;
+        }
+
+        function sendSignal(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            alert(`Transmitting signal to ${name}... \nMessage sent successfully! (Simulation)`);
+        }
+    </script>
+</body>
+</html>

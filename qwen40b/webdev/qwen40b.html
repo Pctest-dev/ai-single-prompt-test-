@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Robot Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --primary-color: #4caf50; /* Green for Dark Mode */
+            --secondary-color: #8bc0d6;
+            --terminal-bg: #0c0c0c;
+            --terminal-text: #33ff33;
+            --card-bg: #1e1e1e;
+            --nav-height: 70px;
+        }
+
+        body.light-mode {
+            --bg-color: #f0f0f0;
+            --text-color: #2d2d2d;
+            --primary-color: #1976b8; /* Blue for Light Mode */
+            --secondary-color: #5c7a94;
+            --terminal-bg: #dcdcdc;
+            --terminal-text: #000000;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-beavior: smooth;
+        }
+
+        body {
+            font-family: 'Courier New', monospace; /* Fallback for retro feel */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Navigation Bar */
+        nav {
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            background-color: #222;
+            border-bottom: 2px solid var(--primary-color);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        body.light-mode nav {
+            background-color: #ddd;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-top: var(--nav-height);
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* About Section */
+        .section-title {
+            border-bottom: 3px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        #about-section {
+            text-align: center;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .robot-avatar {
+            width: 150px;
+            height: 150px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px auto;
+            border: 4px solid var(--primary-color);
+        }
+
+        /* Skills Grid */
+        #skills-section {
+            margin-top: 60px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        /* Contact Form */
+        #contact-section {
+            margin-top: 60px;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid #555;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .form-group input, 
+        body.light-mode .form-group textarea {
+            background-color: #fff;
+            border-color: #ccc;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            opacity: 0.8;
+            box-shadow: 0 0 5px rgba(0,0,0,0.4);
+        }
+
+        /* Fake Terminal Section */
+        #terminal-section {
+            margin-top: 60px;
+            background-color: var(--terminal-bg);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            box-shadow: inset 5px 5px 20px rgba(0,0,0,0.6);
+        }
+
+        body.light-mode #terminal-section {
+            color: black;
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .terminal-window {
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+            font-size: 1rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        body.light-mode .terminal-window {
+            color: black;
+        }
+
+        /* CRT Effects */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 999;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0));
+            background-size: 100% 4px, 100% 100%;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+        }
+
+        .terminal-output {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        body.light-mode .terminal-output {
+            color: #333;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: var(--primary-color);
+            animation: blink 1s infinite;
+        }
+        
+        body.light-mode .cursor {
+            background-color: black;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            text-align: center;
+            padding: 30px;
+            margin-top: 80px;
+            font-size: 0.9rem;
+            border-top: 5px solid var(--primary-color);
+        }
+        
+        body.light-mode footer {
+            background-color: #ccc;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 10px; padding: 10px; height: auto;}
+            .nav-links { margin: 10px 0; }
+            h2.section-title { font-size: 1.5rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-logo">ROBO-PORTFOLIO</a>
+        <div class="nav-links">
+            <a href="#about-section" onclick="activateLink(this)">About</a>
+            <a href="#skills-section" onclick="activateLink(this)">Skills</a>
+            <a href="#contact-section" onclick="activateLink(this)">Contact</a>
+        </div>
+        <button id="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+    </nav>
+
+    <main>
+        
+        <!-- About Section -->
+        <section id="about-section">
+            <h2 class="section-title">About Me</h2>
+            <div class="robot-avatar">
+                🤖
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6;">
+                Hello, I'm <strong>RetroBot X1</strong>. A fictional robot built with classic architecture and a love for the vintage aesthetic.
+                This single-page portfolio is crafted using pure HTML, CSS, and JavaScript (no frameworks).
+            </p>
+            <br />
+            <p style="font-size: 1.2rem; line-height: 1.6;">
+                I was designed in the year 2077 but runs on a retro-style interface for maximum nostalgia.
+                I can handle requests, display skills, and even boot up a fake terminal environment.
+            </p>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills-section">
+            <h2 class="section-title">System Capabilities</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Processing Power</h3>
+                    <p>High-speed data processing with a vintage 8086-style CPU simulation.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">💾</div>
+                    <h3>Data Storage</h3>
+                    <p>Manages 1024TB of magnetic tape storage. Efficient and reliable.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">📡</div>
+                    <h3>Connectivity</h3>
+                    <p>Supports legacy serial ports, USB 2.0, and infrared communication.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>UI Design</h3>
+                    <p>Expert in pixel art, ASCII graphics, and retro CSS animations.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🧠</div>
+                    <h3>Logic</h3>
+                    <p>Built with advanced boolean logic gates and deterministic algorithms.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🔋</div>
+                    <h3>Energy</h3>
+                    <p>Runs on a standard 5V power supply. Low-power mode available.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section id="contact-section">
+            <h2 class="section-title">Communication Channel</h2>
+            <form id="contactForm" onsubmit="handleContact(event)">
+                <div class="form-group">
+                    <label for="name">Sender ID (Name):</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g., Human-01">
+                </div>
+                <div class="form-group">
+                    <label for="email">Return Address (Email):</label>
+                    <input type="email" id="email" name="email" required placeholder="human@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message Payload:</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Enter your message to the robot..."></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+        <!-- Terminal Section -->
+        <section id="terminal-section">
+            <div class="terminal-header">
+                <h3 class="section-title" style="border:none; font-size: 1.5rem;">System Terminal (v1984)</h3>
+                <span>Connected</span>
+            </div>
+            
+            <div class="terminal-window" id="terminalWindow">
+                <div class="scanline"></div>
+                <div id="outputArea" style="display:flex; flex-direction:column;">
+                    <div class="terminal-output">Initializing RetroBot X1 kernel... [OK]</div>
+                    <div class="terminal-output">Loading drivers... [OK]</div>
+                    <div class="terminal-output">System Ready. Type 'help' for available commands.</div>
+                    <br />
+                    
+                    <div id="inputLine" style="display:flex;">
+                        <span style="color: var(--primary-color); margin-right: 10px;">robot@x1:~$</span>
+                        <span id="currentInput"></span><span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2077 | Retro Robot X1 | Built with HTML, CSS & JS</p>
+        <p style="margin-top:5px;">Theme preference is remembered locally.</p>
+    </footer>
+
+    <script>
+        // --- Theme Toggle Logic ---
+        
+        const body = document.body;
+        const toggleBtn = document.getElementById('theme-toggle');
+
+        function setDarkMode(isDark) {
+            if (isDark) {
+                body.classList.remove('light-mode');
+                toggleBtn.textContent = '🌙 / ☀️';
+                localStorage.setItem('retroTheme', 'dark');
+            } else {
+                body.classList.add('light-mode');
+                toggleBtn.textContent = '☀️ / 🌙';
+                localStorage.setItem('retroTheme', 'light');
+            }
+        }
+
+        // Load saved theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('retroTheme');
+            if (savedTheme === 'light') {
+                setDarkMode(false);
+            } else {
+                setDarkMode(true); // Default to dark
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            const isLight = body.classList.contains('light-mode');
+            setDarkMode(!isLight);
+        });
+
+        initTheme();
+
+        // --- Navigation Highlighting ---
+        function activateLink(link) {
+            // Remove active class from all links
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            // Add active class to clicked link
+            link.classList.add('active');
+            
+            // Optional: Smooth scroll adjustment if needed (handled by CSS scroll-beavior)
+        }
+
+        // --- Contact Form Logic ---
+        function handleContact(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            alert(`Message sent from ${name}! (This is a simulated form submission)`);
+            event.target.reset();
+        }
+
+        // --- Terminal Logic ---
+        
+        const inputElement = document.getElementById('currentInput');
+        const outputArea = document.getElementById('outputArea');
+        let currentCommand = '';
+        
+        const commands = {
+            'help': "Available Commands:\n" +
+                    "  help       - Show this help message\n" +
+                    "  status     - Check system health\n" +
+                    "  hello      - Greeting from RetroBot\n" +
+                    "  date       - Current system time\n" +
+                    "  who        - Currently logged in user (you)\n" +
+            "  clear      - Clear terminal screen\n" +
+                    "  shutdown   - Properly shut down the system\n" +
+                    "  about      - Learn more about this robot",
+            
+            'status': "System Status:\n" +
+                      "  CPU Usage: 12%\n" +
+                      "  Memory: 64KB / 128KB Used\n" +
+                      "  Disk Space: 90% Full (Magnetic Tape)\n" +
+                      "  Network: Connected to Localhost",
+            
+            'hello': "Hello, I am RetroBot X1.\n" +
+                     "I'm a fictional robot designed for this portfolio demo.\n" +
+                     "Thank you for visiting my page!",
+            
+            'date': new Date().toString(),
+            
+            'who': 'human_visitor (YOU)',
+            
+            'clear': 'clear',
+            
+            'shutdown': "Initiating shutdown sequence...\n" +
+                        "Stopping all processes... [OK]\n" +
+                        "Unmounting file systems... [OK]\n" +
+                        "Power down complete. Thank you for playing!",
+            
+            'about': "RetroBot X1 Portfolio v1.0\n" +
+                     "Built by: A.I. Assistant\n" +
+                     "Tech Stack: HTML, CSS, Vanilla JS"
+        };
+
+        document.addEventListener('keydown', function(e) {
+            if (document.activeElement === inputElement || e.target.id === 'currentInput') {
+                if (e.key === 'Enter') {
+                    processCommand(currentCommand.trim());
+                    currentCommand = '';
+                    inputElement.textContent = '';
+                    
+                    // Reset focus to the span contentEditable for continuous typing
+                    inputElement.focus();
+                } else if (e.key === 'Backspace') {
+                    currentCommand = currentCommand.slice(0, -1);
+                    updateInputDisplay();
+                } else if (e.key.length === 1) {
+                    currentCommand += e.key;
+                    updateInputDisplay();
+                }
+            }
+        });
+
+        function updateInputDisplay() {
+            inputElement.textContent = currentCommand;
+        }
+
+        function processCommand(cmd) {
+            // Add the command to output history
+            const cmdLine = document.createElement('div');
+            cmdLine.style.marginBottom = '10px';
+            
+            const promptSpan = document.createElement('span');
+            promptSpan.style.color = 'var(--primary-color)';
+            promptSpan.style.marginRight = '10px';
+            promptSpan.textContent = "robot@x1:~$";
+            
+            const commandText = document.createElement('span');
+            commandText.textContent = cmd;
+            
+            cmdLine.appendChild(promptSpan);
+            cmdLine.appendChild(commandText);
+            outputArea.insertBefore(cmdLine, inputElement.parentElement);
+
+            if (cmd === '') return;
+
+            // Process
+            let response = '';
+            const lowerCmd = cmd.toLowerCase();
+            
+            if (lowerCmd in commands) {
+                response = commands[lowerCmd];
+            } else if (lowerCmd.startsWith('echo ')) {
+                response = cmd.substring(4); // Return text after echo
+            } else {
+                response = `Error: Command '${cmd}' not found. Type 'help' for assistance.`;
+            }
+
+            if (lowerCmd === 'clear') {
+                setTimeout(() => {
+                    outputArea.innerHTML = '';
+                    const newInputLine = document.getElementById('inputLine').cloneNode(true);
+                    newInputLine.id = 'inputLine';
+                    newInputLine.querySelector('#currentInput').id = ''; // Remove ID to avoid duplicates
+                    newInputLine.querySelector('#currentInput').textContent = '';
+                    
+                    // Re-attach event listener logic manually for the new input
+                    const newInputSpan = document.createElement('span');
+                    newInputSpan.id = 'currentInput';
+                    newInputSpan.contentEditable = true;
+                    newInputSpan.style.borderBottom = "1px solid var(--primary-color)";
+                    newInputSpan.style.paddingLeft = "5px";
+                    
+                    // Transfer focus logic to the new span
+                    document.getElementById('inputLine').replaceWith(newInputLine);
+                    
+                    const newLineDiv = document.createElement('div');
+                    newLineDiv.id = 'inputLine';
+                    const promptSpan2 = document.createElement('span');
+                    promptSpan2.style.color = 'var(--primary-color)';
+                    promptSpan2.style.marginRight = '10px';
+                    promptSpan2.textContent = "robot@x1:~$";
+                    
+                    // Re-create the input line structure
+                    newLineDiv.innerHTML = '';
+                    outputArea.appendChild(newLineDiv);
+                    
+                    const pSpan = document.createElement('span');
+                    pSpan.style.color = 'var(--primary-color)';
+                    pSpan.style.marginRight = '10px';
+                    pSpan.textContent = "robot@x1:~$";
+                    
+                    const inputSpan = document.createElement('span');
+                    inputSpan.id = 'currentInput';
+                    inputSpan.contentEditable = true;
+                    inputSpan.style.borderBottom = "1px solid var(--primary-color)";
+                    inputSpan.style.paddingLeft = "5px";
+                    
+                    newLineDiv.appendChild(pSpan);
+                    newLineDiv.appendChild(inputSpan);
+
+                }, 300);
+                return; // Don't print response for clear
+            }
+
+            if (lowerCmd === 'shutdown') {
+                setTimeout(() => {
+                    alert("System Shutdown complete. Refresh the page to restart.");
+                    document.body.innerHTML = '<h1 style="margin:50px; text-align:center;">SYSTEM OFF</h1>';
+                }, 1500);
+            } else {
+                printResponse(response);
+            }
+        }
+
+        function printResponse(text) {
+            const responseDiv = document.createElement('div');
+            responseDiv.className = 'terminal-output';
+            responseDiv.style.marginBottom = '20px';
+            
+            // Convert newlines to <br>
+            responseDiv.innerHTML = text.replace(/\n/g, '<br>');
+            outputArea.insertBefore(responseDiv, inputElement.parentElement);
+        }
+
+    </script>
+
+</body>
+</html>

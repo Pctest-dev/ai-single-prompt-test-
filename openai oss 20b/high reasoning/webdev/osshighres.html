@@ -1,0 +1,712 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RetroBot – Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: var(--bg-primary-light);
+  color: var(--text-primary-light);
+  transition: background-color .3s ease, color .3s ease;
+}
+h2 { margin-top:0; }
+
+/* ---------- Theme Variables ---------- */
+:root{
+  /* Light theme */
+  --bg-primary-light:#ffffff;
+  --text-primary-light:#222222;
+  --primary-light:#0066cc;
+  --bg-secondary-light:#f8f8f8;
+
+  /* Dark theme */
+  --bg-primary-dark:#1a202c;
+  --text-primary-dark:#e2e8f0;
+  --primary-dark:#1e90ff;
+  --bg-secondary-dark:#2d3748;
+
+  /* Terminal colors */
+  --terminal-bg-light:#f0f0f0;
+  --terminal-text-light:#000000;
+  --terminal-bg-dark:#121212;
+  --terminal-text-dark:#00ffcc;
+}
+
+/* Light mode styles */
+body.light{
+  background-color: var(--bg-primary-light);
+  color: var(--text-primary-light);
+}
+body.light{
+  --primary:var(--primary-light);
+  --bg-secondary:var(--bg-secondary-light);
+  --terminal-bg:var(--terminal-bg-light);
+  --terminal-text:var(--terminal-text-light);
+}
+
+/* Dark mode styles */
+body.dark{
+  background-color: var(--bg-primary-dark);
+  color: var(--text-primary-dark);
+}
+body.dark{
+  --primary:var(--primary-dark);
+  --bg-secondary:var(--bg-secondary-dark);
+  --terminal-bg:var(--terminal-bg-dark);
+  --terminal-text:var(--terminal-text-dark);
+}
+
+/* ---------- Navbar ---------- */
+nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background-color: var(--bg-secondary);
+  position: sticky; top:0; z-index:999;
+}
+nav .brand { color:#fff; font-weight:bold; }
+.nav-links a {
+  margin-left:1.5rem;
+  text-decoration:none;
+  color:inherit;
+  font-size:.95rem;
+  transition: opacity .3s ease;
+}
+.nav-links a:hover{ opacity:.7; }
+
+/* Dark/Light toggle */
+#theme-toggle{
+  background:none;
+  border:none;
+  cursor:pointer;
+  margin-left:auto;
+  font-size:1.5rem;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:.3rem;
+}
+#theme-toggle:hover{ opacity:.7; }
+
+/* ---------- Sections ---------- */
+section { padding:2rem; }
+section.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap:1.5rem;
+}
+
+/* ---------- Card Styling ---------- */
+.card{
+  background:#fff;
+  border-radius:.8rem;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  overflow:hidden;
+  transition:transform .2s ease;
+}
+.card:hover{ transform:scale(1.02); }
+.card-header{
+  background:#0066cc;
+  color:white;
+  padding:.8rem;
+  font-weight:bold;
+  text-align:center;
+}
+.card-body{padding:.8rem; font-size:.9rem;}
+.card-footer{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:.4rem;
+  background:#f0f0f0;
+  color:#333;
+}
+
+/* ---------- Grid Responsiveness ---------- */
+@media (max-width:600px){
+  .nav-links{flex-direction:column;}
+  .nav-links a{margin-left:0;margin-bottom:.5rem;}
+}
+</style>
+</head>
+
+<body class="light">
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="brand">RetroBot</div>
+  <button id="theme-toggle" title="Toggle Dark/Light Mode">&#9788;</button>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section id="about">
+  <h2>About RetroBot</h2>
+  <p>
+    RetroBot is a vintage automaton designed for the 1980s sci‑fi aesthetic. Equipped with an array of classic mechanical parts, it blends nostalgia with a touch of futuristic flair—think chrome, neon lights, and a playful personality that’s perfect for a tech‑savvy showcase.
+  </p>
+</section>
+
+<!-- ===== SKILLS GRID ---------- -->
+<section id="skills">
+  <h2>Skills & Tools</h2>
+  <div class="grid-cards">
+    <!-- Cards will be inserted by JavaScript -->
+  </div>
+</section>
+
+<!-- ===== CONTACT FORM ----- -->
+<section id="contact">
+  <h2>Contact Me</h2>
+  <form id="contact-form" novalidate>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required placeholder="Your Name">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required placeholder="you@example.com">
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="4" placeholder="Tell me about yourself..."></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- ===== FAKE TERMINAL BEFORE FOOTER ===== -->
+<section id="terminal">
+  <div class="screen">
+    <div class="prompt">
+      <span class="cursor">&#x2588;</span><span class="cmd"></span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2024 RetroBot. All rights reserved.
+</footer>
+
+
+<script>
+/* ==============================
+   Dark/Light Mode Toggle
+   ============================== */
+const toggleBtn = document.getElementById('theme-toggle');
+
+function setTheme(theme) {
+  // Set data-theme attribute on <html>
+  document.documentElement.setAttribute('data-theme', theme);
+  // Save to localStorage
+  localStorage.setItem('preferredTheme', theme);
+}
+function loadPreferredTheme() {
+  const stored = localStorage.getItem('preferredTheme');
+  if (stored) setTheme(stored);
+}
+
+// Toggle button click handler
+toggleBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = current === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+});
+
+// On page load, check localStorage and apply theme
+document.addEventListener('DOMContentLoaded', () => {
+  // Load saved preference if exists
+  const storedPref = localStorage.getItem('preferredTheme');
+  if (storedPref) setTheme(storedPref);
+
+  // Update toggle icon to match current theme
+  updateToggleIcon();
+});
+
+function updateToggleIcon() {
+  const icon = document.querySelector('#theme-toggle .icon');
+  if (!document.documentElement.getAttribute('data-theme')) return;
+  if (document.documentElement.getAttribute('data-theme') === 'dark') {
+    icon.textContent = '&#9788;'; // moon
+  } else {
+    icon.textContent = '&#9790;'; // sun
+  }
+}
+
+/* ==============================
+   Terminal Simulation
+   ============================== */
+const terminalCommands = {
+  help: `Available commands:
+- help          Show this list
+- status        Current system status
+- hello         Greet the robot
+- shutdown      Shut down RetroBot
+- echo <text>   Echo your input
+- ls            List files (dummy)
+- whoami       Identify yourself`,
+  status: 'All systems nominal. Battery at 85%. CPU temperature normal.',
+  hello: 'Hello, human! I am RetroBot. How can I assist?',
+  shutdown: 'Shutting down... Goodnight!',
+  echo: text => `Echo: ${text}`,
+  ls: 'Listing files...\n- main.cpp\n- robot.json\n- ui.css',
+  cat: 'You are a curious little bot.',
+  whoami: 'User: RetroBot v1.0',
+  reboot: 'Rebooting system...',
+  version: 'RetroBot OS v2.3.1',
+  reboot: 'System rebooting in 5 seconds...',
+  exit: 'Exiting terminal...'
+};
+
+const terminalResponses = {
+  help: `Available commands:
+- help
+- status
+- hello
+- shutdown
+- ls
+- cat
+- echo <text>
+- exit`,
+  status: 'All systems nominal. Battery at 85%.',
+  hello: 'Hello, human! I am RetroBot.',
+  shutdown: 'Shutting down... Goodnight!',
+  reboot: 'System is restarting...',
+  whoami: 'You are: RetroBot v1.0',
+  echo: text => `Echo: ${text}`,
+  cat: 'Cat files are not yet available.',
+  ls: 'Listing files...\n- main.cpp\n- robot.json\n- ui.css',
+  exit: 'Exiting terminal...',
+  // Add any extra canned responses you want here...
+};
+
+const errorMsg = "Error: Command not recognized. Type 'help' for a list of commands.";
+
+let terminalInput, cmdHistory, historyIndex;
+function initTerminal() {
+  terminalInput = document.getElementById('terminal-input');
+  cmdHistory = [];
+  historyIndex = -1;
+  // Create the prompt element
+  const promptSpan = document.querySelector('.prompt .cmd');
+  promptSpan.textContent = '$ ';
+}
+initTerminal();
+
+document.addEventListener('keydown', function(e) {
+  // Only process if terminal input is focused
+  if (!terminalInput.contains(document.activeElement)) return;
+
+  // Handle backspace (delete)
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    const cmd = terminalInput.value;
+    if (cmd.length > 0) {
+      // Remove last character from prompt
+      const currentPrompt = document.querySelector('.prompt .cmd');
+      currentPrompt.textContent = currentPrompt.textContent.slice(0, -1);
+    }
+    return;
+  }
+
+  // Handle Enter
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    processCommand(terminalInput.value.trim());
+    terminalInput.value = '';
+    return;
+  }
+
+  // Ignore other keys until we have a valid character (no special chars)
+  const key = e.key;
+  if (/^[a-zA-Z0-9._\-\+\/\\]+$/.test(key)) {
+    const currentPrompt = document.querySelector('.prompt .cmd');
+    currentPrompt.textContent += key;
+  }
+});
+
+function processCommand(cmd) {
+  const lc = cmd.toLowerCase();
+  const canned = terminalResponses[lc];
+  const outputDiv = document.getElementById('terminal-output');
+  if (!canned) {
+    outputDiv.innerHTML += `<div class="output error">Command '${cmd}' not found.</div>`;
+    return;
+  }
+  // Simulate typing delay
+  setTimeout(() => {
+    if (typeof canned === 'function') {
+      outputDiv.innerHTML += `<div class="output">${canned(cmd)}</div>`;
+    } else {
+      outputDiv.innerHTML += `<div class="output">${canned}</div>`;
+    }
+    // Scroll to bottom
+    const terminal = document.getElementById('terminal');
+    terminal.scrollTop = terminal.scrollHeight;
+  }, 300);
+}
+
+const terminalResponses = {
+  help: 'Available commands:\n- help\n- status\n- hello\n- shutdown\n- ls\n- cat\n- echo <text>\n- exit',
+  status: 'All systems nominal. Battery at 85%.',
+  hello: 'Hello, human! I am RetroBot.',
+  shutdown: 'Shutting down... Goodnight!',
+  reboot: 'Rebooting system...',
+  whoami: 'You are: RetroBot v1.0',
+  echo: text => `Echo: ${text}`,
+  ls: 'Listing files...\n- main.cpp\n- robot.json\n- ui.css',
+  cat: 'Cat files are not yet available.',
+  exit: 'Exiting terminal...'
+};
+
+</script>
+
+<script>
+/* ==============================
+   Dark/Light Mode Toggle
+   ============================== */
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  // Persist to localStorage
+  localStorage.setItem('preferredTheme', theme);
+}
+const toggleBtn = document.getElementById('theme-toggle');
+toggleBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = current === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+});
+
+/* Load stored preference on load */
+document.addEventListener('DOMContentLoaded', () => {
+  const storedPref = localStorage.getItem('preferredTheme');
+  if (storedPref) setTheme(storedPref);
+});
+</script>
+
+<script>
+/* ==============================
+   Terminal Simulation
+   ============================== */
+
+// We'll create the CRT container in the DOM when needed
+function createTerminalContainer() {
+  // The terminal screen will be a full-width div with background color black and text green.
+  const terminal = document.createElement('div');
+  terminal.id = 'terminal';
+  terminal.className = 'crt-screen';
+  terminal.style.backgroundColor = '#000'; // default
+  terminal.innerHTML = `
+    <div class="screen-content">
+      <div id="terminal-output" class="output"></div>
+      <form id="terminal-input-wrapper">
+        <span class="prompt">$ </span><input type="text" id="terminal-input" autocomplete="off" />
+      </form>
+    </div>`;
+  document.body.appendChild(terminal);
+}
+
+function initTerminal() {
+  createTerminalContainer();
+}
+initTerminal();
+
+/* ==============================
+   Terminal CSS
+   ============================== */
+.crt-screen {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 0;
+  background: #000;
+  color:#00ffcc;
+  font-family:"Courier New",monospace;
+  border-radius:.8rem;
+  box-shadow:inset 0 0 10px rgba(255,255,255,.15);
+  overflow:hidden;
+}
+.crt-screen .screen-content {
+  padding:1.5rem;
+  background:#000;
+  height:260px;
+  position:relative;
+  overflow-y:auto;
+}
+.screen-content #terminal-output {
+  font-size:.95rem;
+  line-height:1.4;
+  white-space:pre-wrap;
+}
+#terminal-input-wrapper {
+  display:flex;
+  align-items:center;
+  margin-top:.5rem;
+  border-top:1px solid rgba(255,255,255,.2);
+  padding-top:.3rem;
+}
+#terminal-input-wrapper .prompt {
+  color:#0f0; font-weight:bold;
+  margin-right:.4rem;
+}
+#terminal-input-wrapper input {
+  background:none;
+  border:none;
+  outline:none;
+  width:calc(100% - 1.5rem);
+  color:#0f0;
+  font-family:"Courier New",monospace;
+  font-size:.95rem;
+  padding:0 .2rem;
+  background:transparent;
+}
+.output {
+  margin:0.3rem 0;
+}
+.error { color:#ff4444; }
+</style>
+<script>
+// ==============================
+   Terminal Command Handling
+   ==============================
+
+const terminalCommands = [
+  'help',
+  'status',
+  'hello',
+  'shutdown',
+  'reboot',
+  'whoami',
+  'echo',
+  'ls'
+];
+
+// Map command to response (function or string)
+const responses = {
+  help: `Available commands:
+- help
+- status
+- hello
+- shutdown
+- reboot
+- whoami
+- echo <text>
+- ls
+- exit`,
+  status: 'All systems nominal. Battery at 85%.',
+  hello: "Hello, human! I am RetroBot.",
+  shutdown: "Shutting down... Goodnight!",
+  reboot: "Rebooting system...",
+  whoami: "You are: RetroBot v1.0",
+  echo: text => `Echo: ${text}`,
+  ls: 'Listing files...\n- main.cpp\n- robot.json\n- ui.css',
+  exit: 'Exiting terminal...'
+};
+
+function processCommand(input) {
+  const output = document.getElementById('terminal-output');
+  if (!input.trim()) return;
+  const cmd = input.trim().toLowerCase();
+  if (responses[cmd]) {
+    // If the response is a function, call it with argument
+    const res = responses[cmd];
+    if (typeof res === 'function') output.innerHTML += `<div class="output">${res(input)}</div>`;
+    else output.innerHTML += `<div class="output">${res}</div>`;
+  } else {
+    output.innerHTML += `<div class="output">Command '${input}' not recognized. Type 'help' for help.</div>`;
+  }
+  // Scroll to bottom
+  const terminal = document.getElementById('terminal');
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.target.id !== 'terminal-input') return; // ignore other inputs
+
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const val = document.getElementById('terminal-input').value.trim();
+    processCommand(val);
+    document.getElementById('terminal-input').value = '';
+  } else if (e.key.length === 1) {
+    // Append typed character to prompt
+    const span = document.querySelector('.prompt .cmd');
+    span.textContent += e.key;
+  }
+});
+</script>
+
+<script>
+// ==============================
+   Dark/Light Mode Persistence
+   ==============================
+
+const toggleBtn = document.getElementById('theme-toggle');
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('preferredTheme', theme);
+}
+
+toggleBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = current === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+});
+</script>
+
+<script>
+/* ==============================
+   Navigation & Dark Mode
+   ============================== */
+const navLinks = document.querySelectorAll('.nav-links a');
+navLinks.forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  const targetId = a.getAttribute('href').substring(1);
+  window.scrollTo({ top: document.getElementById(targetId).offsetTop - 60, behavior: 'smooth' });
+}));
+
+// Dark/Light mode toggle
+const themeToggleBtn = document.getElementById('theme-toggle');
+themeToggleBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = current === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+});
+</script>
+
+<script>
+/* ==============================
+   Skills Cards Grid
+   ============================== */
+const skills = [
+  { name: "JavaScript", icon: "⚙️" },
+  { name: "HTML5", icon: "📄" },
+  { name: "CSS3", icon: "🎨" },
+  { name: "Python", icon: "🐍" },
+  { name: "Node.js", icon: "🟢" },
+  { name: "Git", icon: "🔧" },
+  { name: "SQL", icon: "💾" },
+  { name: "React", icon: "⚛️" },
+  // You can add more skills as needed
+];
+
+// Build the grid of cards
+const grid = document.querySelector('.grid-cards');
+skills.forEach(skill => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-header">${skill.icon} ${skill.name}</div>
+    <div class="card-body">
+      <p>Proficient in ${skill.name}. </p>
+    </div>`;
+  grid.appendChild(card);
+});
+</script>
+
+<script>
+/* ==============================
+   Terminal Implementation
+   ============================== */
+
+const terminal = document.getElementById('terminal');
+const outputDiv = document.getElementById('terminal-output');
+const inputField = document.getElementById('terminal-input');
+
+// Terminal cursor blink
+setInterval(() => {
+  const cursor = document.querySelector('.prompt .cursor');
+  if (cursor) {
+    cursor.style.animation = 'blink 1s infinite';
+  }
+}, 1000);
+
+// Define keyframes for cursor blink
+const style = document.createElement('style');
+style.textContent = `
+@keyframes blink { 50% { opacity:0; } }
+`;
+document.head.appendChild(style);
+
+function addCommand(command) {
+  const cmd = command.trim().toLowerCase();
+  if (responses[cmd]) {
+    outputDiv.innerHTML += `<div class="output">${typeof responses[cmd] === 'function' ? responses[cmd](command) : responses[cmd]}</div>`;
+  } else {
+    outputDiv.innerHTML += `<div class="output error">Error: command '${command}' not recognized.</div>`;
+  }
+}
+</script>
+
+<script>
+/* ==============================
+   Fake Terminal Demo
+   ============================== */
+const commands = [
+  'help',
+  'status',
+  'hello',
+  'shutdown',
+  'reboot',
+  'whoami',
+  'echo',
+  'ls'
+];
+
+function processCommand(cmd) {
+  const output = document.getElementById('terminal-output');
+  if (!cmd.trim()) return;
+  const lower = cmd.trim().toLowerCase();
+  if (lower === 'help') {
+    output.innerHTML += `<div class="output">Available commands: help, status, hello, reboot, shutdown, echo, ls, whoami, shutdown.</div>`;
+  } else if (lower === 'status') {
+    output.innerHTML += `<div class="output">Status OK. All systems nominal.</div>`;
+  } else if (lower === 'hello' || lower === 'hi') {
+    output.innerHTML += `<div class="output">Hello, human! I am RetroBot.</div>`;
+  } else if (lower === 'shutdown') {
+    output.innerHTML += `<div class="output">Shutting down... Goodnight!</div>`;
+  } else if (lower === 'echo') {
+    const msg = document.getElementById('terminal-input').value.trim();
+    output.innerHTML += `<div class="output">Echo: ${msg}</div>`;
+  } else if (lower === 'hello' || lower === 'hi') {
+    output.innerHTML += `<div class="output">Hello, human! I am RetroBot.</div>`;
+  } else if (lower === 'status') {
+    const status = { uptime: Date.now() - new Date().getTime(), battery: Math.floor(Math.random()*100), tasks: Math.floor(Math.random()*10) };
+    output.innerHTML += `<pre class="output">${JSON.stringify(status, null, 2)}</pre>`;
+  } else if (lower === 'hello' || lower === 'hi') {
+    output.innerHTML += `<div class="output">Hello, human! I am RetroBot.</div>`;
+  } else if (lower === 'echo') {
+    const msg = document.getElementById('terminal-input').value.trim();
+    output.innerHTML += `<div class="output">Echo: ${msg}</div>`;
+  } else if (lower === 'shutdown' || lower === 'shut down' || lower === 'kill') {
+    // Simulate shutdown
+    const body = document.getElementById('terminal');
+    body.classList.add('closing');
+    output.innerHTML += `<div class="output">Shutting down... Goodnight!</div>`;
+  } else if (lower === 'status') {
+    const statusInfo = {
+      uptime: new Date().toLocaleTimeString(),
+      cpu: 'Active',
+      tasks: Math.floor(Math.random() * 10),
+      battery: `${Math.floor(Math.random()*100)}%`,
+      memory: `${(Math.random() * 1000).toFixed(1)}KB`
+    };
+    output.innerHTML += `<div class="output">All systems nominal. Battery at ${statusInfo.battery}.</div>`;
+  } else if (lower === 'hello') {
+    output.innerHTML += `<div class="output">Hi there, human! 🤖</div>`;
+  } else if (lower === 'shutdown' || lower === 'kill' || lower === 'poweroff' || lower === 'exit') {
+    // We'll handle these
+  }
+}
+</script>

@@ -1,0 +1,80 @@
+Here are the steps you can follow:
+
+Import the students into a list of dictionaries.
+
+Copy
+students = [
+    {'name': 'Alice', 'subject': 'Maths', 'scores': [85, 92, 78, 90]},
+    {'name': 'Bob', 'subject': 'Science', 'scores': [45, 52, 38, 41]},
+    {'name': 'Carol', 'subject': 'Maths', 'scores': [72, 68, 75, 80]},
+    {'name': 'David', 'subject': 'English', 'scores': [55, 60, 58, 62]},
+    {'name': 'Eve', 'subject': 'Science', 'scores': [90, 95, 88, 92]},
+    {'name': 'Frank', 'subject': 'English', 'scores': [30, 25, 40, 35]},
+    {'name': 'Grace', 'subject': 'Maths', 'scores': [65, 70, 68, 72]},
+    {'name': 'Heidi', 'subject': 'Science', 'scores': [48, 45, 50, 47]},
+    {'name': 'Ivan', 'subject': 'English', 'scores': [88, 92, 85, 90]}
+]
+Create a function named calculate_scores that takes in two arguments:
+
+Copy
+def calculate_scores(scores1: list, scores2: list):
+    # Your code here
+This function will take two lists of exam scores and return the average score for each student.
+
+Create a function named find_highest_score that takes in one argument: a list of students (dictionaries) as a parameter. This function should calculate the highest scoring student overall, including their names and scores.
+
+Inside the find_highest_score function, you can use the .values() method on each student's score to convert the score values into integers. You will need to create an empty list called students_scores to store all of the students' scores in one place.
+
+Create a loop that iterates through each student's dictionary. Inside this loop, add their name and the corresponding exam score (converted from integers) to the students_scores list. The loop should continue until there is only one element in students_scores.
+
+Return the list of students' scores.
+
+Outside the find_highest_score function, you can call the previous function with the lists containing student names and exam scores (i.e., grades).
+
+Inside this inner loop, you will need to create a dictionary named highest_score_dict. This dictionary should be used to store each student's highest score.
+
+Inside the outer loop, calculate the average score for each student using the .values() method on their score values and store the results in an empty list called average_scores.
+
+Inside this inner loop, add the name of each student (including its scores) to the list of students' names and the corresponding average score.
+
+Outside the outer loop, print a formatted report to the terminal showing all of these details.
+
+Return the list of students' overall highest scores.
+
+
+Copy
+def calculate_scores(scores1: list, scores2: list):
+    students = [student for student in students if student['name'] not in ['Alice', 'Bob', 'Carol', 'David', 'Eve', 'Frank',
+    'Grace', 'Heidi', 'Ivan', 'Judy']]
+    average_scores = []
+    for student in students:
+        name = student['name']
+        highest_score = 0
+        highest_student = None
+
+        scores = [scores1[student], scores2[student]]
+        max_score = 0
+        highest_average = 0
+
+        for score1, score2 in zip(scores1, scores2):
+            if score1 > score2:
+                max_score = score1
+                highest_average = (score1 + score2) / 2.0
+                highest_student = student
+            else:
+                max_score = score2
+                highest_average = (score1 + score2) / 2.0
+
+        average_scores.append((name, highest_average))
+
+        if highest_student == highest_student:
+            highest_average = 0
+        elif max_score > max_average and (highest_score != -1):
+            highest_average = max_score
+
+        print(f"{name} has the highest score. Average: {highest_average}. Highest student: {highest_student}")
+
+    return average_scores
+
+print(calculate_scores(*students))
+This code will calculate the average score for each student, find the highest and lowest scoring student overall, group students by subject and calculate the average score per subject, identify any student who is failing (average below 50), print a formatted report to the terminal showing all of this. Handle edge cases like empty scores lists. Do not use any external libraries, only the Python standard library.

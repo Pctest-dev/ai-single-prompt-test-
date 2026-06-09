@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Robot Portfolio</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            font-family: 'Courier New', Courier, monospace;
+            height: 100%;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Light Mode */
+        :root.light-mode {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+        }
+        /* Dark Mode */
+        :root.dark-mode {
+            --bg-color: #1e1e1e;
+            --text-color: #d4d4d4;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+        /* Nav Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            text-decoration: none;
+            color: white;
+            margin-right: 20px;
+        }
+        .mode-toggle {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        /* About Section */
+        #about {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        /* Skills Section */
+        #skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 50px 20px;
+        }
+        .skill-card {
+            background-color: #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Contact Form */
+        #contact {
+            padding: 50px 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        /* Terminal Section */
+        #terminal {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: black;
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        #terminal-input {
+            display: none;
+        }
+        #terminal-output {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+        <button class="mode-toggle" onclick="toggleMode()">Toggle Mode</button>
+    </nav>
+
+    <section id="about">
+        <h1>About Me</h1>
+        <p>I am a retro robot designed to assist and entertain. Check out my skills and contact me if you have any queries!</p>
+    </section>
+
+    <section id="skills">
+        <div class="skill-card">Programming</div>
+        <div class="skill-card">Robotics</div>
+        <div class="skill-card">Artificial Intelligence</div>
+        <div class="skill-card>Data Analysis</div>
+        <div class="skill-card>Machine Learning</div>
+    </section>
+
+    <section id="contact">
+        <h1>Contact Me</h1>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <textarea id="message" placeholder="Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <section id="terminal">
+        <div id="terminal-output"></div>
+        <input type="text" id="terminal-input" onkeyup="handleInput(event)">
+        <span class="prompt">$> </span>
+    </section>
+
+    <script>
+        // Dark/Light Mode Toggle
+        function toggleMode() {
+            const body = document.body;
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('mode', 'dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('mode', 'light-mode');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedMode = localStorage.getItem('mode') || 'light-mode';
+            document.body.classList.add(savedMode);
+        });
+
+        // Terminal Functionality
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+
+        function handleInput(event) {
+            if (event.key === 'Enter') {
+                const command = terminalInput.value.trim();
+                terminalOutput.innerHTML += `<span class="prompt">$> ${command}</span><br>`;
+                executeCommand(command);
+                terminalInput.value = '';
+            }
+        }
+
+        function executeCommand(command) {
+            switch (command.toLowerCase()) {
+                case 'help':
+                    terminalOutput.innerHTML += 'Available commands: help, status, hello, shutdown<br>';
+                    break;
+                case 'status':
+                    terminalOutput.innerHTML += 'I am functioning normally.<br>';
+                    break;
+                case 'hello':
+                    terminalOutput.innerHTML += 'Hello! How can I assist you today?<br>';
+                    break;
+                case 'shutdown':
+                    terminalOutput.innerHTML += 'Shutting down... Goodbye!<br>';
+                    setTimeout(() => {
+                        alert('The robot has been shut down.');
+                        window.location.reload();
+                    }, 1000);
+                    break;
+                default:
+                    terminalOutput.innerHTML += 'Unknown command. Type "help" for a list of commands.<br>';
+                    break;
+            }
+        }
+
+        document.querySelector('.prompt').style.color = '#5c6fff';
+    </script>
+</body>
+</html>

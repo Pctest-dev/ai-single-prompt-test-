@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Robo‑Retro Portfolio</title>
+<style>
+  :root {
+    --bg-light:#f9fafb;
+    --text-light:#111;
+    --primary-light:#1d4ed8;
+    --bg-dark:#121212;
+    --text-dark:#e5e7eb;
+    --primary-dark:#3b82f6;
+    --card-bg-light:#fff;
+    --card-bg-dark:#1f2937;
+  }
+
+  /* ---------- Theme Switcher ---------- */
+  body {
+    margin:0; font-family:sans-serif;
+    background-color: var(--bg);
+    color:var(--text);
+    transition:.3s background-color, .3s color;
+  }
+  :root[data-theme="light"] { --bg:var(--bg-light); --text:var(--text-light); --primary:var(--primary-light); }
+  :root[data-theme="dark"]  { --bg:var(--bg-dark);  --text:var(--text-dark);  --primary:var(--primary-dark); }
+
+  /* ---------- Nav Bar ---------- */
+  header{background-color:var(--primary);color:white;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;}
+  nav a{color:white;text-decoration:none;margin-left:1rem;font-weight:500;}
+  .theme-toggle{
+    background:transparent;border:2px solid white;color:white;padding:.25rem .75rem;border-radius:.25rem;
+    cursor:pointer;transition:.3s;background-color:rgba(255,255,255,.15);
+  }
+  .theme-toggle:hover{background-color:rgba(255,255,255,.25);}
+
+  /* ---------- Sections ---------- */
+  section{padding:2rem 1.5rem;}
+  h2{margin-top:0; color:var(--primary);}
+  .about p{max-width:700px;margin:auto;font-size:1.05rem;}
+
+  /* ---------- Skills Grid ---------- */
+  .skills{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1rem;
+    margin-top:1.5rem;
+  }
+  .card{
+    background-color:var(--card-bg);
+    border-radius:.5rem;
+    padding:1rem;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+    transition:.3s transform .2s;
+  }
+  .card:hover{transform:translateY(-4px);}
+  @media (prefers-color-scheme: dark){
+    :root[data-theme="light"] .card{background-color:var(--card-bg-light);color:black;}
+    :root[data-theme="dark"]  .card{background-color:var(--card-bg-dark);color:white;}
+  }
+
+  /* ---------- Contact Form ---------- */
+  form{max-width:500px;margin:auto;display:flex;flex-direction:column;}
+  label{margin-top:.75rem;font-weight:600;}
+  input,textarea{
+    padding:.5rem .75rem;
+    border:1px solid #ccc;border-radius:.25rem;
+    margin-top:.25rem;font-family:inherit;
+  }
+  button[type=submit]{background-color:var(--primary);color:white;margin-top:1rem;padding:.6rem;border:none;border-radius:.25rem;cursor:pointer;}
+  button:hover{opacity:.9;}
+
+  /* ---------- Terminal ---------- */
+  .terminal{
+    background:#0f111a;
+    color:#c5e4ff;
+    font-family:'Courier New',monospace;
+    padding:1rem;
+    margin-top:2rem;
+    border-radius:.25rem;
+    height:250px;overflow-y:auto;
+  }
+  .prompt{display:flex;}
+  .prompt span{margin-right:.5rem;color:#4c8ff6;}
+  input.terminal-input{
+    flex:1;background:none;border:none;color:white;font-family:'Courier New',monospace;padding:0;
+    outline:none;
+  }
+
+  footer{text-align:center;padding:1rem;background-color:var(--primary);color:white;margin-top:2rem;}
+</style>
+</head>
+
+<body data-theme="light">
+<header>
+  <div style="font-size:1.25rem;font-weight:bold;">Robo‑Retro</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+    <button class="theme-toggle" id="toggleBtn">🌙</button>
+  </nav>
+</header>
+
+<main>
+  <!-- About -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p class="about">
+      I’m Robo‑Retro, a vintage mechanical marvel reimagined for the digital age. Built with brass gears and polished chrome,
+      I specialize in retro UI design, nostalgic game mechanics, and classic hardware debugging. My mission? To bring a slice
+      of yesteryear’s charm to modern projects.
+    </p>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills" id="skillGrid"></div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form id="contactForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+      <label for="message">Message</label>
+      <textarea id="message" rows="4" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- Terminal -->
+  <section id="terminalSection">
+    <h2>Terminal Console</h2>
+    <div class="terminal" id="terminal"></div>
+    <div class="prompt"><span>&gt;</span><input type="text" class="terminal-input" id="termInput" autocomplete="off"/></div>
+  </section>
+</main>
+
+<footer>&copy; 2026 Robo‑Retro. All rights reserved.</footer>
+
+<script>
+/* ---------- Theme Toggle ---------- */
+const toggleBtn = document.getElementById('toggleBtn');
+function setTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  toggleBtn.textContent = theme==='dark'?'☀️':'🌙';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const saved = localStorage.getItem('theme')||'light';
+  setTheme(saved);
+});
+
+/* ---------- Skills Grid ---------- */
+const skills = [
+  {name:'HTML5', icon:'🖼️'},
+  {name:'CSS3', icon:'🎨'},
+  {name:'JavaScript', icon:'⚙️'},
+  {name:'Responsive Design', icon:'📱'},
+  {name:'Retro UI', icon:'⌛'},
+  {name:'Debugging', icon:'🐞'},
+  {name:'Embedded Systems', icon:'💻'},
+  {name:'Game Development', icon:'🎮'}
+];
+const skillGrid=document.getElementById('skillGrid');
+skills.forEach(s=>{
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML=`<h3>${s.icon} ${s.name}</h3>`;
+  skillGrid.appendChild(c);
+});
+
+/* ---------- Contact Form (dummy) ---------- */
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  alert('Message sent! (This is a demo, no email actually goes out.)');
+  e.target.reset();
+});
+
+/* ---------- Terminal ---------- */
+const term = document.getElementById('terminal');
+const input = document.getElementById('termInput');
+const responses = {
+  help: `Available commands:
+- help
+- status
+- hello
+- shutdown
+- version
+- about
+- clear`,
+  status: 'All systems nominal. Battery at 97%.',
+  hello: 'Greetings, human!',
+  shutdown: 'Shutting down… (just kidding)',
+  version: 'Robo‑Retro v2.4.1',
+  about: 'I am a retro robot built for nostalgia.',
+  clear: ''
+};
+function addLine(text){
+  const div=document.createElement('div');
+  div.textContent=text;
+  term.appendChild(div);
+  term.scrollTop=term.scrollHeight;
+}
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const cmd=input.value.trim().toLowerCase();
+    addLine(`> ${cmd}`);
+    const out = responses[cmd];
+    if(out!==undefined){
+      if(cmd!=='clear') addLine(out);
+      else term.innerHTML='';
+    }else{
+      addLine('Error: Command not recognized.');
+    }
+    input.value='';
+  }
+});
+</script>
+</body>
+</html>
