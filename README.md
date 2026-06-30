@@ -79,7 +79,7 @@ All outputs are self-contained HTML files. Just open them in a browser, no serve
 | 2 | Qwen Code 40b (Local) | 49/50 | 🟢 Ship it |
 | 3 | Lumo (Proton) | 48/50 | 🟢 Ship it |
 | 4 | ChatGPT (GPT-5.5) | 47/50 | 🟢 Ship it |
-| 5 | Z.ai (glm-5.1) | 46/50 | 🟢 Ship it |
+| 5 | Z.ai (glm-5.2) | 46/50 | 🟢 Ship it |
 | 5 | OpenAI OSS 20b high (Local) | 46/50 | 🟢 Ship it |
 | 5 | OpenAI OSS 20b med (Local) | 46/50 | 🟢 Ship it |
 | 7 | OpenAI OSS 20b low (Local) | 44/50 | 🟡 Needs polish |
@@ -117,7 +117,7 @@ Each model folder contains `test.py` with the raw output (or `test.txt` for Qwen
 | 3 | Z.ai (glm-5.1) | 48/50 | 🟢 Ship it |
 | 3 | Qwen Code 40b (Local) | 48/50 | 🟢 Ship it |
 | 3 | OpenAI OSS 20b high (Local) | 48/50 | 🟢 Ship it |
-| 6 | Z.ai (glm-5.1)  | 47/50 | 🟢 Ship it |
+| 6 | Z.ai (glm-5.2)  | 47/50 | 🟢 Ship it |
 | 6 | Le Chat (Mistral) | 47/50 | 🟢 Ship it |
 | 6 | OpenAI OSS 20b med (Local) | 47/50 | 🟢 Ship it |
 | 6 | Qwen3.5 9b (Local) | 47/50 | 🟢 Ship it |
