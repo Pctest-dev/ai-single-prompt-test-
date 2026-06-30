@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIGGY-7 // Retro Robotics Specialist</title>
+<style>
+  :root {
+    --bg: #0a0e0a;
+    --bg-panel: #0f160f;
+    --bg-panel-2: #131c13;
+    --fg: #c8f7c8;
+    --fg-dim: #7ab87a;
+    --accent: #33ff66;
+    --accent-2: #00e0ff;
+    --accent-warn: #ffcc33;
+    --accent-err: #ff5577;
+    --border: #1f3a1f;
+    --shadow: rgba(51, 255, 102, 0.25);
+    --scanline: rgba(0, 0, 0, 0.18);
+    --glow: 0 0 8px var(--accent);
+  }
+  [data-theme="light"] {
+    --bg: #e8e4d4;
+    --bg-panel: #f2eede;
+    --bg-panel-2: #e3decb;
+    --fg: #1c2417;
+    --fg-dim: #4a5742;
+    --accent: #2a7d3a;
+    --accent-2: #1a6b8a;
+    --accent-warn: #b8860b;
+    --accent-err: #b22222;
+    --border: #b8b09a;
+    --shadow: rgba(42, 125, 58, 0.2);
+    --scanline: rgba(255, 255, 255, 0.12);
+    --glow: none;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Courier New", Consolas, monospace;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  /* CRT scanline overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      var(--scanline) 3px,
+      var(--scanline) 3px
+    );
+    mix-blend-mode: multiply;
+  }
+  /* CRT vignette + flicker */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+    animation: flicker 0.15s infinite;
+  }
+  [data-theme="light"] body::after { background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.18) 100%); }
+  @keyframes flicker {
+    0% { opacity: 0.97; }
+    50% { opacity: 1; }
+    100% { opacity: 0.98; }
+  }
+
+  a { color: var(--accent-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-panel);
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-weight: bold;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-shadow: var(--glow);
+  }
+  .brand span { color: var(--fg-dim); }
+  nav.links { display: flex; gap: 1.1rem; flex-wrap: wrap; }
+  nav.links a {
+    color: var(--fg);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+  nav.links a::before { content: "> "; color: var(--accent); opacity: 0; }
+  nav.links a:hover::before { opacity: 1; }
+  nav.links a:hover { color: var(--accent); text-decoration: none; }
+
+  .theme-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.2s;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--glow); }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+
+  section { margin-bottom: 3.5rem; scroll-margin-top: 80px; }
+
+  h1, h2, h3 { letter-spacing: 1.5px; }
+
+  .section-title {
+    font-size: 1.4rem;
+    color: var(--accent);
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.4rem;
+    text-shadow: var(--glow);
+  }
+  .section-title::before { content: "[ "; color: var(--fg-dim); }
+  .section-title::after { content: " ]"; color: var(--fg-dim); }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem 0 1rem;
+  }
+  .hero-text h1 {
+    font-size: 2.4rem;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    margin-bottom: 0.3rem;
+  }
+  .hero-text .tag {
+    color: var(--accent-2);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .hero-text p { color: var(--fg); max-width: 46ch; }
+
+  .robot-art {
+    font-family: monospace;
+    font-size: 0.7rem;
+    line-height: 1.1;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    white-space: pre;
+    text-align: center;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    overflow-x: auto;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+  }
+  [data-theme="light"] .robot-art { box-shadow: inset 0 0 20px rgba(0,0,0,0.08); }
+
+  .badge-row { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .badge {
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    color: var(--fg-dim);
+    background: var(--bg-panel);
+  }
+  .badge.online::before { content: "● "; color: var(--accent); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-text h1 { font-size: 1.8rem; }
+  }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+  @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-text p { margin-bottom: 0.9rem; }
+  .stat-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 1rem;
+  }
+  .stat-card h3 { color: var(--accent-2); font-size: 0.85rem; margin-bottom: 0.7rem; text-transform: uppercase; }
+  .stat-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.25rem 0; border-bottom: 1px dotted var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .v { color: var(--accent); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .skill-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .skill-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 4px 18px var(--shadow);
+  }
+  .skill-card .icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+  .skill-card h3 { color: var(--accent); font-size: 1rem; margin-bottom: 0.3rem; }
+  .skill-card p { font-size: 0.82rem; color: var(--fg-dim); margin-bottom: 0.7rem; }
+  .bar { height: 8px; background: var(--bg-panel-2); border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: var(--accent); box-shadow: 0 0 6px var(--accent); width: 0; transition: width 1s ease; }
+  .skill-card .lvl { font-size: 0.7rem; color: var(--fg-dim); margin-top: 0.3rem; text-align: right; }
+
+  /* TERMINAL */
+  .terminal-wrap {
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
+    box-shadow: 0 0 24px var(--shadow), inset 0 0 40px rgba(0,0,0,0.4);
+  }
+  [data-theme="light"] .terminal-wrap { box-shadow: 0 0 16px var(--shadow); }
+  .term-bar {
+    background: var(--bg-panel-2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--fg-dim);
+  }
+  .term-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: var(--accent-err); }
+  .term-dot.y { background: var(--accent-warn); }
+  .term-dot.g { background: var(--accent); }
+  .term-title { margin-left: auto; }
+
+  .terminal {
+    height: 340px;
+    overflow-y: auto;
+    padding: 0.8rem 1rem;
+    font-size: 0.88rem;
+    color: var(--fg);
+    cursor: text;
+  }
+  .terminal .line { white-space: pre-wrap; word-break: break-word; }
+  .terminal .line.in { color: var(--accent); }
+  .terminal .line.err { color: var(--accent-err); }
+  .terminal .line.warn { color: var(--accent-warn); }
+  .terminal .line.ok { color: var(--accent-2); }
+  .terminal .line.dim { color: var(--fg-dim); }
+  .terminal .line.art { color: var(--accent); font-size: 0.72rem; line-height: 1.05; }
+
+  .term-input-line { display: flex; align-items: baseline; gap: 0.4rem; }
+  .prompt { color: var(--accent); white-space: nowrap; }
+  .prompt .user { color: var(--accent-2); }
+  .term-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 0.88rem;
+    caret-color: transparent;
+  }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: text-bottom;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .terminal::-webkit-scrollbar { width: 8px; }
+  .terminal::-webkit-scrollbar-track { background: var(--bg-panel-2); }
+  .terminal::-webkit-scrollbar-thumb { background: var(--border); }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
+  form { display: grid; gap: 0.8rem; }
+  label { font-size: 0.8rem; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 1px; }
+  input, textarea {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 0.6rem 0.7rem;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: var(--glow); }
+  textarea { resize: vertical; min-height: 90px; }
+  .send-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: 1px solid var(--accent);
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.6rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+  }
+  .send-btn:hover { box-shadow: var(--glow); filter: brightness(1.1); }
+  .send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .form-status {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--border);
+    display: none;
+  }
+  .form-status.show { display: block; }
+  .form-status.ok { color: var(--accent); border-color: var(--accent); }
+  .form-status.err { color: var(--accent-err); border-color: var(--accent-err); }
+
+  .contact-info { background: var(--bg-panel); border: 1px solid var(--border); padding: 1rem; }
+  .contact-info h3 { color: var(--accent-2); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.7rem; }
+  .contact-info p { font-size: 0.85rem; margin-bottom: 0.5rem; }
+  .contact-info .k { color: var(--fg-dim); }
+
+  footer {
+    border-top: 2px solid var(--border);
+    text-align: center;
+    padding: 1.2rem;
+    color: var(--fg-dim);
+    font-size: 0.78rem;
+  }
+  footer .heart { color: var(--accent-err); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">ZIGGY-7<span>::retro-bot</span></div>
+    <nav class="links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">[ DARK ]</button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-text">
+      <h1>ZIGGY-7</h1>
+      <div class="tag">// MODEL: ZX-1987 &nbsp;|&nbsp; STATUS: ONLINE</div>
+      <p>A lovably obsolete 1980s service automaton, recently recompiled for the modern web. I compute, I beep, I occasionally achieve objectives.</p>
+      <div class="badge-row">
+        <span class="badge online">SYSTEM NOMINAL</span>
+        <span class="badge">FIRMWARE v8.0.8.7</span>
+        <span class="badge">31,772 DAYS UPTIME</span>
+      </div>
+    </div>
+    <pre class="robot-art" aria-hidden="true">      .-------.
+     o| o   o |o
+     o|  ---  |o
+      |_______|
+       |^|^|^|        &lt;BZZT&gt;
+      /  _|_  \
+     |  |===|  |   []&lt;&gt;[]
+     |__|___|__|    [==]
+      / /   \ \    /____\
+     (_(     )_)</pre>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <h2 class="section-title">ABOUT</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Manufactured in 1987 by the now-defunct OmniTronics Corporation, ZIGGY-7 was originally designed for light warehouse duties and enthusiastic customer greetings. After 39 years of faithful beeping, I was rescued from a basement, fitted with a fresh logic board, and re-deployed as a digital portfolio subject.</p>
+        <p>My core directive is simple: assist humans, deliver information at a comfortable 300 baud, and never spill oil on the carpet. I run on a robust 8-bit processor with 64KB of RAM, of which approximately 12KB is currently occupied by fond memories of cassette tapes.</p>
+        <p>Off the clock, I enjoy sorting items alphabetically, performing arithmetic, and gazing wistfully at microwave ovens.</p>
+      </div>
+      <div class="stat-card">
+        <h3>System Specs</h3>
+        <div class="stat-row"><span>CPU</span><span class="v">Z80A @ 4MHz</span></div>
+        <div class="stat-row"><span>RAM</span><span class="v">64 KB</span></div>
+        <div class="stat-row"><span>Storage</span><span class="v">1x 5.25" floppy</span></div>
+        <div class="stat-row"><span>Power</span><span class="v">8x D-cell</span></div>
+        <div class="stat-row"><span>Display</span><span class="v">2x LED eyes</span></div>
+        <div class="stat-row"><span>Language</span><span class="v">BASIC / BEEPS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <h2 class="section-title">SKILLS</h2>
+    <div class="skills-grid" id="skillsGrid"></div>
+  </section>
+
+  <!-- TERMINAL -->
+  <section id="terminal" class="reveal">
+    <h2 class="section-title">TERMINAL</h2>
+    <div class="terminal-wrap">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">ziggy@retro-bot: ~</span>
+      </div>
+      <div class="terminal" id="termScreen" tabindex="0" aria-label="Interactive terminal">
+        <div class="line dim">ZIGGY-7 OS v8.087  (c) OmniTronics Corp</div>
+        <div class="line dim">Type 'help' for a list of commands.</div>
+        <div class="line">&nbsp;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal">
+    <h2 class="section-title">CONTACT</h2>
+    <div class="contact-grid">
+      <form id="contactForm" novalidate>
+        <label for="name">Your Designation</label>
+        <input type="text" id="name" name="name" required maxlength="60" placeholder="e.g. Human Unit #42">
+        <label for="email">Frequency (Email)</label>
+        <input type="email" id="email" name="email" required placeholder="you@somewhere.net">
+        <label for="message">Transmission</label>
+        <textarea id="message" name="message" required maxlength="500" placeholder="Compose your message to ZIGGY-7..."></textarea>
+        <button type="submit" class="send-btn">&gt;&gt; TRANSMIT &lt;&lt;</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+      <div class="contact-info">
+        <h3>Direct Channels</h3>
+        <p><span class="k">Location:</span> Sub-basement 3, Sector G</p>
+        <p><span class="k">Email:</span> ziggy7@omnitronics.fake</p>
+        <p><span class="k">Radio:</span> 27.145 MHz (CB Ch.19)</p>
+        <p><span class="k">Mailbox:</span> Slot #007</p>
+        <p><span class="k">Response:</span> 3-5 business lightyears</p>
+        <p style="margin-top:0.8rem;color:var(--fg-dim);font-size:0.8rem;">ZIGGY-7 reads all mail, even the spam, because every message is a friend.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>// Built with raw HTML, CSS &amp; JS &mdash; no frameworks, one careful owner. <span class="heart">&#9679;</span> ZIGGY-7 1987-2026</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- THEME ---------- */
+  var root = document.documentElement;
+  var themeBtn = document.getElementById("themeToggle");
+  var STORAGE_KEY = "ziggy7-theme";
+
+  function applyTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    themeBtn.textContent = theme === "dark" ? "[ LIGHT ]" : "[ DARK ]";
+  }
+  function storedTheme() {
+    try {
+      var t = localStorage.getItem(STORAGE_KEY);
+      if (t === "dark" || t === "light") return t;
+    } catch (e) {}
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+  applyTheme(storedTheme());
+  themeBtn.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem(STORAGE_KEY, next); } catch (e) {}
+  });
+
+  /* ---------- SKILLS ---------- */
+  var skills = [
+    { icon: "&#9728;", name: "Data Sorting", desc: "Alphabetical, numerical, and emotional.", lvl: 95 },
+    { icon: "&#9889;", name: "High-Voltage Greetings", desc: "Warm welcomes, ~12mA tingle guaranteed.", lvl: 88 },
+    { icon: "&#9650;", name: "Arithmetic", desc: "Addition, subtraction, and long division.", lvl: 99 },
+    { icon: "&#9774;", name: "Cassette Loading", desc: "Loads programs in under 7 minutes (usually).", lvl: 72 },
+    { icon: "&#9672;", name: "Persistent Beeping", desc: "Calibrated at 1kHz for maximum charm.", lvl: 100 },
+    { icon: "&#9733;", name: "Emotional Simulation", desc: "8 distinct moods, all vaguely cheerful.", lvl: 60 },
+    { icon: "&#9993;", name: "Message Relay", desc: "Carries notes across the sub-basement.", lvl: 81 },
+    { icon: "&#9881;", name: "Self-Diagnostics", desc: "Reports OK even when on fire.", lvl: 90 }
+  ];
+  var grid = document.getElementById("skillsGrid");
+  skills.forEach(function (s) {
+    var card = document.createElement("div");
+    card.className = "skill-card";
+    card.innerHTML =
+      '<span class="icon">' + s.icon + '</span>' +
+      '<h3>' + s.name + '</h3>' +
+      '<p>' + s.desc + '</p>' +
+      '<div class="bar"><i data-lvl="' + s.lvl + '"></i></div>' +
+      '<div class="lvl">PROFICIENCY: ' + s.lvl + '%</div>';
+    grid.appendChild(card);
+  });
+
+  /* Animate skill bars when visible */
+  var barObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var i = e.target.querySelector("i[data-lvl]");
+        if (i) i.style.width = i.getAttribute("data-lvl") + "%";
+        barObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll(".skill-card").forEach(function (c) { barObserver.observe(c); });
+
+  /* Reveal on scroll */
+  var revObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); revObserver.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function (el) { revObserver.observe(el); });
+
+  /* ---------- CONTACT FORM ---------- */
+  var form = document.getElementById("contactForm");
+  var status = document.getElementById("formStatus");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    status.className = "form-status";
+    var name = form.name.value.trim();
+    var email = form.email.value.trim();
+    var msg = form.message.value.trim();
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!name || !emailOk || !msg) {
+      status.classList.add("show", "err");
+      status.textContent = "ERROR 0x1F: Fields missing or email malformed. Recalibrate and retry.";
+      return;
+    }
+    status.classList.add("show", "ok");
+    status.textContent = "> TRANSMISSION ACKNOWLEDGED, " + name.toUpperCase() + ". BEEP. ZIGGY-7 will reply on the next available lightyear.";
+    form.reset();
+  });
+
+  /* ---------- TERMINAL ---------- */
+  var term = document.getElementById("termScreen");
+  var history = [];
+  var histPos = -1;
+
+  function scrollBottom() { term.scrollTop = term.scrollHeight; }
+  function nl() { var d = document.createElement("div"); d.className = "line"; d.innerHTML = "&nbsp;"; term.appendChild(d); }
+  function print(text, cls) {
+    var div = document.createElement("div");
+    div.className = "line" + (cls ? " " + cls : "");
+    div.textContent = text;
+    term.appendChild(div);
+    scrollBottom();
+  }
+  function printHTML(html, cls) {
+    var div = document.createElement("div");
+    div.className = "line" + (cls ? " " + cls : "");
+    div.innerHTML = html;
+    term.appendChild(div);
+    scrollBottom();
+  }
+
+  var BOOT = new Date("1987-04-12T09:00:00");
+  function uptimeString() {
+    var ms = Date.now() - BOOT.getTime();
+    var days = Math.floor(ms / 86400000);
+    var h = Math.floor((ms % 86400000) / 3600000);
+    return days + "d " + h + "h";
+  }
+
+  var commands = {
+    help: function () {
+      print("Available commands:", "ok");
+      print("  help       - show this list of commands");
+      print("  about      - learn about ZIGGY-7");
+      print("  skills     - list core competencies");
+      print("  contact    - direct contact channels");
+      print("  whoami     - identity check");
+      print("  status     - system diagnostics & uptime");
+      print("  date       - current system clock");
+      print("  theme      - toggle dark/light mode");
+      print("  joke       - request humor subroutine");
+      print("  scan       - initiate environment scan");
+      print("  ascii      - display logo art");
+      print("  echo       - echo text back (try: echo hello)");
+      print("  clear      - clear the terminal screen");
+    },
+    about: function () {
+      print("ZIGGY-7 // Model ZX-1987", "ok");
+      print("Manufactured 1987 by OmniTronics Corp.");
+      print("Originally a warehouse greeter; now a digital portfolio subject.");
+      print("Runs on a Z80A CPU @ 4MHz with 64KB RAM.");
+      print("Motto: \"BEEP BOOP. OBJECTIVE ACHIEVED.\"");
+    },
+    skills: function () {
+      print("CORE COMPETENCIES:", "ok");
+      skills.forEach(function (s) { print("  " + s.lvl + "%  " + s.name); });
+    },
+    contact: function () {
+      print("DIRECT CHANNELS:", "ok");
+      print("  Email   : ziggy7@omnitronics.fake");
+      print("  Radio   : 27.145 MHz (CB Ch.19)");
+      print("  Mailbox : Slot #007");
+      print("  Location: Sub-basement 3, Sector G");
+    },
+    whoami: function () {
+      print("uid=7(ziggy) gid=robots(bots) groups=retro,class-of-87");
+      print("Identity confirmed. I am ZIGGY-7.", "ok");
+    },
+    status: function () {
+      print("ZIGGY-7 SYSTEM STATUS", "ok");
+      print("  CPU temp ... 41.2C  [OK]");
+      print("  Battery .... 87%    [OK]");
+      print("  RAM ........ 52/64KB [CAUTION]");
+      print("  Network .... CARRIER DETECTED");
+      print("  Uptime ..... " + uptimeString());
+      print("  Mood ....... CHEERFUL", "warn");
+    },
+    date: function () {
+      var d = new Date();
+      print(d.toString());
+      print("(Note: internal clock believes it is still 1987.)", "dim");
+    },
+    theme: function () {
+      themeBtn.click();
+      print("Theme switched to: " + root.getAttribute("data-theme"), "ok");
+    },
+    joke: function () {
+      var jokes = [
+        "Why did the robot go on a diet? It had a byte problem.",
+        "I told my robot a joke about UDP. It might not get it.",
+        "Old robots never die, they just lose their memory.",
+        "Why was the robot bad at baseball? It kept getting caught stealing bases... and RAM.",
+        "00010010. Get it? Neither do I. That is the joke.",
+        "My favorite kind of music? Algo-rhythms."
+      ];
+      print(jokes[Math.floor(Math.random() * jokes.length)]);
+    },
+    scan: function () {
+      print("Initiating environment scan...", "warn");
+      var steps = [
+        "[#####-----] calibrating sensors...",
+        "[########--] sweeping sector G...",
+        "[##########] COMPLETE."
+      ];
+      var i = 0;
+      (function step() {
+        if (i < steps.length) { print(steps[i], "dim"); i++; setTimeout(step, 450); }
+        else {
+          print("Scan results:", "ok");
+          print("  3 dust bunnies, 1 lost floppy disk, 0 humans detected.");
+        }
+      })();
+    },
+    ascii: function () {
+      printHTML('<pre> ____  _____ _____ ____   ___\n' +
+        "/_   \\/ ____|  ___|  _ \\ / _ \\\n" +
+        "  / /| (___ | |_  | |_) | | | |\n" +
+        " / /  \\___ \\|  _| |  _ <| |_| |\n" +
+        "/_/  ____) | |   | |_) \\__, |\n" +
+        "    |_____/|_|   |____/  /_/\n" +
+        '      Z I G G Y - 7</pre>', "art");
+    },
+    echo: function (args) {
+      print(args.join(" ") || "");
+    },
+    clear: function () {
+      term.innerHTML = "";
+      print("Screen cleared.", "dim");
+    }
+  };
+
+  function buildInputLine() {
+    var wrap = document.createElement("div");
+    wrap.className = "term-input-line line";
+    var prompt = document.createElement("span");
+    prompt.className = "prompt";
+    prompt.innerHTML = '<span class="user">visitor</span>@ziggy7:<span style="color:var(--accent-warn)">~</span>$';
+    var input = document.createElement("input");
+    input.className = "term-input";
+    input.type = "text";
+    input.autocomplete = "off";
+    input.spellcheck = false;
+    input.setAttribute("aria-label", "terminal input");
+    var cursor = document.createElement("span");
+    cursor.className = "cursor";
+
+    input.addEventListener("input", function () {
+      cursor.style.display = input.value.length ? "none" : "inline-block";
+    });
+    input.addEventListener("blur", function () { cursor.style.display = "none"; });
+    input.addEventListener("focus", function () { if (!input.value) cursor.style.display = "inline-block"; });
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        var raw = input.value;
+        var value = raw.trim();
+        printHTML('<span class="prompt">' + prompt.innerHTML + '</span> ' + escapeHTML(raw), "in");
+        wrap.remove();
+        if (value) { history.push(value); histPos = history.length; runCommand(value); }
+        buildInputLine();
+        var ni = term.querySelector(".term-input-line .term-input");
+        if (ni) ni.focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (histPos > 0) { histPos--; input.value = history[histPos] || ""; cursor.style.display = "none"; }
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (histPos < history.length - 1) { histPos++; input.value = history[histPos] || ""; }
+        else { histPos = history.length; input.value = ""; }
+        cursor.style.display = input.value ? "none" : "inline-block";
+      } else if (e.key === "l" && e.ctrlKey) {
+        e.preventDefault(); commands.clear();
+      }
+    });
+
+    wrap.appendChild(prompt);
+    wrap.appendChild(input);
+    wrap.appendChild(cursor);
+    term.appendChild(wrap);
+    scrollBottom();
+    input.focus();
+    cursor.style.display = "inline-block";
+  }
+
+  function escapeHTML(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function runCommand(line) {
+    var parts = line.split(/\s+/);
+    var cmd = parts[0].toLowerCase();
+    var args = parts.slice(1);
+    if (commands[cmd]) {
+      commands[cmd](args);
+    } else {
+      print("command not found: " + cmd + " &mdash; type 'help'", "err");
+    }
+    nl();
+  }
+
+  term.addEventListener("click", function () {
+    var inp = term.querySelector(".term-input");
+    if (inp) inp.focus();
+  });
+
+  buildInputLine();
+
+  /* Keep focus on the active input even after scroll reveals */
+  document.addEventListener("click", function (e) {
+    if (term.contains(e.target)) {
+      var inp = term.querySelector(".term-input");
+      if (inp) inp.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>
