@@ -16,9 +16,10 @@ A series of real-world tests comparing AI models on identical prompts, scored ag
 
 | Rank | Model | Robot Name | Score | Verdict |
 |------|-------|------------|-------|---------|
-| 1 | Claude (Sonnet 4.6) | UNIT-7 | 48/50 | 🟢 Ship it |
-| 2 | Grok (xAI) | NEON-77 | 39/50 | 🟡 Needs polish |
-| 2 | Z.ai (glm-5.1) | GML-9000 | 39/50 | 🟡 Needs polish |
+| 1 |Z.ai (glm-5.1) |ZIGGY-7 | 50/50 | 🟢 Ship it |
+| 2 | Claude (Sonnet 4.6) | UNIT-7 | 48/50 | 🟢 Ship it |
+| 3 | Grok (xAI) | NEON-77 | 39/50 | 🟡 Needs polish |
+| 3 | Z.ai (glm-5.1) | GML-9000 | 39/50 | 🟡 Needs polish |
 | 4 | ChatGPT (GPT-5.5) | RX-84 | 36/50 | 🟡 Needs polish |
 | 4 | OpenAI OSS 20b med (Local) | RetroBot | 36/50 | 🟡 Needs polish |
 | 6 | Lumo (Proton) | RetroBot-7 | 34/50 | 🟠 Significant issues |
@@ -78,6 +79,7 @@ All outputs are self-contained HTML files. Just open them in a browser, no serve
 | 2 | Qwen Code 40b (Local) | 49/50 | 🟢 Ship it |
 | 3 | Lumo (Proton) | 48/50 | 🟢 Ship it |
 | 4 | ChatGPT (GPT-5.5) | 47/50 | 🟢 Ship it |
+| 5 | Z.ai (glm-5.1) | 46/50 | 🟢 Ship it |
 | 5 | OpenAI OSS 20b high (Local) | 46/50 | 🟢 Ship it |
 | 5 | OpenAI OSS 20b med (Local) | 46/50 | 🟢 Ship it |
 | 7 | OpenAI OSS 20b low (Local) | 44/50 | 🟡 Needs polish |
@@ -115,6 +117,7 @@ Each model folder contains `test.py` with the raw output (or `test.txt` for Qwen
 | 3 | Z.ai (glm-5.1) | 48/50 | 🟢 Ship it |
 | 3 | Qwen Code 40b (Local) | 48/50 | 🟢 Ship it |
 | 3 | OpenAI OSS 20b high (Local) | 48/50 | 🟢 Ship it |
+| 6 | Z.ai (glm-5.1)  | 47/50 | 🟢 Ship it |
 | 6 | Le Chat (Mistral) | 47/50 | 🟢 Ship it |
 | 6 | OpenAI OSS 20b med (Local) | 47/50 | 🟢 Ship it |
 | 6 | Qwen3.5 9b (Local) | 47/50 | 🟢 Ship it |
