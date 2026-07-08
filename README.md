@@ -16,7 +16,7 @@ A series of real-world tests comparing AI models on identical prompts, scored ag
 
 | Rank | Model | Robot Name | Score | Verdict |
 |------|-------|------------|-------|---------|
-| 1 |Z.ai (glm-5.1) |ZIGGY-7 | 50/50 | 🟢 Ship it |
+| 1 |Z.ai (glm-5.2) |ZIGGY-7 | 50/50 | 🟢 Ship it |
 | 2 | Claude (Sonnet 4.6) | UNIT-7 | 48/50 | 🟢 Ship it |
 | 3 | Grok (xAI) | NEON-77 | 39/50 | 🟡 Needs polish |
 | 3 | Z.ai (glm-5.1) | GML-9000 | 39/50 | 🟡 Needs polish |
